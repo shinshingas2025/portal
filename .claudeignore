@@ -1,0 +1,13 @@
+# 忽略敏感配置檔案
+Web.config
+appsettings.json
+*.config.user
+*.secrets.json
+
+# 忽略敏感資料夾
+/Config/
+/Secrets/
+
+# 其他敏感檔案
+.env
+.env.local
