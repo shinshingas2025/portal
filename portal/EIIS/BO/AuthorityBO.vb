@@ -4,6 +4,9 @@ Public Class AuthorityBO
     Dim gUserID As String
     Dim gWebPage As Web.UI.Page
 
+    ' 1150206 加入這個靜態鎖定物件，去搭配267行的using
+    Private Shared ReadOnly fileLock As New Object()
+
     Public Function checkAuthority(ByVal LoginID As String, ByVal node As Integer, ByVal WebPage As Web.UI.Page) As Boolean
         gUserID = LoginID
         If gUserID = "" Then
@@ -183,23 +186,18 @@ Public Class AuthorityBO
         Dim levelNodes() As String
 
         'Dim doc As New System.Xml.XPath.XPathDocument(Server.MapPath("../xml/aspnetbooksTV.xml"))
-
         'Dim nav As System.Xml.XPath.XPathNavigator
         'Dim nav2 As System.Xml.XPath.XPathNavigator
         'Dim expr As System.Xml.XPath.XPathExpression
         'Dim iterator As System.Xml.XPath.XPathNodeIterator
-
         'nav = doc.CreateNavigator()
-
         'expr = nav.Compile("//treenode[@id='5']")
-
         'iterator = nav.Select(expr)
         'ListBox1.Items.Clear()
         'While iterator.MoveNext
         '    nav2 = iterator.Current.Clone
         '    i = iterator.CurrentPosition()
         '    ListBox1.Items.Add(nav2.Value)
-
         'End While
         'Exit Sub
 
@@ -263,14 +261,26 @@ Public Class AuthorityBO
         TreefileTemp = GetTempTreeFile()
 
 
+        '1150206移除，因檔案沒有正確釋放
+        'xmlDoc.Save(gWebPage.Server.MapPath("/PortalFiles/xml/User/" & TreefileTemp))
 
-        xmlDoc.Save(gWebPage.Server.MapPath("/PortalFiles/xml/User/" & TreefileTemp))
+        '1150206 add' 使用 Using 確保檔案正確關閉
+        Dim filePath As String = gWebPage.Server.MapPath("/PortalFiles/xml/User/" & TreefileTemp)
+
+        SyncLock fileLock
+            Try
+                Using fs As New FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None)
+                    xmlDoc.Save(fs)
+                End Using
+            Catch ex As Exception
+                Throw
+            End Try
+        End SyncLock
+        '1150206 add結束->AuthorityBO  類別最上方加上靜態鎖定物件
 
         root = Nothing
         xe1 = Nothing
-
         xmlDoc = Nothing
-
 
 
     End Sub
