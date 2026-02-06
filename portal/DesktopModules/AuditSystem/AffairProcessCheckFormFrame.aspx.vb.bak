@@ -1,0 +1,2053 @@
+﻿Imports System.IO
+Imports System.Math
+Imports System.Convert
+Imports System.Text
+Imports ASPNET.StarterKit.Portal
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+Namespace ASPNET.StarterKit.Portal.AuditSystem.Module
+
+	Public Class AffairProcessCheckFormFrame
+		Inherits System.Web.UI.Page
+
+#Region " Web Form 設計工具產生的程式碼 "
+
+		'此為 Web Form 設計工具所需的呼叫。
+		<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+
+		End Sub
+
+		Protected WithEvents DropDownListAffair As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListPriority As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListMainOffice As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListMainBranch As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListMainBranchUndertaker As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListAssistOffice As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListAssistBranch As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxAssociationAffair As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxAssociationNumber As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListAssociationMeetingNumber As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxAssociationDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxAssociationForecastDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListAssociationState As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxCouncilAffair As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxCouncilNumber As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListCouncilMeetingNumber As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxCouncilDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxCouncilForecastDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListCouncilState As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxBureauAffair As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxBureauNumber As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListBureauMeetingNumber As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxBureauDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxBureauForecastDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListBureauState As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxSectionAffair As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxSectionNumber As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListSectionMeetingNumber As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextBoxSectionDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxSectionForecastDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListSectionState As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents ButtonInsert As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonUpdate As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonDelete As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonPrevious As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonNext As System.Web.UI.WebControls.Button
+		Protected WithEvents PlaceHolderProcess As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents TextBoxProcessDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxProcessState As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxNote As System.Web.UI.WebControls.TextBox
+		Protected WithEvents ButtonProcessUpdate As System.Web.UI.WebControls.Button
+		Protected WithEvents DataList1 As System.Web.UI.WebControls.DataList
+		Protected WithEvents LabelResolutionContent As System.Web.UI.WebControls.Label
+		Protected WithEvents PlaceHolderAttribute As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents PlaceHolderProcessHistory As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents AjaxPanelPlace As MagicAjax.UI.Controls.AjaxPanel
+		Protected WithEvents DIV1 As System.Web.UI.HtmlControls.HtmlGenericControl
+		Protected WithEvents ButtonProcessMore As System.Web.UI.WebControls.Button
+		Protected WithEvents PlaceHolderCouncilScheduleLink As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents PlaceHolderAssociationScheduleLink As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents PlaceHolderBureauScheduleLink As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents PlaceHolderSectionScheduleLink As System.Web.UI.WebControls.PlaceHolder
+
+		'注意: 下列預留位置宣告是 Web Form 設計工具需要的項目。
+		'請勿刪除或移動它。
+		Private designerPlaceholderDeclaration As System.Object
+
+		Private Sub Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+			'CODEGEN: 此為 Web Form 設計工具所需的方法呼叫
+			'請勿使用程式碼編輯器進行修改。
+			InitializeComponent()
+		End Sub
+
+#End Region
+
+		Private Const DefaultPermission As String = "111100100"
+		Private Const DefaultPermissionGroup As String = ""
+		Private Const FormAuthorityTarget As String = "AffairProcessCheckForm"
+		Private Const ProcessAuthorityTarget As String = "AffairProcessMap"
+		Private Const AttributeAuthorityTarget As String = "ProcessAttributeMap"
+		Private Const AttributeCodeAuthorityTarget As String = "ProcessAttributeCode"
+		Private Const CodeAuthorityTarget As String = "NormalCode"
+		Private UtilityObject As New AuditSystemUtility
+
+		Private tabIndex As Integer = 0
+		Private sid As String = ""
+		Private moduleId As Integer = 0
+		Private tabId As Integer = 0
+		Private formID As String = ""
+		Private action As String = ""
+		Private processID As String = ""
+		Private groupID As String = ""
+
+		Private Const PriorityCodeGroupID As String = "2006010100000001"
+		Private Const MainOfficeCodeGroupID As String = "2006010100000003"
+		Private Const MainBranchCodeGroupID As String = "2006010100000004"
+		Private Const MainBranchUndertakerCodeGroupID As String = "2006010100000005"
+		Private Const AssistOfficeCodeGroupID As String = "2006010100000006"
+		Private Const AssistBranchCodeGroupID As String = "2006010100000007"
+		Private Const StateCodeGroupID As String = "2006010100000008"
+		Private AffairCodeGroupID As String = ""
+
+		Protected Const ActionWidth As String = "48"
+		Protected Const ProcessDateWidth As String = "52"
+		Protected Const ProcessStateWidth As String = "180"
+		Protected Const NoteWidth As String = "52"
+		Protected Const NormalAttributeWidth As String = "32"
+		Protected Const NewsAttributeWidth As String = "32"
+		Protected Const InstructionAttributeWidth As String = "32"
+		Protected Const LawAttributeWidth As String = "32"
+		Protected Const NormalProcessBGColor As String = "#DEDECA"
+		Protected Const FocusProcessBGColor As String = "#FFFF99"
+		Protected Const ProcessStateColumnWidth As Integer = 44
+
+		Enum AttributeType
+			Normal = 1
+			NewsRelease = 2
+			CouncilmanInstruction = 3
+			Law = 4
+		End Enum
+
+		Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+			'在這裡放置使用者程式碼以初始化網頁()
+			'Session("sid") = "9999"
+			'If PortalSecurity.IsInRoles("Admins") = False Then
+			'    Response.Redirect("~/Admin/EditAccessDenied.aspx")
+			'End If
+			' Calculate userid
+			If Not (Request.Params("sid") Is Nothing) Then
+				sid = Request.Params("sid")
+			End If
+
+			If Not (Request.Params("tabid") Is Nothing) Then
+				tabId = Int32.Parse(Request.Params("tabid"))
+			End If
+
+			If Not (Request.Params("tabindex") Is Nothing) Then
+				tabIndex = Int32.Parse(Request.Params("tabindex"))
+			End If
+
+			If Not (Request.Params("mid") Is Nothing) Then
+				moduleId = Int32.Parse(Request.Params("mid"))
+			End If
+
+			If Not (Request.Params("formID") Is Nothing) Then
+				formID = Request.Params("formID")
+			End If
+
+			If Not (Request.Params("processID") Is Nothing) Then
+				processID = Request.Params("processID")
+			End If
+
+			If Not (Request.Params("groupID") Is Nothing) Then
+				groupID = Request.Params("groupID")
+				'Else
+				'groupID = "200601010000000300000001"
+			End If
+
+			'AlterAffairCodeGroup(groupID)
+
+			If Not (Request.Params("action") Is Nothing) Then
+				action = Request.Params("action")
+			End If
+
+			If Not IsPostBack Then
+				If Not (Request.UrlReferrer Is Nothing) Then
+					ViewState("UrlReferrer") = Request.UrlReferrer.ToString()
+				End If
+				PageLoad()
+			End If
+		End Sub
+
+		Private Sub PageLoad()
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim myFormDataSet As DataSet
+			Dim myFormID As String = ""
+			Dim myGroupID As String = ""
+
+			If formID.Trim.Length > 0 Then
+				myFormDataSet = myFormDAO.GetEntitysByEntityID(formID)
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					myGroupID = CType(myFormDataSet.Tables(0).Rows(0).Item("GroupID"), String)
+
+					groupID = myGroupID
+
+					AlterAffairCodeGroup(myGroupID)
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			Else
+				If groupID.Trim.Length = 0 Then
+					groupID = "200601010000000300000001"
+					AffairCodeGroupID = "2006010100000011"
+				End If
+				If groupID.Trim.Length > 0 Then
+					myFormDataSet = myFormDAO.GetEntitysByGroupID(groupID)
+					myFormDataSet = UtilityObject.QueryPermissionFilter(myFormDataSet, FormAuthorityTarget, Context.User.Identity.Name, 1)
+
+					If myFormDataSet.Tables(0).Rows.Count = 1 Then
+						myFormID = CType(myFormDataSet.Tables(0).Rows(0).Item("EntityID"), String)
+						Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myFormID)
+					End If
+				Else
+					'exception:group id is empty
+				End If
+			End If
+
+			InitialWebControl()
+
+			FillFormData(myFormDataSet)
+		End Sub
+
+		Private Sub AlterAffairCodeGroup(ByVal myGroupID As String)
+			If myGroupID = "200601010000000300000001" Then
+				AffairCodeGroupID = "2006010100000011"
+			Else
+				If myGroupID = "200601010000000300000002" Then
+					AffairCodeGroupID = "2006010100000012"
+				Else
+					If myGroupID = "200601010000000300000003" Then
+						AffairCodeGroupID = "2006010100000013"
+					Else
+						If myGroupID = "200601010000000300000004" Then
+							AffairCodeGroupID = "2006010100000014"
+						Else
+							If myGroupID = "200601010000000300000005" Then
+								AffairCodeGroupID = "2006010100000015"
+							Else
+								If myGroupID = "200601010000000300000006" Then
+									AffairCodeGroupID = "2006010100000016"
+								Else
+									If myGroupID = "200601010000000300000007" Then
+										AffairCodeGroupID = "2006010100000017"
+									Else
+										If myGroupID = "200601010000000300000008" Then
+											AffairCodeGroupID = "2006010100000018"
+										Else
+											'exception:unknown group
+										End If
+									End If
+								End If
+							End If
+						End If
+					End If
+				End If
+			End If
+		End Sub
+		Private Sub FillFormData(ByVal myFormDataSet As DataSet)
+			Dim myGroupID As String = ""
+			Dim myFormID As String = ""
+			Dim myAffairID As String = ""
+			Dim myPriorityID As String = ""
+			Dim myMainOfficeID As String = ""
+			Dim myMainBranchID As String = ""
+			Dim myMainBranchUndertakerID As String = ""
+			Dim myAssistOfficeID As String = ""
+			Dim myAssistBranchID As String = ""
+			Dim myAssociationNumber As String = ""
+			Dim myAssociationMeetingNumber As Integer = 0
+			Dim myAssociationAffair As String = ""
+			Dim myAssociationDate As Date
+			Dim myAssociationForecastDate As Date
+			Dim myAssociationStateID As String = ""
+			Dim myCouncilNumber As String = ""
+			Dim myCouncilMeetingNumber As Integer = 0
+			Dim myCouncilAffair As String = ""
+			Dim myCouncilDate As Date
+			Dim myCouncilForecastDate As Date
+			Dim myCouncilStateID As String = ""
+			Dim myBureauNumber As String = ""
+			Dim myBureauMeetingNumber As Integer = 0
+			Dim myBureauAffair As String = ""
+			Dim myBureauDate As Date
+			Dim myBureauForecastDate As Date
+			Dim myBureauStateID As String = ""
+			Dim mySectionNumber As String = ""
+			Dim mySectionMeetingNumber As Integer = 0
+			Dim mySectionAffair As String = ""
+			Dim mySectionDate As Date
+			Dim mySectionForecastDate As Date
+			Dim mySectionStateID As String = ""
+			Dim myResolutionContent As String = ""
+
+			If Not (myFormDataSet Is Nothing) Then
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					myFormID = CType(myFormDataSet.Tables(0).Rows(0).Item("EntityID"), String)
+					myGroupID = CType(myFormDataSet.Tables(0).Rows(0).Item("GroupID"), String)
+					myAffairID = CType(myFormDataSet.Tables(0).Rows(0).Item("AffairID"), String)
+					myPriorityID = CType(myFormDataSet.Tables(0).Rows(0).Item("PriorityID"), String)
+					myMainOfficeID = CType(myFormDataSet.Tables(0).Rows(0).Item("MainOfficeID"), String)
+					myMainBranchID = CType(myFormDataSet.Tables(0).Rows(0).Item("MainBranchID"), String)
+					myMainBranchUndertakerID = CType(myFormDataSet.Tables(0).Rows(0).Item("MainBranchUndertakerID"), String)
+					myAssistOfficeID = CType(myFormDataSet.Tables(0).Rows(0).Item("AssistOfficeID"), String)
+					myAssistBranchID = CType(myFormDataSet.Tables(0).Rows(0).Item("AssistBranchID"), String)
+					myAssociationNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationNumber"), String)
+					myAssociationMeetingNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationMeetingNumber"), Integer)
+					myAssociationAffair = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationAffair"), String)
+					myAssociationDate = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationDate"), Date)
+					myAssociationForecastDate = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationForecastDate"), Date)
+					myAssociationStateID = CType(myFormDataSet.Tables(0).Rows(0).Item("AssociationStateID"), String)
+					myCouncilNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilNumber"), String)
+					myCouncilMeetingNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilMeetingNumber"), Integer)
+					myCouncilAffair = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilAffair"), String)
+					myCouncilDate = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilDate"), Date)
+					myCouncilForecastDate = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilForecastDate"), Date)
+					myCouncilStateID = CType(myFormDataSet.Tables(0).Rows(0).Item("CouncilStateID"), String)
+					myBureauNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauNumber"), String)
+					myBureauMeetingNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauMeetingNumber"), Integer)
+					myBureauAffair = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauAffair"), String)
+					myBureauDate = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauDate"), Date)
+					myBureauForecastDate = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauForecastDate"), Date)
+					myBureauStateID = CType(myFormDataSet.Tables(0).Rows(0).Item("BureauStateID"), String)
+					mySectionNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionNumber"), String)
+					mySectionMeetingNumber = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionMeetingNumber"), Integer)
+					mySectionAffair = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionAffair"), String)
+					mySectionDate = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionDate"), Date)
+					mySectionForecastDate = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionForecastDate"), Date)
+					mySectionStateID = CType(myFormDataSet.Tables(0).Rows(0).Item("SectionStateID"), String)
+
+					myResolutionContent = GetMeetingRecordResolutionContent(myAssociationNumber, myAssociationMeetingNumber, myCouncilNumber, myCouncilMeetingNumber, myBureauNumber, myBureauMeetingNumber, mySectionNumber, mySectionMeetingNumber)
+
+					LabelResolutionContent.Text = myResolutionContent
+
+					Try
+						DropDownListAffair.SelectedValue = myAffairID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListPriority.SelectedValue = myPriorityID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListMainOffice.SelectedValue = myMainOfficeID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListMainBranch.SelectedValue = myMainBranchID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListMainBranchUndertaker.SelectedValue = myMainBranchUndertakerID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListAssistOffice.SelectedValue = myAssistOfficeID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListAssistBranch.SelectedValue = myAssistBranchID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListAssociationMeetingNumber.SelectedValue = CType(myAssociationMeetingNumber, String)
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListAssociationState.SelectedValue = myAssociationStateID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListCouncilMeetingNumber.SelectedValue = CType(myCouncilMeetingNumber, String)
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListCouncilState.SelectedValue = myCouncilStateID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListBureauMeetingNumber.SelectedValue = CType(myBureauMeetingNumber, String)
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListBureauState.SelectedValue = myBureauStateID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListSectionMeetingNumber.SelectedValue = CType(mySectionMeetingNumber, String)
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListSectionState.SelectedValue = mySectionStateID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+
+					TextBoxAssociationAffair.Text = myAssociationAffair
+					TextBoxAssociationNumber.Text = myAssociationNumber
+					TextBoxAssociationDate.Text = myAssociationDate.Year & "/" & myAssociationDate.Month & "/" & myAssociationDate.Day
+					If TextBoxAssociationDate.Text = "1900/1/1" Then
+						TextBoxAssociationDate.Text = ""
+					End If
+					TextBoxAssociationForecastDate.Text = myAssociationForecastDate.Year & "/" & myAssociationForecastDate.Month & "/" & myAssociationForecastDate.Day
+					If TextBoxAssociationForecastDate.Text = "1900/1/1" Then
+						TextBoxAssociationForecastDate.Text = ""
+					End If
+					TextBoxCouncilAffair.Text = myCouncilAffair
+					TextBoxCouncilNumber.Text = myCouncilNumber
+					TextBoxCouncilDate.Text = myCouncilDate.Year & "/" & myCouncilDate.Month & "/" & myCouncilDate.Day
+					If TextBoxCouncilDate.Text = "1900/1/1" Then
+						TextBoxCouncilDate.Text = ""
+					End If
+					TextBoxCouncilForecastDate.Text = myCouncilForecastDate.Year & "/" & myCouncilForecastDate.Month & "/" & myCouncilForecastDate.Day
+					If TextBoxCouncilForecastDate.Text = "1900/1/1" Then
+						TextBoxCouncilForecastDate.Text = ""
+					End If
+					TextBoxBureauAffair.Text = myBureauAffair
+					TextBoxBureauNumber.Text = myBureauNumber
+					TextBoxBureauDate.Text = myBureauDate.Year & "/" & myBureauDate.Month & "/" & myBureauDate.Day
+					If TextBoxBureauDate.Text = "1900/1/1" Then
+						TextBoxBureauDate.Text = ""
+					End If
+					TextBoxBureauForecastDate.Text = myBureauForecastDate.Year & "/" & myBureauForecastDate.Month & "/" & myBureauForecastDate.Day
+					If TextBoxBureauForecastDate.Text = "1900/1/1" Then
+						TextBoxBureauForecastDate.Text = ""
+					End If
+					TextBoxSectionAffair.Text = mySectionAffair
+					TextBoxSectionNumber.Text = mySectionNumber
+					TextBoxSectionDate.Text = mySectionDate.Year & "/" & mySectionDate.Month & "/" & mySectionDate.Day
+					If TextBoxSectionDate.Text = "1900/1/1" Then
+						TextBoxSectionDate.Text = ""
+					End If
+					TextBoxSectionForecastDate.Text = mySectionForecastDate.Year & "/" & mySectionForecastDate.Month & "/" & mySectionForecastDate.Day
+					If TextBoxSectionForecastDate.Text = "1900/1/1" Then
+						TextBoxSectionForecastDate.Text = ""
+					End If
+
+					'process history
+					FillProcessHistory(groupID, myAffairID)
+					'process
+					If myFormID.Trim.Length > 0 Then
+						FillProcessData(myFormID)
+					Else
+						'exception:form id is empty
+					End If
+
+					'prepare schedule link
+					FillScheduleLink(myAssociationNumber, myAssociationMeetingNumber, myCouncilNumber, myCouncilMeetingNumber, myBureauNumber, myBureauMeetingNumber, mySectionNumber, mySectionMeetingNumber)
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			End If
+		End Sub
+		Private Sub FillScheduleLink(ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer)
+			Dim myTitle As String = ""
+			Dim myDescription As String = ""
+			Dim myNote As String = ""
+			Dim myAnchor As HtmlAnchor
+
+			PlaceHolderAssociationScheduleLink.Visible = False
+			PlaceHolderCouncilScheduleLink.Visible = False
+			PlaceHolderBureauScheduleLink.Visible = False
+			PlaceHolderSectionScheduleLink.Visible = False
+
+			myAnchor = New HtmlAnchor
+			myAnchor.Attributes("Class") = "scriptLink"
+			myAnchor.InnerHtml = "<img src='/PortalFiles/WebImage/AuditSystem/link.gif' alt='行事曆' />"
+
+			myDescription = GetMeetingRecordResolutionContent(associationNumber, associationMeetingNumber, councilNumber, councilMeetingNumber, bureauNumber, bureauMeetingNumber, sectionNumber, sectionMeetingNumber)
+
+			If associationNumber.Trim.Length > 0 And associationMeetingNumber <> 0 Then
+				myTitle = "第" & CType(associationMeetingNumber, String) & "次會本會議記錄"
+
+				myAnchor.Attributes("OnClick") = "window.open('ScheduleInsert.aspx?inputTitle=" & ToUnicodeString(myTitle) & "&inputDescription=" & ToUnicodeString(myDescription) & "&inputNote=" & ToUnicodeString(myNote) & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+
+				PlaceHolderAssociationScheduleLink.Controls.Add(myAnchor)
+				PlaceHolderAssociationScheduleLink.Visible = True
+			Else
+				If councilNumber.Trim.Length > 0 And councilMeetingNumber <> 0 Then
+					myTitle = "第" & CType(councilMeetingNumber, String) & "次委員會議記錄"
+
+					myAnchor.Attributes("OnClick") = "window.open('ScheduleInsert.aspx?inputTitle=" & ToUnicodeString(myTitle) & "&inputDescription=" & ToUnicodeString(myDescription) & "&inputNote=" & ToUnicodeString(myNote) & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+
+					PlaceHolderCouncilScheduleLink.Controls.Add(myAnchor)
+					PlaceHolderCouncilScheduleLink.Visible = True
+				Else
+					If bureauNumber.Trim.Length > 0 And bureauMeetingNumber <> 0 Then
+						myTitle = "第" & CType(bureauMeetingNumber, String) & "次局務會議記錄"
+
+						myAnchor.Attributes("OnClick") = "window.open('ScheduleInsert.aspx?inputTitle=" & ToUnicodeString(myTitle) & "&inputDescription=" & ToUnicodeString(myDescription) & "&inputNote=" & ToUnicodeString(myNote) & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+
+						PlaceHolderBureauScheduleLink.Controls.Add(myAnchor)
+						PlaceHolderBureauScheduleLink.Visible = True
+					Else
+						If sectionNumber.Trim.Length > 0 And sectionMeetingNumber <> 0 Then
+							myTitle = "第" & CType(sectionMeetingNumber, String) & "次組務會議記錄"
+
+							myAnchor.Attributes("OnClick") = "window.open('ScheduleInsert.aspx?inputTitle=" & ToUnicodeString(myTitle) & "&inputDescription=" & ToUnicodeString(myDescription) & "&inputNote=" & ToUnicodeString(myNote) & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+
+							PlaceHolderSectionScheduleLink.Controls.Add(myAnchor)
+							PlaceHolderSectionScheduleLink.Visible = True
+						End If
+					End If
+				End If
+			End If
+		End Sub
+		Private Function ToUnicodeString(ByVal input As String) As String
+			Dim myCharArray() As Char
+			Dim myByte As Byte
+			Dim result As String = ""
+			Dim i As Integer = 0
+			Dim uniEncoder As Encoder = Encoding.Unicode.GetEncoder()
+			Dim byteCount As Integer = 0
+			Dim myByteArray() As Byte
+			Dim bytesEncodedCount As Integer = 0
+
+			If input.Trim.Length > 0 Then
+				myCharArray = input.ToCharArray()
+				byteCount = uniEncoder.GetByteCount(myCharArray, 0, myCharArray.Length, True)
+				myByteArray = New Byte(byteCount - 1) {}
+
+				bytesEncodedCount = uniEncoder.GetBytes(myCharArray, 0, myCharArray.Length, myByteArray, 0, True)
+
+				For i = 0 To bytesEncodedCount - 1
+					myByte = New Byte
+					myByte = myByteArray(i)
+					result = result & Microsoft.VisualBasic.Right("00" & CType(Hex(Val(myByte)), String), 2)
+				Next
+			Else
+				'exception:input string is empty
+			End If
+			Return result
+		End Function
+		Private Function GetMeetingRecordResolutionContent(ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer) As String
+			Dim myRecordDAO As New MeetingRecordDAOExtand
+			Dim myRecordCount As Integer = 0
+			Dim myControlNumber As String = ""
+			Dim myMeetingNumber As Integer = 0
+			Dim myContent As String = ""
+
+			If associationNumber.Trim.Length > 0 And associationMeetingNumber <> 0 Then
+				myControlNumber = associationNumber.Trim
+				myMeetingNumber = associationMeetingNumber
+			Else
+				If councilNumber.Trim.Length > 0 And councilMeetingNumber <> 0 Then
+					myControlNumber = councilNumber.Trim
+					myMeetingNumber = councilMeetingNumber
+				Else
+					If bureauNumber.Trim.Length > 0 And bureauMeetingNumber <> 0 Then
+						myControlNumber = bureauNumber.Trim
+						myMeetingNumber = bureauMeetingNumber
+					Else
+						If sectionNumber.Trim.Length > 0 And sectionMeetingNumber <> 0 Then
+							myControlNumber = sectionNumber.Trim
+							myMeetingNumber = sectionMeetingNumber
+						End If
+					End If
+				End If
+			End If
+
+			If myControlNumber.Length > 0 And myMeetingNumber <> 0 Then
+				myRecordCount = myRecordDAO.GetTotalRowByResolutionNumberAndMeetingNumber(myControlNumber, myMeetingNumber)
+				If myRecordCount = 1 Then
+					myContent = myRecordDAO.GetResolutionContentByResolutionNumberAndMeetingNumber(myControlNumber, myMeetingNumber)
+				Else
+					'exception:resolution is empty or duplicated
+				End If
+			Else
+				'exception:control number or meeting number is empty
+			End If
+
+			Return myContent
+		End Function
+		Private Sub FillProcessData(ByVal myFormID As String)
+			Dim myProcessMapDAO As New AffairProcessMapDAOExtand
+			Dim myProcessMapDataSet As DataSet
+			Dim myProcessMapCount As Integer = 0
+			Dim myAttributeCodeDAO As New ProcessAttributeCodeDAOExtand
+			Dim myAttributeCodeDataSet As DataSet
+			Dim myAttributeMapDAO As New ProcessAttributeMapDAOExtand
+			Dim myAttributeMapDataSet As DataSet
+			Dim myAttributeMapCount As Integer = 0
+			Dim myAttributeCodeCount As Integer = 0
+			Dim myTable As HtmlTable
+			Dim myTableRow As HtmlTableRow
+			Dim myTableCell As HtmlTableCell
+			Dim myProcessDate As Date = New Date(1900, 1, 1)
+			Dim myProcessState As String = ""
+			Dim myNote As String = ""
+			Dim myInputText As HtmlInputText
+			Dim myHyperLink As HyperLink
+			Dim myLiterial As LiteralControl
+			Dim myImage As HtmlImage
+			Dim myProcessID As String = ""
+			Dim myName As String = ""
+			Dim myAttributeID As String = ""
+			Dim myAttributeValue As String = ""
+			Dim myAttributeType As Integer = 0
+			Dim i As Integer = 0
+			Dim j As Integer = 0
+			Dim isChecked As Boolean
+			Dim anItem As DataListItem
+			Dim dk As String
+			Dim myCheckBox As CheckBox
+			Dim myTextBox As TextBox
+
+			If myFormID.Trim.Length > 0 Then
+				PlaceHolderProcess.Controls.Clear()
+				myTable = New HtmlTable
+				myTable.CellPadding = 0
+				myTable.CellSpacing = 0
+				myTable.Border = 1
+				'prepare process header
+				myTableRow = New HtmlTableRow
+				myTableRow.BgColor = NormalProcessBGColor
+				'action column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ActionWidth
+				myTableRow.Cells.Add(myTableCell)
+				'process date column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ProcessDateWidth
+				myTableCell.InnerText = "處理日"
+				myTableRow.Cells.Add(myTableCell)
+				'process state column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ProcessStateWidth
+				myTableCell.InnerText = "處理情形"
+				myTableRow.Cells.Add(myTableCell)
+				'note column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = NoteWidth
+				myTableCell.InnerText = "備註"
+				myTableRow.Cells.Add(myTableCell)
+				'process attribute column header
+				myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+				myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+				myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+				'only top 10 attribute code will display
+				If myAttributeCodeCount > 10 Then
+					myAttributeCodeCount = 10
+				End If
+				If myAttributeCodeCount > 0 Then
+					For i = 0 To myAttributeCodeCount - 1
+						myName = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+						myAttributeType = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("TypeID"), Integer)
+						myTableCell = New HtmlTableCell
+						myTableCell.Align = "center"
+						If myAttributeType = AttributeType.Normal Then
+							'normal attribute
+							myTableCell.Width = NormalAttributeWidth
+						Else
+							If myAttributeType = AttributeType.NewsRelease Then
+								'news release attribute
+								myTableCell.Width = NewsAttributeWidth
+							Else
+								If myAttributeType = AttributeType.CouncilmanInstruction Then
+									'councilman instruction attribute
+									myTableCell.Width = InstructionAttributeWidth
+								Else
+									If myAttributeType = AttributeType.Law Then
+										'law attribute
+										myTableCell.Width = LawAttributeWidth
+									Else
+										'exception:unknown attribute type
+									End If
+								End If
+							End If
+						End If
+						myTableCell.InnerText = myName
+						myTableRow.Cells.Add(myTableCell)
+					Next
+				End If
+
+				myTable.Rows.Add(myTableRow)
+
+				myProcessMapDataSet = myProcessMapDAO.GetEntitysByFormID(myFormID)
+				myProcessMapDataSet = UtilityObject.QueryPermissionFilter(myProcessMapDataSet, ProcessAuthorityTarget, Context.User.Identity.Name)
+				myProcessMapCount = myProcessMapDataSet.Tables(0).Rows.Count
+
+				If myProcessMapCount > 0 Then
+					For i = 0 To myProcessMapCount - 1
+						myProcessID = CType(myProcessMapDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myTableRow = New HtmlTableRow
+						If myProcessID = processID Then
+							myTableRow.BgColor = FocusProcessBGColor
+						Else
+							myTableRow.BgColor = NormalProcessBGColor
+						End If
+
+						'insert icon
+						myTableCell = New HtmlTableCell
+						myTableCell.Align = "center"
+						myTableCell.Width = ActionWidth
+						'insert link
+						myHyperLink = New HyperLink
+						myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myFormID & "&processID=" & myProcessID & "&action=update"
+						myHyperLink.ImageUrl = "~/images/edit.gif"
+						myHyperLink.Text = "修改"
+						myTableCell.Controls.Add(myHyperLink)
+						'insert link
+						myHyperLink = New HyperLink
+						myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/ProcessAttributeCheckViewFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&processID=" & myProcessID
+						myHyperLink.ImageUrl = "~/images/rt.gif"
+						myHyperLink.Text = "閱覽"
+						myTableCell.Controls.Add(myHyperLink)
+						''br
+						'myLiterial = New LiteralControl
+						'myLiterial.Text = "<BR>"
+						'myTableCell.Controls.Add(myLiterial)
+						'insert link
+						myHyperLink = New HyperLink
+						myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myFormID & "&processID=" & myProcessID & "&action=delete"
+						myHyperLink.ImageUrl = "~/images/delete.gif"
+						myHyperLink.Text = "刪除"
+						myTableCell.Controls.Add(myHyperLink)
+
+						myTableRow.Cells.Add(myTableCell)
+
+						'process date
+						myProcessDate = CType(myProcessMapDataSet.Tables(0).Rows(i).Item("ProcessDate"), Date)
+						myTableCell = New HtmlTableCell
+						myTableCell.Width = ProcessDateWidth
+						myTableCell.InnerText = myProcessDate.Year & "/" & myProcessDate.Month & "/" & myProcessDate.Day
+						If myTableCell.InnerText = "1900/1/1" Then
+							myTableCell.InnerText = ""
+						End If
+						myTableRow.Cells.Add(myTableCell)
+
+						'process state
+						myProcessState = CType(myProcessMapDataSet.Tables(0).Rows(i).Item("ProcessState"), String).Trim
+						myTableCell = New HtmlTableCell
+						myTableCell.Width = ProcessStateWidth
+						myTableCell.InnerHtml = myProcessState
+						myTableRow.Cells.Add(myTableCell)
+
+						'note
+						myNote = CType(myProcessMapDataSet.Tables(0).Rows(i).Item("Note"), String).Trim
+						myTableCell = New HtmlTableCell
+						myTableCell.Width = NoteWidth
+						myTableCell.InnerHtml = myNote
+						myTableRow.Cells.Add(myTableCell)
+
+						'process attribute
+						myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+						myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+						myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+
+						'only top 10 attribute code will display
+						If myAttributeCodeCount > 10 Then
+							myAttributeCodeCount = 10
+						End If
+						If myAttributeCodeCount > 0 Then
+							For j = 0 To myAttributeCodeCount - 1
+								myAttributeType = CType(myAttributeCodeDataSet.Tables(0).Rows(j).Item("TypeID"), Integer)
+								myTableCell = New HtmlTableCell
+								myTableCell.Align = "center"
+								If myAttributeType = AttributeType.Normal Then
+									'normal attribute
+									myTableCell.Width = NormalAttributeWidth
+
+									myImage = New HtmlImage
+									myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(j).Item("EntityID"), String)
+
+									myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(myProcessID, myAttributeID)
+									myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+									myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+									If myAttributeMapCount > 0 Then
+										myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+										If myAttributeValue.Trim = "1" Then
+											myImage.Alt = "Checked"
+											myImage.Src = "~/images/checked.gif"
+										Else
+											myImage.Alt = "Unchecked"
+											myImage.Src = "~/images/unchecked.gif"
+										End If
+									Else
+										myImage.Alt = "Unchecked"
+										myImage.Src = "~/images/unchecked.gif"
+									End If
+									myTableCell.Controls.Add(myImage)
+								Else
+									If myAttributeType = AttributeType.NewsRelease Then
+										'news release attribute
+										myTableCell.Width = NewsAttributeWidth
+
+										myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(j).Item("EntityID"), String)
+
+										myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(myProcessID, myAttributeID)
+										myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+										myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+										If myAttributeMapCount > 0 Then
+											myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+											If myAttributeValue.Trim.Length > 0 Then
+												'insert link
+												myHyperLink = New HyperLink
+												myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseViewFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&newsID=" & myAttributeValue
+												myHyperLink.ImageUrl = "~/images/link.gif"
+												myHyperLink.Text = "新聞稿"
+												myTableCell.Controls.Add(myHyperLink)
+											End If
+										End If
+									Else
+										If myAttributeType = AttributeType.CouncilmanInstruction Then
+											'councilman instruction attribute
+											myTableCell.Width = InstructionAttributeWidth
+
+											myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(j).Item("EntityID"), String)
+
+											myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(myProcessID, myAttributeID)
+											myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+											myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+											If myAttributeMapCount > 0 Then
+												myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+												If myAttributeValue.Trim.Length > 0 Then
+													'insert link
+													myHyperLink = New HyperLink
+													myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/CouncilmanInstructionViewFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&instructionID=" & myAttributeValue
+													myHyperLink.ImageUrl = "~/images/link.gif"
+													myHyperLink.Text = "委員交辦"
+													myTableCell.Controls.Add(myHyperLink)
+												End If
+											End If
+										Else
+											If myAttributeType = AttributeType.Law Then
+												'law attribute
+												myTableCell.Width = LawAttributeWidth
+
+												myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(j).Item("EntityID"), String)
+
+												myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(myProcessID, myAttributeID)
+												myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+												myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+												If myAttributeMapCount > 0 Then
+													myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+													If myAttributeValue.Trim.Length > 0 Then
+														'insert link
+														myHyperLink = New HyperLink
+														myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/LawViewFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&lawID=" & myAttributeValue
+														myHyperLink.ImageUrl = "~/images/link.gif"
+														myHyperLink.Text = "法規編輯"
+														myTableCell.Controls.Add(myHyperLink)
+													End If
+												End If
+											Else
+												'exception:unknown attribute type
+											End If
+										End If
+									End If
+								End If
+
+								myTableRow.Cells.Add(myTableCell)
+							Next
+						End If
+
+						myTable.Rows.Add(myTableRow)
+					Next
+				End If
+				PlaceHolderProcess.Controls.Add(myTable)
+
+				'update process
+				If processID.Trim.Length > 0 Then
+					myProcessMapDataSet = myProcessMapDAO.GetEntitysByEntityID(processID)
+					If myProcessMapDataSet.Tables(0).Rows.Count = 1 Then
+						myProcessDate = CType(myProcessMapDataSet.Tables(0).Rows(0).Item("ProcessDate"), Date)
+						myProcessState = CType(myProcessMapDataSet.Tables(0).Rows(0).Item("ProcessState"), String)
+						myNote = CType(myProcessMapDataSet.Tables(0).Rows(0).Item("Note"), String)
+					Else
+						'exception:process record is empty or duplicated
+					End If
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							ButtonProcessUpdate.Text = "修改"
+							'process data
+							TextBoxProcessDate.Text = myProcessDate.Year & "/" & myProcessDate.Month & "/" & myProcessDate.Day
+							If TextBoxProcessDate.Text = "1900/1/1" Then
+								TextBoxProcessDate.Text = ""
+							End If
+							TextBoxProcessState.Text = myProcessState
+							TextBoxNote.Text = myNote
+							'attribute data
+							myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+							myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+							myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+
+							'only top 10 attribute code will display
+							If myAttributeCodeCount > 10 Then
+								myAttributeCodeCount = 10
+							End If
+							If myAttributeCodeCount > 0 Then
+								For i = 0 To myAttributeCodeCount - 1
+									myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+									myAttributeType = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("TypeID"), Integer)
+									If myAttributeType = AttributeType.Normal Then
+										'normal attribute
+										myCheckBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), CheckBox)
+										If Not (myCheckBox Is Nothing) Then
+											myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+											myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+											myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+											If myAttributeMapCount > 0 Then
+												myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+												If myAttributeValue.Trim = "1" Then
+													myCheckBox.Checked = True
+												Else
+													myCheckBox.Checked = False
+												End If
+											End If
+										Else
+											'exception:checkbox control not found
+										End If
+									Else
+										If myAttributeType = AttributeType.NewsRelease Then
+											'news release attribute
+											myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+											If Not (myTextBox Is Nothing) Then
+												myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+												myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+												myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+												If myAttributeMapCount > 0 Then
+													myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+													If myAttributeValue.Trim.Length > 0 Then
+														myTextBox.Text = myAttributeValue.Trim
+													Else
+														myTextBox.Text = ""
+													End If
+												End If
+											Else
+												'exception:textbox control not found
+											End If
+										Else
+											If myAttributeType = AttributeType.CouncilmanInstruction Then
+												'councilman instruction attribute
+												myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+												If Not (myTextBox Is Nothing) Then
+													myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+													myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+													myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+													If myAttributeMapCount > 0 Then
+														myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+														If myAttributeValue.Trim.Length > 0 Then
+															myTextBox.Text = myAttributeValue.Trim
+														Else
+															myTextBox.Text = ""
+														End If
+													End If
+												Else
+													'exception:textbox control not found
+												End If
+											Else
+												If myAttributeType = AttributeType.Law Then
+													'law attribute
+													myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+													If Not (myTextBox Is Nothing) Then
+														myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+														myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+														myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+														If myAttributeMapCount > 0 Then
+															myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+															If myAttributeValue.Trim.Length > 0 Then
+																myTextBox.Text = myAttributeValue.Trim
+															Else
+																myTextBox.Text = ""
+															End If
+														End If
+													Else
+														'exception:textbox control not found
+													End If
+												Else
+													'exception:unknown attribute type
+												End If
+											End If
+										End If
+									End If
+								Next
+							End If
+						Else
+							If action.Trim = "delete" Then
+								ButtonProcessUpdate.Text = "刪除"
+								'process data
+								TextBoxProcessDate.Text = myProcessDate.Year & "/" & myProcessDate.Month & "/" & myProcessDate.Day
+								If TextBoxProcessDate.Text = "1900/1/1" Then
+									TextBoxProcessDate.Text = ""
+								End If
+								TextBoxProcessState.Text = myProcessState
+								TextBoxNote.Text = myNote
+								'attribute data
+								myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+								myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+								myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+
+								'only top 10 attribute code will display
+								If myAttributeCodeCount > 10 Then
+									myAttributeCodeCount = 10
+								End If
+								If myAttributeCodeCount > 0 Then
+									For i = 0 To myAttributeCodeCount - 1
+										myAttributeID = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+										myAttributeType = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("TypeID"), Integer)
+										If myAttributeType = AttributeType.Normal Then
+											'normal attribute
+											myCheckBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), CheckBox)
+											If Not (myCheckBox Is Nothing) Then
+												myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+												myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+												myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+												If myAttributeMapCount > 0 Then
+													myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+													If myAttributeValue.Trim = "1" Then
+														myCheckBox.Checked = True
+													Else
+														myCheckBox.Checked = False
+													End If
+												End If
+											Else
+												'exception:checkbox control not found
+											End If
+										Else
+											If myAttributeType = AttributeType.NewsRelease Then
+												'news release attribute
+												myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+												If Not (myTextBox Is Nothing) Then
+													myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+													myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+													myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+													If myAttributeMapCount > 0 Then
+														myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+														If myAttributeValue.Trim.Length > 0 Then
+															myTextBox.Text = myAttributeValue.Trim
+														Else
+															myTextBox.Text = ""
+														End If
+													End If
+												Else
+													'exception:textbox control not found
+												End If
+											Else
+												If myAttributeType = AttributeType.CouncilmanInstruction Then
+													'councilman instruction attribute
+													myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+													If Not (myTextBox Is Nothing) Then
+														myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+														myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+														myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+														If myAttributeMapCount > 0 Then
+															myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+															If myAttributeValue.Trim.Length > 0 Then
+																myTextBox.Text = myAttributeValue.Trim
+															Else
+																myTextBox.Text = ""
+															End If
+														End If
+													Else
+														'exception:textbox control not found
+													End If
+												Else
+													If myAttributeType = AttributeType.Law Then
+														'law attribute
+														myTextBox = CType(PlaceHolderAttribute.FindControl("Attribute" & myAttributeID), TextBox)
+														If Not (myTextBox Is Nothing) Then
+															myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessIDAndAttributeID(processID, myAttributeID)
+															myAttributeMapDataSet = UtilityObject.QueryPermissionFilter(myAttributeMapDataSet, AttributeAuthorityTarget, Context.User.Identity.Name)
+															myAttributeMapCount = myAttributeMapDataSet.Tables(0).Rows.Count
+
+															If myAttributeMapCount > 0 Then
+																myAttributeValue = CType(myAttributeMapDataSet.Tables(0).Rows(0).Item("AttributeValue"), String)
+																If myAttributeValue.Trim.Length > 0 Then
+																	myTextBox.Text = myAttributeValue.Trim
+																Else
+																	myTextBox.Text = ""
+																End If
+															End If
+														Else
+															'exception:textbox control not found
+														End If
+													Else
+														'exception:unknown attribute type
+													End If
+												End If
+											End If
+										End If
+									Next
+								End If
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				Else
+					'new process
+				End If
+				ButtonProcessUpdate.Visible = True
+				TextBoxProcessDate.Visible = True
+				TextBoxProcessState.Visible = True
+				TextBoxNote.Visible = True
+				PlaceHolderAttribute.Visible = True
+				ButtonProcessMore.Visible = True
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+		Private Sub InitialWebControl()
+			Dim myAttributeCodeDAO As New ProcessAttributeCodeDAOExtand
+			Dim myAttributeCodeDataSet As DataSet
+			Dim myAttributeCodeCount As Integer = 0
+			Dim myNormalCodeDAO As New NormalCodeDAOExtand
+			Dim myNormalCodeDataSet As DataSet
+			Dim myNormalCodeCount As Integer = 0
+			Dim i As Integer = 0
+			Dim myListItem As ListItem
+			Dim myCodeName As String = ""
+			Dim myCodeID As String = ""
+			Dim myAttributeCodeID As String = ""
+			Dim myAttributeCodeTypeID As Integer = 0
+			Dim myTable As HtmlTable
+			Dim myTableRow As HtmlTableRow
+			Dim myTableCell As HtmlTableCell
+			Dim myCheckBox As CheckBox
+			Dim myTextBox As TextBox
+
+			'initual control
+			LabelResolutionContent.Text = ""
+			TextBoxAssociationAffair.Text = ""
+			TextBoxAssociationNumber.Text = ""
+			TextBoxAssociationDate.Text = ""
+			TextBoxAssociationForecastDate.Text = ""
+			TextBoxCouncilAffair.Text = ""
+			TextBoxCouncilNumber.Text = ""
+			TextBoxCouncilDate.Text = ""
+			TextBoxCouncilForecastDate.Text = ""
+			TextBoxBureauAffair.Text = ""
+			TextBoxBureauNumber.Text = ""
+			TextBoxBureauDate.Text = ""
+			TextBoxBureauForecastDate.Text = ""
+			TextBoxSectionAffair.Text = ""
+			TextBoxSectionNumber.Text = ""
+			TextBoxSectionDate.Text = ""
+			TextBoxSectionForecastDate.Text = ""
+
+			ButtonProcessUpdate.Text = "新增"
+			ButtonProcessUpdate.Visible = False
+			TextBoxProcessDate.Text = ""
+			TextBoxProcessDate.Visible = False
+			TextBoxProcessState.Text = ""
+			TextBoxProcessState.Visible = False
+			TextBoxNote.Text = ""
+			TextBoxNote.Visible = False
+			ButtonProcessMore.Text = "More"
+			ButtonProcessMore.Visible = False
+
+			DropDownListAffair.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(AffairCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListAffair.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListPriority.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(PriorityCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListPriority.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListMainOffice.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(MainOfficeCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListMainOffice.Items.Add(myListItem)
+				Next
+			End If
+
+			Try
+				DropDownListMainOffice.SelectedValue = groupID
+			Catch ex As Exception
+				'exception:no match
+			End Try
+
+			DropDownListMainBranch.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(MainBranchCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListMainBranch.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListMainBranchUndertaker.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(MainBranchUndertakerCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListMainBranchUndertaker.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListAssistOffice.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(AssistOfficeCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListAssistOffice.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListAssistBranch.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(AssistBranchCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListAssistBranch.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListAssociationMeetingNumber.Items.Clear()
+			For i = 1 To 99
+				myListItem = New ListItem
+				myListItem.Value = CType(i, String)
+				myListItem.Text = "第" & Microsoft.VisualBasic.Right("00" & CType(i, String), 2) & "次"
+
+				DropDownListAssociationMeetingNumber.Items.Add(myListItem)
+			Next
+
+			DropDownListAssociationState.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(StateCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListAssociationState.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListCouncilMeetingNumber.Items.Clear()
+			For i = 1 To 99
+				myListItem = New ListItem
+				myListItem.Value = CType(i, String)
+				myListItem.Text = "第" & Microsoft.VisualBasic.Right("00" & CType(i, String), 2) & "次"
+
+				DropDownListCouncilMeetingNumber.Items.Add(myListItem)
+			Next
+
+			DropDownListCouncilState.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(StateCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListCouncilState.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListBureauMeetingNumber.Items.Clear()
+			For i = 1 To 99
+				myListItem = New ListItem
+				myListItem.Value = CType(i, String)
+				myListItem.Text = "第" & Microsoft.VisualBasic.Right("00" & CType(i, String), 2) & "次"
+
+				DropDownListBureauMeetingNumber.Items.Add(myListItem)
+			Next
+
+			DropDownListBureauState.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(StateCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListBureauState.Items.Add(myListItem)
+				Next
+			End If
+
+			DropDownListSectionMeetingNumber.Items.Clear()
+			For i = 1 To 99
+				myListItem = New ListItem
+				myListItem.Value = CType(i, String)
+				myListItem.Text = "第" & Microsoft.VisualBasic.Right("00" & CType(i, String), 2) & "次"
+
+				DropDownListSectionMeetingNumber.Items.Add(myListItem)
+			Next
+
+			DropDownListSectionState.Items.Clear()
+			myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(StateCodeGroupID)
+			myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+			myNormalCodeCount = myNormalCodeDataSet.Tables(0).Rows.Count
+			If myNormalCodeCount > 0 Then
+				For i = 0 To myNormalCodeCount - 1
+					myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+					myListItem = New ListItem
+					myListItem.Value = myCodeID
+					myListItem.Text = myCodeName
+
+					DropDownListSectionState.Items.Add(myListItem)
+				Next
+			End If
+
+			PlaceHolderAttribute.Controls.Clear()
+
+			myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+			myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+			myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+			'only top 10 attribute code will display
+			If myAttributeCodeCount > 10 Then
+				myAttributeCodeCount = 10
+			End If
+			If myAttributeCodeCount > 0 Then
+
+				myTable = New HtmlTable
+				myTable.CellPadding = 0
+				myTable.CellSpacing = 0
+				myTable.Border = 1
+
+				myTableRow = New HtmlTableRow
+
+				For i = 0 To myAttributeCodeCount - 1
+					myTableCell = New HtmlTableCell
+					myTableCell.Align = "center"
+
+					myAttributeCodeID = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+					myAttributeCodeTypeID = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("TypeID"), Integer)
+					If myAttributeCodeTypeID = AttributeType.Normal Then
+						'normal type
+						myTableCell.Width = NormalAttributeWidth
+						myCheckBox = New CheckBox
+						myCheckBox.ID = "Attribute" & myAttributeCodeID
+						myTableCell.Controls.Add(myCheckBox)
+					Else
+						If myAttributeCodeTypeID = AttributeType.NewsRelease Then
+							'news release attribute
+							myTableCell.Width = NewsAttributeWidth
+							myTextBox = New TextBox
+							myTextBox.Width = Unit.Pixel(CType(NewsAttributeWidth, Integer))
+							myTextBox.ID = "Attribute" & myAttributeCodeID
+							myTextBox.Attributes("OnClick") = "window.open('NewsReleaseList.aspx?ReturnObjectID=" & myTextBox.ClientID & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+							myTableCell.Controls.Add(myTextBox)
+						Else
+							If myAttributeCodeTypeID = AttributeType.CouncilmanInstruction Then
+								'councilman instruction attribute
+								myTableCell.Width = InstructionAttributeWidth
+								myTextBox = New TextBox
+								myTextBox.Width = Unit.Pixel(CType(InstructionAttributeWidth, Integer))
+								myTextBox.ID = "Attribute" & myAttributeCodeID
+								myTextBox.Attributes("OnClick") = "window.open('CouncilmanInstructionList.aspx?ReturnObjectID=" & myTextBox.ClientID & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+								myTableCell.Controls.Add(myTextBox)
+							Else
+								If myAttributeCodeTypeID = AttributeType.Law Then
+									'law attribute
+									myTableCell.Width = LawAttributeWidth
+									myTextBox = New TextBox
+									myTextBox.Width = Unit.Pixel(CType(LawAttributeWidth, Integer))
+									myTextBox.ID = "Attribute" & myAttributeCodeID
+									myTextBox.Attributes("OnClick") = "window.open('LawList.aspx?ReturnObjectID=" & myTextBox.ClientID & "','','height=328,width=800,status=no,toolbar=no,menubar=no,location=no','')"
+									myTableCell.Controls.Add(myTextBox)
+								Else
+									'exception:unknown attribute type
+								End If
+							End If
+						End If
+					End If
+
+					myTableRow.Cells.Add(myTableCell)
+				Next
+
+				myTable.Controls.Add(myTableRow)
+
+				PlaceHolderAttribute.Controls.Add(myTable)
+			End If
+
+			PlaceHolderAttribute.Visible = False
+
+			PlaceHolderAssociationScheduleLink.Visible = False
+			PlaceHolderCouncilScheduleLink.Visible = False
+			PlaceHolderBureauScheduleLink.Visible = False
+			PlaceHolderSectionScheduleLink.Visible = False
+		End Sub
+		Private Function SaveFormData(ByVal myFormID As String) As String
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim myFormDataSet As DataSet
+			Dim delimStr As String = "/-:. "
+			Dim delimiter As Char() = delimStr.ToCharArray()
+			Dim tempString As String = ""
+			Dim tempArray As String() = Nothing
+			Dim myAffairID As String = ""
+			Dim myPriorityID As String = ""
+			Dim myMainOfficeID As String = ""
+			Dim myMainBranchID As String = ""
+			Dim myMainBranchUndertakerID As String = ""
+			Dim myAssistOfficeID As String = ""
+			Dim myAssistBranchID As String = ""
+			Dim myAssociationNumber As String = ""
+			Dim myAssociationMeetingNumber As Integer = 0
+			Dim myAssociationAffair As String = ""
+			Dim myAssociationDate As Date = New Date(1900, 1, 1)
+			Dim myAssociationForecastDate As Date = New Date(1900, 1, 1)
+			Dim myAssociationStateID As String = ""
+			Dim myCouncilNumber As String = ""
+			Dim myCouncilMeetingNumber As Integer = 0
+			Dim myCouncilAffair As String = ""
+			Dim myCouncilDate As Date = New Date(1900, 1, 1)
+			Dim myCouncilForecastDate As Date = New Date(1900, 1, 1)
+			Dim myCouncilStateID As String = ""
+			Dim myBureauNumber As String = ""
+			Dim myBureauMeetingNumber As Integer = 0
+			Dim myBureauAffair As String = ""
+			Dim myBureauDate As Date = New Date(1900, 1, 1)
+			Dim myBureauForecastDate As Date = New Date(1900, 1, 1)
+			Dim myBureauStateID As String = ""
+			Dim mySectionNumber As String = ""
+			Dim mySectionMeetingNumber As Integer = 0
+			Dim mySectionAffair As String = ""
+			Dim mySectionDate As Date = New Date(1900, 1, 1)
+			Dim mySectionForecastDate As Date = New Date(1900, 1, 1)
+			Dim mySectionStateID As String = ""
+			Dim myAuthorityBO As New ContextAuthBO
+
+			myAffairID = DropDownListAffair.SelectedValue
+			myPriorityID = DropDownListPriority.SelectedValue
+			myMainOfficeID = DropDownListMainOffice.SelectedValue
+			myMainBranchID = DropDownListMainBranch.SelectedValue
+			myMainBranchUndertakerID = DropDownListMainBranchUndertaker.SelectedValue
+			myAssistOfficeID = DropDownListAssistOffice.SelectedValue
+			myAssistBranchID = DropDownListAssistBranch.SelectedValue
+			myAssociationNumber = TextBoxAssociationNumber.Text
+			myAssociationMeetingNumber = CType(DropDownListAssociationMeetingNumber.SelectedValue, Integer)
+			myAssociationAffair = TextBoxAssociationAffair.Text
+			If TextBoxAssociationDate.Text.Trim <> "" Then
+				tempString = TextBoxAssociationDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myAssociationDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxAssociationForecastDate.Text.Trim <> "" Then
+				tempString = TextBoxAssociationForecastDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myAssociationForecastDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			myAssociationStateID = DropDownListAssociationState.SelectedValue
+			myCouncilNumber = TextBoxCouncilNumber.Text
+			myCouncilMeetingNumber = CType(DropDownListCouncilMeetingNumber.SelectedValue, Integer)
+			myCouncilAffair = TextBoxCouncilAffair.Text
+			If TextBoxCouncilDate.Text.Trim <> "" Then
+				tempString = TextBoxCouncilDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myCouncilDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxCouncilForecastDate.Text.Trim <> "" Then
+				tempString = TextBoxCouncilForecastDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myCouncilForecastDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			myCouncilStateID = DropDownListCouncilState.SelectedValue
+			myBureauNumber = TextBoxBureauNumber.Text
+			myBureauMeetingNumber = CType(DropDownListBureauMeetingNumber.SelectedValue, Integer)
+			myBureauAffair = TextBoxBureauAffair.Text
+			If TextBoxBureauDate.Text.Trim <> "" Then
+				tempString = TextBoxBureauDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myBureauDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxBureauForecastDate.Text.Trim <> "" Then
+				tempString = TextBoxBureauForecastDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myBureauForecastDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			myBureauStateID = DropDownListBureauState.SelectedValue
+			mySectionNumber = TextBoxSectionNumber.Text
+			mySectionMeetingNumber = CType(DropDownListSectionMeetingNumber.SelectedValue, Integer)
+			mySectionAffair = TextBoxSectionAffair.Text
+			If TextBoxSectionDate.Text.Trim <> "" Then
+				tempString = TextBoxSectionDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					mySectionDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxSectionForecastDate.Text.Trim <> "" Then
+				tempString = TextBoxSectionForecastDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					mySectionForecastDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			mySectionStateID = DropDownListSectionState.SelectedValue
+
+			If myFormID.Trim.Length > 0 Then
+				'update
+				myFormDataSet = myFormDAO.GetEntitysByEntityID(myFormID)
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					If groupID.Trim.Length > 0 Then
+						'get authority
+						If myAuthorityBO.CheckPurview(FormAuthorityTarget, myFormID, Context.User.Identity.Name, "U") Then
+							myFormDAO.UpdateEntity(myFormID, groupID, myAffairID, myPriorityID, myMainOfficeID, myMainBranchID, myMainBranchUndertakerID, myAssistOfficeID, myAssistBranchID, myAssociationNumber, myAssociationMeetingNumber, myAssociationAffair, myAssociationDate, myAssociationForecastDate, myAssociationStateID, myCouncilNumber, myCouncilMeetingNumber, myCouncilAffair, myCouncilDate, myCouncilForecastDate, myCouncilStateID, myBureauNumber, myBureauMeetingNumber, myBureauAffair, myBureauDate, myBureauForecastDate, myBureauStateID, mySectionNumber, mySectionMeetingNumber, mySectionAffair, mySectionDate, mySectionForecastDate, mySectionStateID, Context.User.Identity.Name, Now)
+						End If
+					Else
+						'exception:group id is empty
+					End If
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			Else
+				'insert new data
+				If groupID.Trim.Length > 0 Then
+					myFormID = myFormDAO.InsertEntity(groupID, 0, DefaultPermissionGroup, DefaultPermission, myAffairID, myPriorityID, myMainOfficeID, myMainBranchID, myMainBranchUndertakerID, myAssistOfficeID, myAssistBranchID, myAssociationNumber, myAssociationMeetingNumber, myAssociationAffair, myAssociationDate, myAssociationForecastDate, myAssociationStateID, myCouncilNumber, myCouncilMeetingNumber, myCouncilAffair, myCouncilDate, myCouncilForecastDate, myCouncilStateID, myBureauNumber, myBureauMeetingNumber, myBureauAffair, myBureauDate, myBureauForecastDate, myBureauStateID, mySectionNumber, mySectionMeetingNumber, mySectionAffair, mySectionDate, mySectionForecastDate, mySectionStateID, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+				Else
+					'exception:group id is empty
+				End If
+			End If
+			Return myFormID
+		End Function
+		Private Sub ButtonInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonInsert.Click
+			Dim myFormID As String = ""
+			myFormID = SaveFormData("")
+			Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myFormID)
+		End Sub
+
+		Private Sub ButtonUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUpdate.Click
+			If formID.Trim.Length > 0 Then
+				SaveFormData(formID)
+				Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & formID)
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub DeleteProcess(ByVal myFormID As String)
+			Dim myProcessMapDAO As New AffairProcessMapDAOExtand
+			Dim myProcessMapDataSet As DataSet
+			Dim myProcessMapCount As Integer = 0
+			Dim myProcessID As String = ""
+			Dim i As Integer = 0
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myFormID.Trim.Length > 0 Then
+				myProcessMapCount = myProcessMapDAO.GetTotalRowByFormID(myFormID)
+				If myProcessMapCount > 0 Then
+					myProcessMapDataSet = myProcessMapDAO.GetEntitysByFormID(myFormID)
+					For i = 0 To myProcessMapCount - 1
+						myProcessID = CType(myProcessMapDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						DeleteProcessAttribute(myProcessID)
+						'get authority
+						If myAuthorityBO.CheckPurview(ProcessAuthorityTarget, myProcessID, Context.User.Identity.Name, "D") Then
+							myProcessMapDAO.DeleteEntity(myProcessID)
+						End If
+					Next
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+		Public Sub DeleteFormData(ByVal myFormID As String)
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim myFormDataSet As DataSet
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myFormID.Trim.Length > 0 Then
+				myFormDataSet = myFormDAO.GetEntitysByEntityID(myFormID)
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					'delete
+					DeleteProcess(myFormID)
+					'get authority
+					If myAuthorityBO.CheckPurview(FormAuthorityTarget, myFormID, Context.User.Identity.Name, "D") Then
+						myFormDAO.DeleteEntity(myFormID)
+					End If
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDelete.Click
+			If formID.Trim.Length > 0 Then
+				DeleteFormData(formID)
+
+				formID = ""
+				Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID)
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonPrevious_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPrevious.Click
+			Dim myFormDataSet As DataSet
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim i As Integer = 0
+			Dim myGroupID As String = ""
+			Dim myItemID As Integer = 0
+			Dim myPreviousID As String = ""
+			Dim bFound As Boolean = False
+
+			If formID.Trim.Length > 0 Then
+				myPreviousID = formID
+				myFormDataSet = myFormDAO.GetEntitysByEntityID(formID)
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					myGroupID = CType(myFormDataSet.Tables(0).Rows(0).Item("GroupID"), String)
+					myItemID = CType(myFormDataSet.Tables(0).Rows(0).Item("ItemID"), Integer)
+					'read total entity id and item id in group
+					myFormDataSet = myFormDAO.GetItemIDByGroupID(myGroupID)
+					myFormDataSet = UtilityObject.QueryPermissionFilter(myFormDataSet, FormAuthorityTarget, Context.User.Identity.Name)
+					If myFormDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myFormDataSet.Tables(0).Rows.Count - 1
+							If myItemID = CType(myFormDataSet.Tables(0).Rows(i).Item("ItemID"), Integer) Then
+								bFound = True
+								Exit For
+							Else
+								'save previous id
+								myPreviousID = CType(myFormDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+							End If
+						Next
+						If bFound = True Then
+							Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myPreviousID)
+						End If
+					End If
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNext.Click
+			Dim myFormDataSet As DataSet
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim i As Integer = 0
+			Dim myGroupID As String = ""
+			Dim myItemID As Integer = 0
+			Dim myNextID As String = ""
+			Dim bFound As Boolean = False
+
+			If formID.Trim.Length > 0 Then
+				myNextID = formID
+				myFormDataSet = myFormDAO.GetEntitysByEntityID(formID)
+				If myFormDataSet.Tables(0).Rows.Count = 1 Then
+					myGroupID = CType(myFormDataSet.Tables(0).Rows(0).Item("GroupID"), String)
+					myItemID = CType(myFormDataSet.Tables(0).Rows(0).Item("ItemID"), Integer)
+					'read total entity id and item id in group
+					myFormDataSet = myFormDAO.GetItemIDByGroupID(myGroupID)
+					myFormDataSet = UtilityObject.QueryPermissionFilter(myFormDataSet, FormAuthorityTarget, Context.User.Identity.Name)
+					If myFormDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myFormDataSet.Tables(0).Rows.Count - 1
+							If myItemID = CType(myFormDataSet.Tables(0).Rows(i).Item("ItemID"), Integer) Then
+								bFound = True
+								Exit For
+							End If
+						Next
+						If bFound = True Then
+							'save next id
+							If i + 1 < myFormDataSet.Tables(0).Rows.Count Then
+								myNextID = CType(myFormDataSet.Tables(0).Rows(i + 1).Item("EntityID"), String)
+							Else
+								myNextID = CType(myFormDataSet.Tables(0).Rows(myFormDataSet.Tables(0).Rows.Count - 1).Item("EntityID"), String)
+							End If
+							Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & myNextID)
+						End If
+					End If
+				Else
+					'exception:form record is empty or duplicated
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub DeleteProcessAttribute(ByVal myProcessID As String)
+			Dim myAttributeCodeDAO As New ProcessAttributeCodeDAOExtand
+			Dim myAttributeMapDAO As New ProcessAttributeMapDAOExtand
+			Dim myAttributeMapDataSet As DataSet
+			Dim myAttributeMapCount As Integer = 0
+			Dim i As Integer = 0
+			Dim myAttributeID As String = ""
+			Dim myAttributeCodeID As String = ""
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myProcessID.Trim.Length > 0 Then
+				myAttributeMapCount = myAttributeMapDAO.GetTotalRowByProcessID(myProcessID)
+				If myAttributeMapCount > 0 Then
+					myAttributeMapDataSet = myAttributeMapDAO.GetEntitysByProcessID(myProcessID)
+					For i = 0 To myAttributeMapCount - 1
+						myAttributeID = CType(myAttributeMapDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myAttributeCodeID = CType(myAttributeMapDataSet.Tables(0).Rows(i).Item("AttributeID"), String)
+						'get authority
+						If myAuthorityBO.CheckPurview(AttributeAuthorityTarget, myAttributeID, Context.User.Identity.Name, "D") Then
+							myAttributeMapDAO.DeleteEntity(myAttributeID)
+						End If
+						'alter display order
+						myAttributeCodeDAO.DecreaseDisplayOrder(myAttributeCodeID, 1)
+					Next
+				End If
+			Else
+				'exception:process id is empty
+			End If
+		End Sub
+		Private Sub SaveProcessAttribute(ByVal myProcessID As String)
+			Dim myAttributeMapDAO As New ProcessAttributeMapDAOExtand
+			Dim myAttributeCodeDAO As New ProcessAttributeCodeDAOExtand
+			Dim myAttributeCodeDataSet As DataSet
+			Dim myAttributeCodeCount As Integer = 0
+			Dim myAttributeCodeID As String = ""
+			Dim myAttributeCodeType As Integer = 0
+			Dim i As Integer = 0
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myProcessID.Trim.Length > 0 Then
+				myAttributeCodeDataSet = myAttributeCodeDAO.GetEntitys()
+				myAttributeCodeDataSet = UtilityObject.QueryPermissionFilter(myAttributeCodeDataSet, AttributeCodeAuthorityTarget, Context.User.Identity.Name)
+				myAttributeCodeCount = myAttributeCodeDataSet.Tables(0).Rows.Count
+
+				If myAttributeCodeCount > 0 Then
+					For i = 0 To myAttributeCodeCount - 1
+						myAttributeCodeID = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myAttributeCodeType = CType(myAttributeCodeDataSet.Tables(0).Rows(i).Item("TypeID"), Integer)
+						If myAttributeCodeType = AttributeType.Normal Then
+							'normal attribute
+							If Not (Request.Params("Attribute" & myAttributeCodeID) Is Nothing) Then
+								If Request.Params("Attribute" & myAttributeCodeID) = "on" Then
+									myAttributeMapDAO.InsertEntity(myProcessID, 0, DefaultPermissionGroup, DefaultPermission, myAttributeCodeID, "1", Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+									'alter display order
+									myAttributeCodeDAO.IncreaseDisplayOrder(myAttributeCodeID, 1)
+								End If
+							End If
+						Else
+							If myAttributeCodeType = AttributeType.NewsRelease Then
+								'news release attribute
+								If Not (Request.Params("Attribute" & myAttributeCodeID) Is Nothing) Then
+									If Request.Params("Attribute" & myAttributeCodeID).Trim.Length > 0 Then
+										myAttributeMapDAO.InsertEntity(myProcessID, 0, DefaultPermissionGroup, DefaultPermission, myAttributeCodeID, Request.Params("Attribute" & myAttributeCodeID).Trim, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+										'alter display order
+										myAttributeCodeDAO.IncreaseDisplayOrder(myAttributeCodeID, 1)
+									End If
+								End If
+							Else
+								If myAttributeCodeType = AttributeType.CouncilmanInstruction Then
+									'councilman instruction attribute
+									If Not (Request.Params("Attribute" & myAttributeCodeID) Is Nothing) Then
+										If Request.Params("Attribute" & myAttributeCodeID).Trim.Length > 0 Then
+											myAttributeMapDAO.InsertEntity(myProcessID, 0, DefaultPermissionGroup, DefaultPermission, myAttributeCodeID, Request.Params("Attribute" & myAttributeCodeID).Trim, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+											'alter display order
+											myAttributeCodeDAO.IncreaseDisplayOrder(myAttributeCodeID, 1)
+										End If
+									End If
+								Else
+									If myAttributeCodeType = AttributeType.Law Then
+										'law attribute
+										If Not (Request.Params("Attribute" & myAttributeCodeID) Is Nothing) Then
+											If Request.Params("Attribute" & myAttributeCodeID).Trim.Length > 0 Then
+												myAttributeMapDAO.InsertEntity(myProcessID, 0, DefaultPermissionGroup, DefaultPermission, myAttributeCodeID, Request.Params("Attribute" & myAttributeCodeID).Trim, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+												'alter display order
+												myAttributeCodeDAO.IncreaseDisplayOrder(myAttributeCodeID, 1)
+											End If
+										End If
+									Else
+										'exception:unknown attribute type
+									End If
+								End If
+							End If
+						End If
+					Next
+				End If
+			Else
+				'exception:process id is empty
+			End If
+		End Sub
+		Private Sub ButtonProcessUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonProcessUpdate.Click
+			Dim delimStr As String = "/-:. "
+			Dim delimiter As Char() = delimStr.ToCharArray()
+			Dim tempString As String = ""
+			Dim tempArray As String() = Nothing
+			Dim myProcessMapDAO As New AffairProcessMapDAOExtand
+			Dim myProcessDate As Date = New Date(1900, 1, 1)
+			Dim myProcessState As String = "'"
+			Dim myNote As String = ""
+			Dim myProcessID As String = ""
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If formID.Trim.Length > 0 Then
+				'process date
+				If TextBoxProcessDate.Text.Trim <> "" Then
+					tempString = TextBoxProcessDate.Text.Trim
+					tempArray = tempString.Split(delimiter)
+					If tempArray.Length = 3 Then
+						myProcessDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+					End If
+				End If
+				'process state
+				If TextBoxProcessState.Text.Trim <> "" Then
+					myProcessState = TextBoxProcessState.Text.Trim
+				End If
+				'process note
+				If TextBoxNote.Text.Trim <> "" Then
+					myNote = TextBoxNote.Text.Trim
+				End If
+
+				If processID.Trim.Length > 0 Then
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							'get authority
+							If myAuthorityBO.CheckPurview(ProcessAuthorityTarget, processID, Context.User.Identity.Name, "U") Then
+								'update
+								myProcessMapDAO.UpdateEntity(processID, myProcessDate, myProcessState, myNote, Context.User.Identity.Name, Now)
+								DeleteProcessAttribute(processID)
+								SaveProcessAttribute(processID)
+								Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & formID)
+							Else
+								PageLoad()
+							End If
+						Else
+							If action.Trim = "delete" Then
+								'get authority
+								If myAuthorityBO.CheckPurview(ProcessAuthorityTarget, processID, Context.User.Identity.Name, "D") Then
+									'delete
+									DeleteProcessAttribute(processID)
+									myProcessMapDAO.DeleteEntity(processID)
+									Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & formID)
+								Else
+									PageLoad()
+								End If
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				Else
+					'insert
+					myProcessID = myProcessMapDAO.InsertEntity(formID, 0, DefaultPermissionGroup, DefaultPermission, myProcessDate, myProcessState, myNote, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, 1, New Date(1900, 1, 1))
+					SaveProcessAttribute(myProcessID)
+					Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & groupID & "&formID=" & formID)
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub DropDownListMainOffice_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DropDownListMainOffice.SelectedIndexChanged
+			Dim myMainOfficeID As String = ""
+			myMainOfficeID = DropDownListMainOffice.SelectedValue
+			Response.Redirect("~/DesktopModules/AuditSystem/AffairProcessCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&groupID=" & myMainOfficeID)
+		End Sub
+
+		Private Sub FillProcessHistory(ByVal myGroupID As String, ByVal myAffairID As String)
+			Dim myFormDAO As New AffairProcessCheckFormDAOExtand
+			Dim myFormDataSet As DataSet
+			Dim myFormCount As Integer = 0
+			Dim myFormID As String = ""
+			Dim myProcessDAO As New AffairProcessMapDAOExtand
+			Dim myProcessDataSet As DataSet
+			Dim myProcessCount As Integer = 0
+			Dim myProcessState As String = ""
+			Dim i As Integer = 0
+			Dim j As Integer = 0
+			Dim myTable As HtmlTable
+			Dim myTableRow As HtmlTableRow
+			Dim myTableCell As HtmlTableCell
+			Dim myLabel As LiteralControl
+			Dim myButton As Button
+
+			PlaceHolderProcessHistory.Controls.Clear()
+
+			If myGroupID.Trim.Length > 0 And myAffairID.Trim.Length > 0 Then
+				myFormDataSet = myFormDAO.GetEntitysByGroupIDAndAffairID(groupID, myAffairID)
+				myFormDataSet = UtilityObject.QueryPermissionFilter(myFormDataSet, FormAuthorityTarget, Context.User.Identity.Name)
+				myFormCount = myFormDataSet.Tables(0).Rows.Count
+
+				If myFormCount > 0 Then
+					myTable = New HtmlTable
+					myTable.Width = "100%"
+					myTable.CellPadding = 0
+					myTable.CellSpacing = 0
+					myTable.Border = 1
+
+					For i = 0 To myFormCount - 1
+						myFormID = CType(myFormDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+
+						myProcessCount = myProcessDAO.GetTotalRowByFormID(myFormID)
+						If myProcessCount > 0 Then
+							myProcessDataSet = myProcessDAO.GetEntitysByFormID(myFormID)
+							For j = 0 To myProcessCount - 1
+								myProcessState = CType(myProcessDataSet.Tables(0).Rows(j).Item("ProcessState"), String).Trim
+
+								myTableRow = New HtmlTableRow
+								'process state
+								myTableCell = New HtmlTableCell
+								myLabel = New LiteralControl
+								myLabel.Text = myProcessState
+								myTableCell.Controls.Add(myLabel)
+								myTableRow.Cells.Add(myTableCell)
+								'import button
+								myTableCell = New HtmlTableCell
+								myTableCell.Width = ActionWidth
+								myButton = New Button
+								myButton.CssClass = "nav"
+								myButton.Text = "輸入"
+								myButton.Attributes("OnClick") = "document.Form1." & Me.TextBoxProcessState.ClientID & ".value=" & Chr(34) & myProcessState & Chr(34)
+								myTableCell.Controls.Add(myButton)
+								myTableRow.Cells.Add(myTableCell)
+
+								myTable.Controls.Add(myTableRow)
+							Next
+						End If
+					Next
+
+					PlaceHolderProcessHistory.Controls.Add(myTable)
+				End If
+			Else
+				'exception:group id or affair id is empty
+			End If
+		End Sub
+		Protected Sub DropDownListAffair_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DropDownListAffair.SelectedIndexChanged
+			Dim myAffairID As String = ""
+			myAffairID = DropDownListAffair.SelectedValue
+
+			If groupID.Trim.Length > 0 Then
+				FillProcessHistory(groupID, myAffairID)
+			Else
+				'exception:group id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonProcessMore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonProcessMore.Click
+			Dim myProcessID As String = ""
+			If formID.Trim.Length > 0 Then
+				If processID.Trim.Length > 0 Then
+					Response.Redirect("~/DesktopModules/AuditSystem/ProcessAttributeCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&formID=" & formID & "&processID=" & processID)
+				Else
+					Response.Redirect("~/DesktopModules/AuditSystem/ProcessAttributeCheckFormFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&formID=" & formID)
+				End If
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+	End Class
+End Namespace

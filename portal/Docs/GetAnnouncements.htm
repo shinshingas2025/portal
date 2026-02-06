@@ -1,0 +1,47 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetAnnouncements 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序傳回入口網站內特定 Announcement 模組的所有宣告，輸入參數為 ModuleID 與 PortalID。只有到期日晚於今天的宣告才會顯示。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_GetAnnouncements
+   (
+       @ModuleID int
+   )
+   AS
+   
+   SELECT
+       ItemID,
+       CreatedByUser,
+       CreatedDate,
+       Title,
+       MoreLink,
+       MobileMoreLink,
+       ExpireDate,
+       Description
+   
+   FROM Portal_Announcements
+   
+   WHERE
+       ModuleID = @ModuleID
+     AND
+       ExpireDate > GetDate()
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Announcements：</i>如 Announcements Portal 模組所示，Announcements 資料表中的每筆記錄都是單一項目。由於所有的 Annoucement 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意宣告說明不得超過 2000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/announcements.jpg">
+	</body>
+</html>

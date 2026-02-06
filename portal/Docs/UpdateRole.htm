@@ -1,0 +1,40 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			UpdateRole 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序由 Roles 系統管理頁使用，以更新指定角色的顯示名稱。輸入參數為 RoleID。
+		</P>
+		<b>定義：</b>
+		<pre>
+
+   CREATE PROCEDURE Portal_UpdateRole
+   (
+       @RoleID      int,
+       @RoleName    nvarchar(50)
+   )
+   AS
+   
+   UPDATE Portal_Roles
+   
+   SET
+       RoleName = @RoleName
+   
+   WHERE
+       RoleID = @RoleID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Roles：</i>Roles 資料表中的每項記錄會在選取的入口網站中定義一項唯一角色，並透過 UserRoles 查詢值資料表，將使用者加入角色。
+		<p>
+		此資料表的主索引鍵為 RoleID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+		</p>
+	</body>
+</html>

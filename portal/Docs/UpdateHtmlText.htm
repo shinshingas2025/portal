@@ -1,0 +1,66 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			UpdateHtmlText 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序可由 HtmlModule 編輯頁使用，以套用變更至現有的 HtmlText 項目。輸入參數包括項目的主索引鍵 (ModuleID)，以及Desktop HTML、Mobile Summary 文字與 Mobile  詳細資料文字。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_UpdateHtmlText
+   (
+       @ModuleID      int,
+       @DesktopHtml   ntext,
+       @MobileSummary ntext,
+       @MobileDetails ntext
+   )
+   AS
+   
+   IF NOT EXISTS (
+       SELECT 
+           * 
+       FROM Portal_HtmlText 
+       WHERE 
+           ModuleID = @ModuleID
+   )
+   INSERT INTO Portal_HtmlText (
+       ModuleID,
+       DesktopHtml,
+       MobileSummary,
+       MobileDetails
+   ) 
+   VALUES (
+       @ModuleID,
+       @DesktopHtml,
+       @MobileSummary,
+       @MobileDetails
+   )
+   ELSE
+   UPDATE Portal_HtmlText
+   
+   SET
+       DesktopHtml   = @DesktopHtml,
+       MobileSummary = @MobileSummary,
+       MobileDetails = @MobileDetails
+   
+   WHERE
+       ModuleID = @ModuleID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>HtmlText：</i>
+	HtmlText 中的每項記錄都含有與特定 HTML 模組關聯的 HTML 與文字。各項文字欄位如 DesktopHtml、 
+		MobileSummary 與 MobileDetails，都存放在 SQL Unicode 文字欄位中，並能容納多達 1,073,741,823 個字元。
+		<p>
+		此資料表的主索引鍵為 ModuleID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/htmltext.jpg">
+		</p>
+	</body>
+</html>

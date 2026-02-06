@@ -1,0 +1,62 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetNextMessageId 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序是從 GetSingleMessage 預存程序執行的，並會傳回討論中的下個訊息的項目 ID。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_GetNextMessageID
+   (
+       @ItemID int,
+       @NextID int OUTPUT
+   )
+   AS
+   
+   DECLARE @CurrentDisplayOrder as nvarchar(750)
+   DECLARE @CurrentModule as int
+   
+   /* Find DisplayOrder of current item */
+   SELECT
+       @CurrentDisplayOrder = DisplayOrder,
+       @CurrentModule = ModuleID
+   FROM Portal_Discussion
+   WHERE
+       ItemID = @ItemID
+   
+   /* Get the next message in the same module */
+   SELECT Top 1
+       @NextID = ItemID
+   
+   FROM Portal_Discussion
+   
+   WHERE
+       DisplayOrder > @CurrentDisplayOrder
+       AND
+       ModuleID = @CurrentModule
+   
+   ORDER BY
+       DisplayOrder ASC
+   
+   /* end of this thread? */
+   IF @@Rowcount < 1
+       SET @NextID = null
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Discussion：</i>如 Discussion Portal 模組所示，Discussion 資料表中的每項記錄都是執行緒討論中的訊息。由於所有的Discussion 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		在 Discussion 資料表中，DisplayOrder 欄位是一項相當有趣的功能，可以用來建立討論中訊息的執行緒顯示。此欄位的計算方式，是將代表目前日期的 23 個字元字串，串連至項目的父項目 DisplayOrder 所得來的。這樣一來，訊息即可透過簡單的遞增排序，以正確的順序顯示。這個做法會因 DisplayOrder 欄位大小而有其固有限制。此例中有 750 個字元，表示在巢狀結構中 32 層以下的訊息，都無法以正確的順序顯示。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意訊息本文不得超過 3000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/discussion.jpg">
+	</body>
+</html>

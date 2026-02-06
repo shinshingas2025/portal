@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_1">
+    <treenode text="3 系統管理者" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_3" />
+  </treenode>
+  <treenode text="2 admin" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_2">
+    <treenode text="4 行政管理者" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_4" />
+    <treenode text="13 admin" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_13" />
+  </treenode>
+  <treenode text="5 一般測試群組" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_5">
+    <treenode text="6 test" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_6" />
+    <treenode text="9 AAA" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_9">
+      <treenode text="11 AAA" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_11" />
+      <treenode text="12 AAA" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_12" />
+    </treenode>
+  </treenode>
+  <treenode text="7 停管" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_7">
+    <treenode text="14 sss" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_14" />
+    <treenode text="29 oooo" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_29" />
+  </treenode>
+  <treenode text="8 趙瑞斌" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_8" />
+  <treenode text="33 管理群組" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_33" />
+  <treenode text="34 管理" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_34" />
+  <treenode text="36 畢e網" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_36" />
+  <treenode text="37 學校a" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_37" />
+  <treenode text="38 學校b" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_38" />
+  <treenode text="39 test" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_39" />
+  <treenode text="40 test" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_40" />
+  <treenode text="41 121" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_41" />
+  <treenode text="42 12" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_42" />
+  <treenode text="43 13" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_43" />
+</TREENODES>

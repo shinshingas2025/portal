@@ -1,0 +1,1105 @@
+Imports System
+Imports System.Configuration
+Imports System.Data
+Imports System.Data.SqlClient
+Imports ASPNET.StarterKit.Portal
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+
+Namespace ASPNET.StarterKit.Portal.AuditSystem.DAO
+	Public Class AffairProcessCheckFormDAOExtand
+		Inherits AffairProcessCheckFormDAO
+		Public Overloads Function InsertEntity(ByVal groupID As String, ByVal itemID As Integer, ByVal mainOfficeID As String, ByVal resolutionID As String, ByVal creatorID As String, ByVal createdDate As Date, ByVal modifierID As String, ByVal modifiedDate As Date, ByVal permissionGroup As String, ByVal permission As String, ByVal state As Integer, ByVal deletedDate As Date) As String
+			Dim entityID As String
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("insert into AffairProcessCheckForm ( EntityID,GroupID,ItemID,MainOfficeID,ResolutionID,CreatorID,CreatedDate,ModifierID,ModifiedDate,PermissionGroup,Permission,State,DeletedDate ) values ( @EntityID,@GroupID,@ItemID,@MainOfficeID,@ResolutionID,@CreatorID,@CreatedDate,@ModifierID,@ModifiedDate,@PermissionGroup,@Permission,@State,@DeletedDate )", myConnection)
+			entityID = Microsoft.VisualBasic.Right("000000000000000000000000" & groupID, 24) & Microsoft.VisualBasic.Right("00000000" & Hex(itemID), 8)
+			entityID = GetMaxEntityID(entityID)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int, 4).Value = CInt(Val("&H" & entityID.Substring(24, 8)))
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@CreatorID", SqlDbType.NVarChar, 50).Value = creatorID
+			myCommand.Parameters.Add("@CreatedDate", SqlDbType.DateTime, 8).Value = createdDate
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@PermissionGroup", SqlDbType.NVarChar, 16).Value = permissionGroup
+			myCommand.Parameters.Add("@Permission", SqlDbType.NVarChar, 16).Value = permission
+			myCommand.Parameters.Add("@State", SqlDbType.Int, 4).Value = state
+			myCommand.Parameters.Add("@DeletedDate", SqlDbType.DateTime, 8).Value = deletedDate
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+			Return entityID
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInAssociation(ByVal queryString As String, ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT top " & rowCount & " TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.AssociationNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000002' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInAssociation(ByVal queryString As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.AssociationNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000002' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByQueryStringInAssociation(ByVal queryString As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	count(*) "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	CheckForm.EntityID AS FormID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.AssociationNumber "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000002' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInCouncil(ByVal queryString As String, ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT top " & rowCount & " TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.CouncilNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000003' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInCouncil(ByVal queryString As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.CouncilNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000003' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByQueryStringInCouncil(ByVal queryString As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	count(*) "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	CheckForm.EntityID AS FormID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.CouncilNumber "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000003' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInBureau(ByVal queryString As String, ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT top " & rowCount & " TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.BureauNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000004' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInBureau(ByVal queryString As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.BureauNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000004' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByQueryStringInBureau(ByVal queryString As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	count(*) "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	CheckForm.EntityID AS FormID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.BureauNumber "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000004' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInSection(ByVal queryString As String, ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT top " & rowCount & " TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.SectionNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000005' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitysByQueryStringInSection(ByVal queryString As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	TempForm.MeetingTypeName AS MeetingTypeName, "
+			sqlString = sqlString & "	TempForm.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "	TempForm.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & " TempForm.Title AS Title, "
+			sqlString = sqlString & "	TempForm.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "	TempForm.ResolutionContent AS ResolutionContent, "
+			sqlString = sqlString & "	TempForm.MainOfficeName AS MainOfficeName, "
+			sqlString = sqlString & "	TempForm.FormID AS EntityID, "
+			sqlString = sqlString & "	TempForm.GroupID AS GroupID, "
+			sqlString = sqlString & "	Process.ProcessDate AS ProcessDate, "
+			sqlString = sqlString & "	Process.ProcessState AS ProcessState "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	Code1.Name AS MeetingTypeName, "
+			sqlString = sqlString & "		Record.MeetingNumber AS MeetingNumber, "
+			sqlString = sqlString & "		Record.MeetingDate AS MeetingDate, "
+			sqlString = sqlString & "		Record.Title AS Title, "
+			sqlString = sqlString & "		Resolution.ResolutionNumber AS ResolutionNumber, "
+			sqlString = sqlString & "		Resolution.Content AS ResolutionContent, "
+			sqlString = sqlString & "		Code2.Name AS MainOfficeName, "
+			sqlString = sqlString & "		CheckForm.EntityID AS FormID, "
+			sqlString = sqlString & "		CheckForm.GroupID AS GroupID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.SectionNumber "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code1 ON Code1.EntityID=Record.TypeID "
+			sqlString = sqlString & "		LEFT OUTER JOIN NormalCode Code2 ON Code2.EntityID=Resolution.MainOfficeID "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000005' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByQueryStringInSection(ByVal queryString As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim sqlString As String = ""
+			sqlString = sqlString & "SELECT 	count(*) "
+			sqlString = sqlString & "FROM	( "
+			sqlString = sqlString & "	SELECT	CheckForm.EntityID AS FormID "
+			sqlString = sqlString & "	FROM	MeetingRecord Record "
+			sqlString = sqlString & "		INNER JOIN MeetingRecordResolution Resolution ON Record.EntityID=Resolution.MeetingRecordID "
+			sqlString = sqlString & "		LEFT OUTER JOIN AffairProcessCheckForm CheckForm ON Resolution.ResolutionNumber=CheckForm.SectionNumber "
+			sqlString = sqlString & "	WHERE	Record.TypeID='200601010000000900000005' "
+			sqlString = sqlString & "	) AS TempForm "
+			sqlString = sqlString & "	LEFT OUTER JOIN AffairProcessMap Process ON TempForm.FormID=Process.FormID "
+			sqlString = sqlString & "WHERE	Process.ProcessState like @QueryString "
+			queryString = "%" & queryString & "%"
+			Dim myCommand As New SqlCommand(sqlString, myConnection)
+			myCommand.Parameters.Add("@QueryString", SqlDbType.NVarChar, queryString.Length).Value = queryString
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetEntitysByGroupIDAndAffairID(ByVal groupID As String, ByVal affairID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where GroupID=@GroupID and AffairID=@AffairID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByGroupIDAndAffairID(ByVal groupID As String, ByVal affairID As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where GroupID=@GroupID and AffairID=@AffairID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetTotalRowByGroupID(ByVal groupID As String) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where GroupID=@GroupID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetTotalRowByBureauNumberAndBureauMeetingNumber(ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where BureauNumber=@BureauNumber and BureauMeetingNumber=@BureauMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetEntitysByBureauNumberAndBureauMeetingNumber(ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where BureauNumber=@BureauNumber and BureauMeetingNumber=@BureauMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowBySectionNumberAndSectionMeetingNumber(ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where SectionNumber=@SectionNumber and SectionMeetingNumber=@SectionMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetEntitysBySectionNumberAndSectionMeetingNumber(ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where SectionNumber=@SectionNumber and SectionMeetingNumber=@SectionMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByCouncilNumberAndCouncilMeetingNumber(ByVal councilNumber As String, ByVal councilMeetingNumber As Integer) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where CouncilNumber=@CouncilNumber and CouncilMeetingNumber=@CouncilMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetEntitysByCouncilNumberAndCouncilMeetingNumber(ByVal councilNumber As String, ByVal councilMeetingNumber As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where CouncilNumber=@CouncilNumber and CouncilMeetingNumber=@CouncilMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetTotalRowByAssociationNumberAndAssociationMeetingNumber(ByVal associationNumber As String, ByVal associationMeetingNumber As Integer) As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from AffairProcessCheckForm where AssociationNumber=@AssociationNumber and AssociationMeetingNumber=@AssociationMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+		Public Overridable Function GetEntitysByAssociationNumberAndAssociationMeetingNumber(ByVal associationNumber As String, ByVal associationMeetingNumber As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where AssociationNumber=@AssociationNumber and AssociationMeetingNumber=@AssociationMeetingNumber", myConnection)
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetEntitysByGroupID(ByVal groupID As String, ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select top " & rowCount & " * from AffairProcessCheckForm where GroupID=@GroupID order by ItemID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetEntitysByGroupIDAndResolutionID(ByVal groupID As String, ByVal resolutionID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where GroupID=@GroupID and ResolutionID=@ResolutionID order by EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetEntitysByResolutionID(ByVal resolutionID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where ResolutionID=@ResolutionID order by EntityID", myConnection)
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetEntitysByGroupID(ByVal groupID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where GroupID=@GroupID order by ItemID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetItemIDByGroupID(ByVal groupID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select EntityID,ItemID from AffairProcessCheckForm where GroupID=@GroupID order by ItemID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Sub UpdateEntityByTypeID(ByVal typeID As String, ByVal entityID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal controlNumber As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal ResolutionID As String)
+			Dim emptyDate As Date = New Date(1900, 1, 1)
+			If typeID.Trim.Length > 0 Then
+				If typeID.Trim = "200601010000000900000002" Then
+					'AssociationMeeting
+					UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, "", 0, emptyDate, "", 0, emptyDate, ResolutionID)
+				Else
+					If typeID.Trim = "200601010000000900000003" Then
+						'CouncilMeeting
+						UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, "", 0, emptyDate, ResolutionID)
+					Else
+						If typeID.Trim = "200601010000000900000004" Then
+							'BureauMeeting
+							UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, ResolutionID)
+						Else
+							If typeID.Trim = "200601010000000900000005" Then
+								'SectionMeeting
+								UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, "", 0, emptyDate, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, ResolutionID)
+							Else
+								'exception:unknown type id
+							End If
+						End If
+					End If
+				End If
+			Else
+				'exception:type id is empty
+			End If
+		End Sub
+		Public Overridable Sub UpdateEntityByTypeID(ByVal typeID As String, ByVal entityID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal controlNumber As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal resolutionID As String, ByVal modifierID As String, ByVal modifiedDate As Date)
+			Dim emptyDate As Date = New Date(1900, 1, 1)
+			If typeID.Trim.Length > 0 Then
+				If typeID.Trim = "200601010000000900000002" Then
+					'AssociationMeeting
+					UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, "", 0, emptyDate, "", 0, emptyDate, resolutionID, modifierID, modifiedDate)
+				Else
+					If typeID.Trim = "200601010000000900000003" Then
+						'CouncilMeeting
+						UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, "", 0, emptyDate, resolutionID, modifierID, modifiedDate)
+					Else
+						If typeID.Trim = "200601010000000900000004" Then
+							'BureauMeeting
+							UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, "", 0, emptyDate, resolutionID, modifierID, modifiedDate)
+						Else
+							If typeID.Trim = "200601010000000900000005" Then
+								'SectionMeeting
+								UpdateEntity(entityID, mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, "", 0, emptyDate, "", 0, emptyDate, controlNumber, meetingNumber, meetingDate, resolutionID, modifierID, modifiedDate)
+							Else
+								'exception:unknown type id
+							End If
+						End If
+					End If
+				End If
+			Else
+				'exception:type id is empty
+			End If
+		End Sub
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal groupID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationDate As Date, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilDate As Date, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauDate As Date, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionDate As Date, ByVal resolutionID As String)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update AffairProcessCheckForm set GroupID=@GroupID , AffairID=@AffairID , MainOfficeID=@MainOfficeID , AssistOfficeID=@AssistOfficeID , AssociationNumber=@AssociationNumber , AssociationMeetingNumber=@AssociationMeetingNumber , AssociationDate=@AssociationDate , CouncilNumber=@CouncilNumber , CouncilMeetingNumber=@CouncilMeetingNumber , CouncilDate=@CouncilDate , BureauNumber=@BureauNumber , BureauMeetingNumber=@BureauMeetingNumber , BureauDate=@BureauDate , SectionNumber=@SectionNumber , SectionMeetingNumber=@SectionMeetingNumber , SectionDate=@SectionDate , ResolutionID=@ResolutionID where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal groupID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationDate As Date, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilDate As Date, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauDate As Date, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionDate As Date, ByVal resolutionID As String, ByVal modifierID As String, ByVal modifiedDate As Date)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update AffairProcessCheckForm set GroupID=@GroupID , AffairID=@AffairID , MainOfficeID=@MainOfficeID , AssistOfficeID=@AssistOfficeID , AssociationNumber=@AssociationNumber , AssociationMeetingNumber=@AssociationMeetingNumber , AssociationDate=@AssociationDate , CouncilNumber=@CouncilNumber , CouncilMeetingNumber=@CouncilMeetingNumber , CouncilDate=@CouncilDate , BureauNumber=@BureauNumber , BureauMeetingNumber=@BureauMeetingNumber , BureauDate=@BureauDate , SectionNumber=@SectionNumber , SectionMeetingNumber=@SectionMeetingNumber , SectionDate=@SectionDate , ResolutionID=@ResolutionID, ModifierID=@ModifierID , ModifiedDate=@ModifiedDate where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal groupID As String, ByVal affairID As String, ByVal priorityID As String, ByVal mainOfficeID As String, ByVal mainBranchID As String, ByVal mainBranchUndertakerID As String, ByVal assistOfficeID As String, ByVal assistBranchID As String, ByVal modifierID As String, ByVal modifiedDate As Date)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update AffairProcessCheckForm set GroupID=@GroupID , AffairID=@AffairID , PriorityID=@PriorityID , MainOfficeID=@MainOfficeID , MainBranchID=@MainBranchID , MainBranchUndertakerID=@MainBranchUndertakerID , AssistOfficeID=@AssistOfficeID , AssistBranchID=@AssistBranchID , ModifierID=@ModifierID , ModifiedDate=@ModifiedDate where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@PriorityID", SqlDbType.NVarChar, 24).Value = priorityID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@MainBranchID", SqlDbType.NVarChar, 24).Value = mainBranchID
+			myCommand.Parameters.Add("@MainBranchUndertakerID", SqlDbType.NVarChar, 24).Value = mainBranchUndertakerID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssistBranchID", SqlDbType.NVarChar, 24).Value = assistBranchID
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal groupID As String, ByVal affairID As String, ByVal priorityID As String, ByVal mainOfficeID As String, ByVal mainBranchID As String, ByVal mainBranchUndertakerID As String, ByVal assistOfficeID As String, ByVal assistBranchID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationAffair As String, ByVal associationDate As Date, ByVal associationForecastDate As Date, ByVal associationStateID As String, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilAffair As String, ByVal councilDate As Date, ByVal councilForecastDate As Date, ByVal councilStateID As String, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauAffair As String, ByVal bureauDate As Date, ByVal bureauForecastDate As Date, ByVal bureauStateID As String, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionAffair As String, ByVal sectionDate As Date, ByVal sectionForecastDate As Date, ByVal sectionStateID As String, ByVal resolutionID As String)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update AffairProcessCheckForm set GroupID=@GroupID , AffairID=@AffairID , PriorityID=@PriorityID , MainOfficeID=@MainOfficeID , MainBranchID=@MainBranchID , MainBranchUndertakerID=@MainBranchUndertakerID , AssistOfficeID=@AssistOfficeID , AssistBranchID=@AssistBranchID , AssociationNumber=@AssociationNumber , AssociationMeetingNumber=@AssociationMeetingNumber , AssociationAffair=@AssociationAffair , AssociationDate=@AssociationDate , AssociationForecastDate=@AssociationForecastDate , AssociationStateID=@AssociationStateID , CouncilNumber=@CouncilNumber , CouncilMeetingNumber=@CouncilMeetingNumber , CouncilAffair=@CouncilAffair , CouncilDate=@CouncilDate , CouncilForecastDate=@CouncilForecastDate , CouncilStateID=@CouncilStateID , BureauNumber=@BureauNumber , BureauMeetingNumber=@BureauMeetingNumber , BureauAffair=@BureauAffair , BureauDate=@BureauDate , BureauForecastDate=@BureauForecastDate , BureauStateID=@BureauStateID , SectionNumber=@SectionNumber , SectionMeetingNumber=@SectionMeetingNumber , SectionAffair=@SectionAffair , SectionDate=@SectionDate , SectionForecastDate=@SectionForecastDate , SectionStateID=@SectionStateID , ResolutionID=@ResolutionID where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@PriorityID", SqlDbType.NVarChar, 24).Value = priorityID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@MainBranchID", SqlDbType.NVarChar, 24).Value = mainBranchID
+			myCommand.Parameters.Add("@MainBranchUndertakerID", SqlDbType.NVarChar, 24).Value = mainBranchUndertakerID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssistBranchID", SqlDbType.NVarChar, 24).Value = assistBranchID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationAffair", SqlDbType.NVarChar, 256).Value = associationAffair
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@AssociationForecastDate", SqlDbType.DateTime, 8).Value = associationForecastDate
+			myCommand.Parameters.Add("@AssociationStateID", SqlDbType.NVarChar, 24).Value = associationStateID
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilAffair", SqlDbType.NVarChar, 256).Value = councilAffair
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@CouncilForecastDate", SqlDbType.DateTime, 8).Value = councilForecastDate
+			myCommand.Parameters.Add("@CouncilStateID", SqlDbType.NVarChar, 24).Value = councilStateID
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauAffair", SqlDbType.NVarChar, 256).Value = bureauAffair
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@BureauForecastDate", SqlDbType.DateTime, 8).Value = bureauForecastDate
+			myCommand.Parameters.Add("@BureauStateID", SqlDbType.NVarChar, 24).Value = bureauStateID
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionAffair", SqlDbType.NVarChar, 256).Value = sectionAffair
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@SectionForecastDate", SqlDbType.DateTime, 8).Value = sectionForecastDate
+			myCommand.Parameters.Add("@SectionStateID", SqlDbType.NVarChar, 24).Value = sectionStateID
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal groupID As String, ByVal affairID As String, ByVal priorityID As String, ByVal mainOfficeID As String, ByVal mainBranchID As String, ByVal mainBranchUndertakerID As String, ByVal assistOfficeID As String, ByVal assistBranchID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationAffair As String, ByVal associationDate As Date, ByVal associationForecastDate As Date, ByVal associationStateID As String, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilAffair As String, ByVal councilDate As Date, ByVal councilForecastDate As Date, ByVal councilStateID As String, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauAffair As String, ByVal bureauDate As Date, ByVal bureauForecastDate As Date, ByVal bureauStateID As String, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionAffair As String, ByVal sectionDate As Date, ByVal sectionForecastDate As Date, ByVal sectionStateID As String, ByVal resolutionID As String, ByVal modifierID As String, ByVal modifiedDate As Date)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update AffairProcessCheckForm set GroupID=@GroupID , AffairID=@AffairID , PriorityID=@PriorityID , MainOfficeID=@MainOfficeID , MainBranchID=@MainBranchID , MainBranchUndertakerID=@MainBranchUndertakerID , AssistOfficeID=@AssistOfficeID , AssistBranchID=@AssistBranchID , AssociationNumber=@AssociationNumber , AssociationMeetingNumber=@AssociationMeetingNumber , AssociationAffair=@AssociationAffair , AssociationDate=@AssociationDate , AssociationForecastDate=@AssociationForecastDate , AssociationStateID=@AssociationStateID , CouncilNumber=@CouncilNumber , CouncilMeetingNumber=@CouncilMeetingNumber , CouncilAffair=@CouncilAffair , CouncilDate=@CouncilDate , CouncilForecastDate=@CouncilForecastDate , CouncilStateID=@CouncilStateID , BureauNumber=@BureauNumber , BureauMeetingNumber=@BureauMeetingNumber , BureauAffair=@BureauAffair , BureauDate=@BureauDate , BureauForecastDate=@BureauForecastDate , BureauStateID=@BureauStateID , SectionNumber=@SectionNumber , SectionMeetingNumber=@SectionMeetingNumber , SectionAffair=@SectionAffair , SectionDate=@SectionDate , SectionForecastDate=@SectionForecastDate , SectionStateID=@SectionStateID , ResolutionID=@ResolutionID, ModifierID=@ModifierID , ModifiedDate=@ModifiedDate where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@PriorityID", SqlDbType.NVarChar, 24).Value = priorityID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@MainBranchID", SqlDbType.NVarChar, 24).Value = mainBranchID
+			myCommand.Parameters.Add("@MainBranchUndertakerID", SqlDbType.NVarChar, 24).Value = mainBranchUndertakerID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssistBranchID", SqlDbType.NVarChar, 24).Value = assistBranchID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationAffair", SqlDbType.NVarChar, 256).Value = associationAffair
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@AssociationForecastDate", SqlDbType.DateTime, 8).Value = associationForecastDate
+			myCommand.Parameters.Add("@AssociationStateID", SqlDbType.NVarChar, 24).Value = associationStateID
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilAffair", SqlDbType.NVarChar, 256).Value = councilAffair
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@CouncilForecastDate", SqlDbType.DateTime, 8).Value = councilForecastDate
+			myCommand.Parameters.Add("@CouncilStateID", SqlDbType.NVarChar, 24).Value = councilStateID
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauAffair", SqlDbType.NVarChar, 256).Value = bureauAffair
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@BureauForecastDate", SqlDbType.DateTime, 8).Value = bureauForecastDate
+			myCommand.Parameters.Add("@BureauStateID", SqlDbType.NVarChar, 24).Value = bureauStateID
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionAffair", SqlDbType.NVarChar, 256).Value = sectionAffair
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@SectionForecastDate", SqlDbType.DateTime, 8).Value = sectionForecastDate
+			myCommand.Parameters.Add("@SectionStateID", SqlDbType.NVarChar, 24).Value = sectionStateID
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overridable Function InsertEntityByTypeID(ByVal typeID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal controlNumber As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal resolutionID As String, ByVal creatorID As String, ByVal createdDate As Date, ByVal modifierID As String, ByVal modifiedDate As Date, ByVal permissionGroup As String, ByVal permission As String, ByVal state As Integer, ByVal deletedDate As Date) As String
+			Dim emptyDate As Date = New Date(1900, 1, 1)
+			Dim entityID As String = ""
+			If typeID.Trim.Length > 0 Then
+				If typeID.Trim = "200601010000000900000002" Then
+					'AssociationMeeting
+					entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID, creatorID, createdDate, modifierID, modifiedDate, permissionGroup, permission, state, deletedDate)
+				Else
+					If typeID.Trim = "200601010000000900000003" Then
+						'CouncilMeeting
+						entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID, creatorID, createdDate, modifierID, modifiedDate, permissionGroup, permission, state, deletedDate)
+					Else
+						If typeID.Trim = "200601010000000900000004" Then
+							'BureauMeeting
+							entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID, creatorID, createdDate, modifierID, modifiedDate, permissionGroup, permission, state, deletedDate)
+						Else
+							If typeID.Trim = "200601010000000900000005" Then
+								'SectionMeeting
+								entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, resolutionID, creatorID, createdDate, modifierID, modifiedDate, permissionGroup, permission, state, deletedDate)
+							Else
+								'exception:unknown type id
+							End If
+						End If
+					End If
+				End If
+			Else
+				'exception:type id is empty
+			End If
+			Return entityID
+		End Function
+		Public Overridable Function InsertEntityByTypeID(ByVal typeID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal controlNumber As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal resolutionID As String) As String
+			Dim emptyDate As Date = New Date(1900, 1, 1)
+			Dim entityID As String = ""
+			If typeID.Trim.Length > 0 Then
+				If typeID.Trim = "200601010000000900000002" Then
+					'AssociationMeeting
+					entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID)
+				Else
+					If typeID.Trim = "200601010000000900000003" Then
+						'CouncilMeeting
+						entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID)
+					Else
+						If typeID.Trim = "200601010000000900000004" Then
+							'BureauMeeting
+							entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, "", 0, emptyDate, emptyDate, resolutionID)
+						Else
+							If typeID.Trim = "200601010000000900000005" Then
+								'SectionMeeting
+								entityID = InsertEntity(mainOfficeID, affairID, mainOfficeID, assistOfficeID, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, "", 0, emptyDate, emptyDate, controlNumber, meetingNumber, meetingDate, emptyDate, resolutionID)
+							Else
+								'exception:unknown type id
+							End If
+						End If
+					End If
+				End If
+			Else
+				'exception:type id is empty
+			End If
+			Return entityID
+		End Function
+		Public Overloads Function InsertEntity(ByVal groupID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationDate As Date, ByVal associationForecastDate As Date, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilDate As Date, ByVal councilForecastDate As Date, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauDate As Date, ByVal bureauForecastDate As Date, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionDate As Date, ByVal sectionForecastDate As Date, ByVal resolutionID As String, ByVal creatorID As String, ByVal createdDate As Date, ByVal modifierID As String, ByVal modifiedDate As Date, ByVal permissionGroup As String, ByVal permission As String, ByVal state As Integer, ByVal deletedDate As Date) As String
+			Dim entityID As String
+			Dim itemID As Integer = 0
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("insert into AffairProcessCheckForm ( EntityID,GroupID,ItemID,AffairID,MainOfficeID,AssistOfficeID,AssociationNumber,AssociationMeetingNumber,AssociationDate,AssociationForecastDate,CouncilNumber,CouncilMeetingNumber,CouncilDate,CouncilForecastDate,BureauNumber,BureauMeetingNumber,BureauDate,BureauForecastDate,SectionNumber,SectionMeetingNumber,SectionDate,SectionForecastDate,ResolutionID,CreatorID,CreatedDate,ModifierID,ModifiedDate,PermissionGroup,Permission,State,DeletedDate ) values ( @EntityID,@GroupID,@ItemID,@AffairID,@MainOfficeID,@AssistOfficeID,@AssociationNumber,@AssociationMeetingNumber,@AssociationDate,@AssociationForecastDate,@CouncilNumber,@CouncilMeetingNumber,@CouncilDate,@CouncilForecastDate,@BureauNumber,@BureauMeetingNumber,@BureauDate,@BureauForecastDate,@SectionNumber,@SectionMeetingNumber,@SectionDate,@SectionForecastDate,@ResolutionID,@CreatorID,@CreatedDate,@ModifierID,@ModifiedDate,@PermissionGroup,@Permission,@State,@DeletedDate )", myConnection)
+			entityID = Microsoft.VisualBasic.Right("000000000000000000000000" & groupID, 24) & Microsoft.VisualBasic.Right("00000000" & Hex(itemID), 8)
+			entityID = GetMaxEntityID(entityID)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int, 4).Value = CInt(Val("&H" & entityID.Substring(24, 8)))
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@AssociationForecastDate", SqlDbType.DateTime, 8).Value = associationForecastDate
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@CouncilForecastDate", SqlDbType.DateTime, 8).Value = councilForecastDate
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@BureauForecastDate", SqlDbType.DateTime, 8).Value = bureauForecastDate
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@SectionForecastDate", SqlDbType.DateTime, 8).Value = sectionForecastDate
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myCommand.Parameters.Add("@CreatorID", SqlDbType.NVarChar, 50).Value = creatorID
+			myCommand.Parameters.Add("@CreatedDate", SqlDbType.DateTime, 8).Value = createdDate
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@PermissionGroup", SqlDbType.NVarChar, 16).Value = permissionGroup
+			myCommand.Parameters.Add("@Permission", SqlDbType.NVarChar, 16).Value = permission
+			myCommand.Parameters.Add("@State", SqlDbType.Int, 4).Value = state
+			myCommand.Parameters.Add("@DeletedDate", SqlDbType.DateTime, 8).Value = deletedDate
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+			Return entityID
+		End Function
+		Public Overloads Function InsertEntity(ByVal groupID As String, ByVal affairID As String, ByVal mainOfficeID As String, ByVal assistOfficeID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationDate As Date, ByVal associationForecastDate As Date, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilDate As Date, ByVal councilForecastDate As Date, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauDate As Date, ByVal bureauForecastDate As Date, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionDate As Date, ByVal sectionForecastDate As Date, ByVal resolutionID As String) As String
+			Dim entityID As String
+			Dim itemID As Integer = 0
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("insert into AffairProcessCheckForm ( EntityID,GroupID,ItemID,AffairID,MainOfficeID,AssistOfficeID,AssociationNumber,AssociationMeetingNumber,AssociationDate,AssociationForecastDate,CouncilNumber,CouncilMeetingNumber,CouncilDate,CouncilForecastDate,BureauNumber,BureauMeetingNumber,BureauDate,BureauForecastDate,SectionNumber,SectionMeetingNumber,SectionDate,SectionForecastDate,ResolutionID ) values ( @EntityID,@GroupID,@ItemID,@AffairID,@MainOfficeID,@AssistOfficeID,@AssociationNumber,@AssociationMeetingNumber,@AssociationDate,@AssociationForecastDate,@CouncilNumber,@CouncilMeetingNumber,@CouncilDate,@CouncilForecastDate,@BureauNumber,@BureauMeetingNumber,@BureauDate,@BureauForecastDate,@SectionNumber,@SectionMeetingNumber,@SectionDate,@SectionForecastDate,@ResolutionID )", myConnection)
+			entityID = Microsoft.VisualBasic.Right("000000000000000000000000" & groupID, 24) & Microsoft.VisualBasic.Right("00000000" & Hex(itemID), 8)
+			entityID = GetMaxEntityID(entityID)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int, 4).Value = CInt(Val("&H" & entityID.Substring(24, 8)))
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@AssociationForecastDate", SqlDbType.DateTime, 8).Value = associationForecastDate
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@CouncilForecastDate", SqlDbType.DateTime, 8).Value = councilForecastDate
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@BureauForecastDate", SqlDbType.DateTime, 8).Value = bureauForecastDate
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@SectionForecastDate", SqlDbType.DateTime, 8).Value = sectionForecastDate
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+			Return entityID
+		End Function
+		Public Overloads Function InsertEntity(ByVal groupID As String, ByVal affairID As String, ByVal priorityID As String, ByVal mainOfficeID As String, ByVal mainBranchID As String, ByVal mainBranchUndertakerID As String, ByVal assistOfficeID As String, ByVal assistBranchID As String, ByVal associationNumber As String, ByVal associationMeetingNumber As Integer, ByVal associationAffair As String, ByVal associationDate As Date, ByVal associationForecastDate As Date, ByVal associationStateID As String, ByVal councilNumber As String, ByVal councilMeetingNumber As Integer, ByVal councilAffair As String, ByVal councilDate As Date, ByVal councilForecastDate As Date, ByVal councilStateID As String, ByVal bureauNumber As String, ByVal bureauMeetingNumber As Integer, ByVal bureauAffair As String, ByVal bureauDate As Date, ByVal bureauForecastDate As Date, ByVal bureauStateID As String, ByVal sectionNumber As String, ByVal sectionMeetingNumber As Integer, ByVal sectionAffair As String, ByVal sectionDate As Date, ByVal sectionForecastDate As Date, ByVal sectionStateID As String, ByVal resolutionID As String) As String
+			Dim entityID As String
+			Dim itemID As Integer = 0
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("insert into AffairProcessCheckForm ( EntityID,GroupID,ItemID,AffairID,PriorityID,MainOfficeID,MainBranchID,MainBranchUndertakerID,AssistOfficeID,AssistBranchID,AssociationNumber,AssociationMeetingNumber,AssociationAffair,AssociationDate,AssociationForecastDate,AssociationStateID,CouncilNumber,CouncilMeetingNumber,CouncilAffair,CouncilDate,CouncilForecastDate,CouncilStateID,BureauNumber,BureauMeetingNumber,BureauAffair,BureauDate,BureauForecastDate,BureauStateID,SectionNumber,SectionMeetingNumber,SectionAffair,SectionDate,SectionForecastDate,SectionStateID,ResolutionID ) values ( @EntityID,@GroupID,@ItemID,@AffairID,@PriorityID,@MainOfficeID,@MainBranchID,@MainBranchUndertakerID,@AssistOfficeID,@AssistBranchID,@AssociationNumber,@AssociationMeetingNumber,@AssociationAffair,@AssociationDate,@AssociationForecastDate,@AssociationStateID,@CouncilNumber,@CouncilMeetingNumber,@CouncilAffair,@CouncilDate,@CouncilForecastDate,@CouncilStateID,@BureauNumber,@BureauMeetingNumber,@BureauAffair,@BureauDate,@BureauForecastDate,@BureauStateID,@SectionNumber,@SectionMeetingNumber,@SectionAffair,@SectionDate,@SectionForecastDate,@SectionStateID,@ResolutionID )", myConnection)
+			entityID = Microsoft.VisualBasic.Right("000000000000000000000000" & groupID, 24) & Microsoft.VisualBasic.Right("00000000" & Hex(itemID), 8)
+			entityID = GetMaxEntityID(entityID)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myCommand.Parameters.Add("@GroupID", SqlDbType.NVarChar, 24).Value = groupID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int, 4).Value = CInt(Val("&H" & entityID.Substring(24, 8)))
+			myCommand.Parameters.Add("@AffairID", SqlDbType.NVarChar, 24).Value = affairID
+			myCommand.Parameters.Add("@PriorityID", SqlDbType.NVarChar, 24).Value = priorityID
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@MainBranchID", SqlDbType.NVarChar, 24).Value = mainBranchID
+			myCommand.Parameters.Add("@MainBranchUndertakerID", SqlDbType.NVarChar, 24).Value = mainBranchUndertakerID
+			myCommand.Parameters.Add("@AssistOfficeID", SqlDbType.NVarChar, 24).Value = assistOfficeID
+			myCommand.Parameters.Add("@AssistBranchID", SqlDbType.NVarChar, 24).Value = assistBranchID
+			myCommand.Parameters.Add("@AssociationNumber", SqlDbType.NVarChar, 16).Value = associationNumber
+			myCommand.Parameters.Add("@AssociationMeetingNumber", SqlDbType.Int, 4).Value = associationMeetingNumber
+			myCommand.Parameters.Add("@AssociationAffair", SqlDbType.NVarChar, 256).Value = associationAffair
+			myCommand.Parameters.Add("@AssociationDate", SqlDbType.DateTime, 8).Value = associationDate
+			myCommand.Parameters.Add("@AssociationForecastDate", SqlDbType.DateTime, 8).Value = associationForecastDate
+			myCommand.Parameters.Add("@AssociationStateID", SqlDbType.NVarChar, 24).Value = associationStateID
+			myCommand.Parameters.Add("@CouncilNumber", SqlDbType.NVarChar, 16).Value = councilNumber
+			myCommand.Parameters.Add("@CouncilMeetingNumber", SqlDbType.Int, 4).Value = councilMeetingNumber
+			myCommand.Parameters.Add("@CouncilAffair", SqlDbType.NVarChar, 256).Value = councilAffair
+			myCommand.Parameters.Add("@CouncilDate", SqlDbType.DateTime, 8).Value = councilDate
+			myCommand.Parameters.Add("@CouncilForecastDate", SqlDbType.DateTime, 8).Value = councilForecastDate
+			myCommand.Parameters.Add("@CouncilStateID", SqlDbType.NVarChar, 24).Value = councilStateID
+			myCommand.Parameters.Add("@BureauNumber", SqlDbType.NVarChar, 16).Value = bureauNumber
+			myCommand.Parameters.Add("@BureauMeetingNumber", SqlDbType.Int, 4).Value = bureauMeetingNumber
+			myCommand.Parameters.Add("@BureauAffair", SqlDbType.NVarChar, 256).Value = bureauAffair
+			myCommand.Parameters.Add("@BureauDate", SqlDbType.DateTime, 8).Value = bureauDate
+			myCommand.Parameters.Add("@BureauForecastDate", SqlDbType.DateTime, 8).Value = bureauForecastDate
+			myCommand.Parameters.Add("@BureauStateID", SqlDbType.NVarChar, 24).Value = bureauStateID
+			myCommand.Parameters.Add("@SectionNumber", SqlDbType.NVarChar, 16).Value = sectionNumber
+			myCommand.Parameters.Add("@SectionMeetingNumber", SqlDbType.Int, 4).Value = sectionMeetingNumber
+			myCommand.Parameters.Add("@SectionAffair", SqlDbType.NVarChar, 256).Value = sectionAffair
+			myCommand.Parameters.Add("@SectionDate", SqlDbType.DateTime, 8).Value = sectionDate
+			myCommand.Parameters.Add("@SectionForecastDate", SqlDbType.DateTime, 8).Value = sectionForecastDate
+			myCommand.Parameters.Add("@SectionStateID", SqlDbType.NVarChar, 24).Value = sectionStateID
+			myCommand.Parameters.Add("@ResolutionID", SqlDbType.NVarChar, 16).Value = resolutionID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+			Return entityID
+		End Function
+		Public Overloads Function GetEntitysByEntityID(ByVal entityID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from AffairProcessCheckForm where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitys(ByVal rowCount As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select top " & rowCount & " * from AffairProcessCheckForm order by EntityID", myConnection)
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+	End Class
+End Namespace

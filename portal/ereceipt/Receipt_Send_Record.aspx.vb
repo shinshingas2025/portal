@@ -1,0 +1,1251 @@
+Imports System.IO
+Imports System.Text
+Imports CrystalDecisions.Shared
+Imports CrystalDecisions.Shared.ExportOptions
+Imports CrystalDecisions.CrystalReports.Engine
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports System.Threading
+
+Imports System.Web.Mail
+Imports System.Net
+Imports System.Net.Sockets
+
+Public Class Receipt_Send_Record
+    Inherits System.Web.UI.Page
+
+    Public Structure calStr_str
+        Dim outString As String
+        Dim calResult As Integer
+        Dim totDays As Integer
+    End Structure
+
+    Private thread_status As Boolean = False
+    Private ErrCodeHT As Hashtable = New Hashtable
+    Private RightCodeHT As Hashtable = New Hashtable
+    Private stream As NetworkStream
+    Private tcpClient As tcpClient
+    Public wm_No As String
+    Public DataValues(10) As String
+    Dim DetailLog(22) As String
+    Protected WithEvents P1 As System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents TD1 As System.Web.UI.HtmlControls.HtmlTableCell
+    Public UserName As String
+    'Public PDFPath = ConfigurationSettings.AppSettings("PDFPath")
+    Const PDFPath As String = "C:\RPT\"  ' "C:\Inetpub\wwwroot\"
+#Region " Web Form 設計工具產生的程式碼 "
+
+    '此為 Web Form 設計工具所需的呼叫。
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+
+    End Sub
+    Protected WithEvents msgbox As System.Web.UI.WebControls.Label
+    Protected WithEvents ProcessSDATE As System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label4 As System.Web.UI.WebControls.Label
+    Protected WithEvents ProcessEDATE As System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label1 As System.Web.UI.WebControls.Label
+    'Protected WithEvents status As System.Web.UI.WebControls.DropDownList
+    Protected WithEvents btnSearch As System.Web.UI.WebControls.Button
+    Protected WithEvents dgCart As System.Web.UI.WebControls.DataGrid
+    Protected WithEvents Message As System.Web.UI.WebControls.Label
+    Protected WithEvents Label3 As System.Web.UI.WebControls.Label
+    Protected WithEvents KeyWordInt As System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ActionInt As System.Web.UI.WebControls.DropDownList
+    Protected WithEvents KeyWordStr As System.Web.UI.WebControls.TextBox
+
+    '注意: 下列預留位置宣告是 Web Form 設計工具需要的項目。
+    '請勿刪除或移動它。
+    Private designerPlaceholderDeclaration As System.Object
+
+    Private Sub Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+        'CODEGEN: 此為 Web Form 設計工具所需的方法呼叫
+        '請勿使用程式碼編輯器進行修改。
+        InitializeComponent()
+    End Sub
+
+#End Region
+
+    Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '在這裡放置使用者程式碼以初始化網頁
+        '---------------------------------------------
+        '檢查是否已經LoginID
+        If Session("UserName") = "" Then
+            Response.Redirect("../DesktopDefault.aspx")
+        End If
+        '---------------------------------------------
+
+        ReadUserData()
+
+        If IsPostBack Then
+            ShowDataGrid()
+        End If
+
+        msgbox.Text = ""
+    End Sub
+    Sub ReadUserData()
+        Dim mybo As New User
+        Dim strname As String
+        Dim tmpdt As System.Data.DataTable
+        Dim myUser01BO As New User01BO
+        Dim myEmployeeID As String
+
+        strname = context.User.Identity.Name
+        tmpdt = mybo.QueryUserInfo(strname)
+        UserName = Trim(CType(tmpdt.Rows(0).Item("cname"), String))
+        '取得員工編號
+        myEmployeeID = myUser01BO.getEmployeeID(context.User.Identity.Name.Trim)
+
+
+        '顯示員工編號
+        ' If myEmployeeID <> "" Then
+        'WelcomeMessage.Text = "歡迎 " & strname & "(員工編號：" & myEmployeeID & ")<" & "span class=Accent" & ">|<" & "/span" & ">"
+        'Else
+        '    WelcomeMessage.Text = "歡迎 " & strname & " <" & "span class=Accent" & ">|<" & "/span" & ">"
+        'End If
+
+    End Sub
+
+    Function CheckKeyWord() As Integer
+        Dim i As Integer = 1
+        If ProcessSDATE.Text = "" And ProcessEDATE.Text <> "" Then
+            ProcessSDATE.Text = ProcessEDATE.Text
+        End If
+        If ProcessSDATE.Text <> "" And ProcessEDATE.Text = "" Then
+            ProcessEDATE.Text = ProcessSDATE.Text
+        End If
+        If ProcessSDATE.Text > ProcessEDATE.Text Then
+            msgbox.Text = "起始日期不能大於結止日期"
+            i = 0
+        End If
+        If ProcessSDATE.Text <> "" Then
+            If IsNumeric(ProcessSDATE.Text) = False Then
+                msgbox.Text = "起始日期只能為數字"
+                i = 0
+            Else
+                If Len(ProcessSDATE.Text) <> 7 Then
+                    msgbox.Text = "起始日期長度不對"
+                    i = 0
+                End If
+            End If
+        End If
+        If ProcessEDATE.Text <> "" Then
+            If IsNumeric(ProcessEDATE.Text) = False Then
+                msgbox.Text = "結束日期只能為數字"
+                i = 0
+            Else
+                If Len(ProcessEDATE.Text) <> 7 Then
+                    msgbox.Text = "結束日期長度不對"
+                    i = 0
+                End If
+            End If
+        End If
+
+        Return i
+    End Function
+    Sub ShowDataGrid()
+        Dim bj As New Batch_job
+        Dim dt As New DataTable
+        If CheckKeyWord() = 1 Then
+            dt = bj.Search_UserLog(ProcessSDATE.Text, ProcessEDATE.Text, KeyWordStr.Text, KeyWordInt.SelectedValue, ActionInt.SelectedValue)
+            dgCart.DataSource = dt
+            dgCart.CurrentPageIndex = 0
+            dgCart.DataBind()
+        Else
+            dt.Dispose()
+            dgCart.DataSource = Nothing
+            dgCart.DataBind()
+            dgCart.Dispose()
+        End If
+        ShowPageStatus(dt.Rows.Count)
+    End Sub
+    Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+        ShowDataGrid()
+    End Sub
+    Private Sub ShowPageStatus(ByVal nRecords As Integer)
+        Message.Text = _
+        "共有<b><FONT color= #ff0000> " & nRecords & " </FONT></b>筆資料," & _
+        "總共有<b><FONT color= #ff0000> " & dgCart.PageCount & " </FONT></b>頁" & "," & _
+        "目前是第<b><FONT color= #ff0000> " & (dgCart.CurrentPageIndex + 1) & " </FONT></b>頁"
+    End Sub
+    Private Sub dgCart_ItemCommand(ByVal source As Object, ByVal e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles dgCart.ItemCommand
+        Dim i As Integer
+        Dim P As Integer
+        Dim hNo As String
+        Dim hUName As String
+        Dim RDate As String
+        Dim CurrInput As Integer
+        Dim Rul_No As Integer
+        Dim EMail As String
+        i = e.Item.ItemIndex
+        'P = e.Item.Page
+        If i > -1 Then
+            hNo = Trim(dgCart.Items(i).Cells(1).Text)
+            hUName = Trim(dgCart.Items(i).Cells(2).Text)
+            RDate = Trim(dgCart.Items(i).Cells(4).Text)
+            CurrInput = 3 ' Trim(Right(e.CommandName, 1))
+            EMail = Trim(dgCart.Items(i).Cells(6).Text)
+            wm_No = Trim(dgCart.Items(i).Cells(8).Text)
+            Rul_No = Trim(dgCart.Items(i).Cells(9).Text)
+            ActionCommand(hNo, hUName, RDate, CurrInput, wm_No, Rul_No, EMail)
+        End If
+
+    End Sub
+
+
+
+
+
+
+
+
+#Region "目前不用"
+
+#Region "ReadFile　DownloadFile　檔案下載使用之程式"
+    'Function ReadFile(ByVal FileName As String) As Boolean
+    Function ReadFile(ByRef buffer() As Byte, ByVal FileName As String) As Boolean
+        Dim MFile As System.IO.File
+        Dim FileStream As System.IO.Stream
+        If Not MFile.Exists(FileName) Then
+            ReadFile = False
+            Exit Function
+        End If
+        FileStream = MFile.OpenRead(FileName)
+        ReDim buffer(FileStream.Length)
+        FileStream.Read(buffer, 0, FileStream.Length)
+        FileStream.Close()
+        MFile = Nothing
+        ReadFile = True
+    End Function
+    Sub DownloadFile(ByVal FileName As String)
+        Dim buf(0) As Byte
+        If ReadFile(buf, FileName) = False Then
+            Response.Write("讀取檔案失敗 檔名：〔" & FileName & "]")
+            Response.End()
+        End If
+        Response.ClearHeaders()
+        Response.Clear()
+        Response.Expires = 0
+        Response.Buffer = True
+        FileName = Right(FileName, InStr(StrReverse(FileName), "\") - 1)
+        Response.AddHeader("content-disposition", "attachment;filename=" & Chr(34) & FileName & Chr(34))
+        Response.ContentType = "Application/octet-stream"
+        Response.BinaryWrite(buf)
+    End Sub
+#End Region
+
+#Region "ActionCommand　依不同功能執行不同的程式"
+    Sub ActionCommand(ByVal HouseNo As String, ByVal HouseName As String, ByVal REDate As String, ByVal Currinput As Integer, ByVal Wm_No As Integer, ByVal Rul_No As Integer, ByVal EMail As String)
+        Dim bj As New Batch_job
+        Dim dt As DataTable
+        Dim TempStr As String
+        ClearCheckData()
+        FillCheckData(HouseNo, HouseName, REDate, Currinput, EMail)
+        If Currinput = 3 Then
+            dt = Compact(HouseNo, HouseName, REDate)
+            If dt.Rows.Count > 0 Then
+                TempStr = ReportList(dt, 0)
+                Dim A() As String = Split(TempStr, "|")
+                DownloadFile(A(0))
+                msgbox.Text = ""
+                bj.UpdateUserLog(Rul_No, UserName)
+                bj.InsertSearchDataLog(DataValues, Rul_No)
+                System.IO.File.Delete(A(0))
+                System.IO.Directory.Delete(A(4))
+            Else
+                msgbox.Text = "無此月份資料"
+            End If
+        End If
+    End Sub
+#End Region
+
+#Region "ClearCheckData　清除暫存Log檔的陣列"
+    Sub ClearCheckData()
+        Dim i As Integer
+        For i = 0 To DataValues.Length - 1
+            DataValues(i) = ""
+        Next
+    End Sub
+#End Region
+
+#Region "FillCheckData　填入正確值暫存到Log檔的陣列準備放入SQL"
+    Sub FillCheckData(ByVal HouseNo As String, ByVal HouseName As String, ByVal REDate As String, ByVal Currinput As Integer, ByVal EMail As String)
+        DataValues(0) = wm_No
+        DataValues(1) = HouseNo
+        DataValues(2) = REDate ' Format(Conversion.Val(Left(REDate, 4)) - 1911, "000") & Right(REDate, 2)
+        DataValues(3) = Currinput
+        DataValues(4) = IIf(Currinput = 3, 1, 2) ' Format(Now, "yyyy/MM/dd HH:mm:ss")
+        DataValues(5) = EMail ' IIf(Currinput = 3, 1, 2)
+        DataValues(6) = Session("wm_id")
+        DataValues(7) = ""
+    End Sub
+#End Region
+
+
+#Region "Compact　讀取需要寄電子郵件的SQL"
+    Function Compact(ByVal HouseNo As String, ByVal HouseName As String, ByVal REDate As String) As DataTable
+        Dim bj As New Batch_job
+        Dim dt As New DataTable
+        Dim sql = " Select d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,d26,d27,d28,d29,d30,d31,d32,d33,d34,d35,d36,d37,d38,d39,d40,d41,d42,d43,d44"
+        sql = sql & ",mh_wm_no, mh_house_no,mh_ers_flag "
+        sql = sql & ",wm_password,wm_user_name,wm_email,wm_id,wm_open_flag "
+        sql = sql & " from Receipt join member_house on d10 = mh_house_no join webmember on mh_wm_no=wm_no "
+        'sql = sql & " WHERE     (member_house.mh_ers_flag = 'Y') "
+        sql = sql & " where (Receipt.D10 = '" & HouseNo & "') AND (Receipt.D14 = '" & REDate & "') " 'AND (Receipt.D36 = '" & HouseName & "')"
+
+        dt = bj.ReadEReceiptData(sql)
+        Compact = dt
+    End Function
+#End Region
+
+#Region "ReadLongAD　讀取長廣告欄的文字"
+    Function ReadLongAD(ByVal Line As Integer, ByRef ADLong() As String)
+        Dim dt1 As New DataTable
+        Dim bj As New Batch_job
+        Dim DateString As String
+        DateString = Format(Now, "yyyy-MM-dd HH:mm:ss")
+        dt1 = bj.ReadEReceiptData("Select * from  Receipt_ad where ad_start_date <='" & DateString & "' and ad_end_date >='" & DateString & "' order by ad_end_date DESC") ' and ad_line=" & Line & "
+        If dt1.Rows.Count > 0 Then
+            ADLong(1) = dt1.Rows(0)(1)
+            ADLong(2) = dt1.Rows(0)(2)
+            ADLong(3) = dt1.Rows(0)(3)
+        Else
+            ADLong(1) = ""
+            ADLong(2) = ""
+            ADLong(3) = ""
+        End If
+    End Function
+#End Region
+
+#Region "ReportList　將資料逐筆填到報表內,再加密"
+    Function ReportList(ByVal dt As DataTable, ByVal Val As Integer) As String
+        Dim i As Integer
+        Dim RptTextObj As CrystalDecisions.CrystalReports.Engine.TextObject
+        Dim FileName As String
+        Dim ReString As String
+        Dim thisRptDoc As New ReportDocument
+        Dim reader As PdfReader
+        Dim stream As stream
+        Dim asc As ASCIIEncoding
+        Dim DateTemp As String = ""
+        Dim by() As Byte = New Byte(10) {}
+        Dim logoninfo As New CrystalDecisions.Shared.TableLogOnInfo
+        Dim thisPath As String = "C:\Inetpub\wwwroot\"
+        Dim int_Exit_Flag As Integer = 0
+        Dim int_Result As Integer = 0
+        Dim Sendi As Integer
+        Dim ADLong(3) As String
+        Dim ADShort(6) As String
+        Dim dt1 As New DataTable
+        Dim bj As New Batch_job
+
+        '2014-03-26 Yeh Begin
+        Dim calString(3) As calStr_str
+        Dim realPrice As Integer
+        Dim priceSel As Integer
+        Dim j As Integer
+        Dim TempPrice As String
+        Dim TempPrice1 As String
+        Dim TempPrice2 As String
+        Dim rtPrice1 As String
+        Dim rtPrice2 As String
+        Dim rtPrice3 As String
+        Dim rtPrice4 As String
+        Dim DatePriceStr1 As String
+        Dim DatePriceStr2 As String
+        Dim DatePriceStr3 As String
+        Dim DatePriceStr4 As String
+        Dim DPriceStr(4) As String
+        Dim Flag44 As Integer
+        Dim objAPPM04 As New APPX01DAO ' APPM04DAO
+        Dim dt66 As DataTable
+        Dim dt67 As DataTable
+        Dim dt68 As DataTable
+        Dim am04_rcp_no As Integer
+        Dim type As String
+        Dim beginSw1 As Integer = 0
+        Dim beginSw2 As Integer = 0
+        Dim beginSw3 As Integer = 0
+        Dim use_degree As Integer
+        Dim L_amt As Long
+        Dim Curr_amt As Double
+        Dim L_amt1 As Long
+        Dim Curr_amt1 As Double
+        Dim L_amt2 As Long
+        Dim Curr_amt2 As Double
+        rtPrice1 = "" ' "2095=(20.50*4+21.00*23+21.50*1)*100/28"
+        rtPrice2 = "" ' "補正金額13=(20*8 + 20.5*23)*90/31-(20*8+20.3*23*90/31"
+        '2014-03-26 Yeh End
+
+        dt1 = bj.ReadEReceiptData("Select * from  Receipt_notice ")
+        If dt1.Rows.Count > 0 Then
+            For i = 0 To dt1.Rows.Count - 1
+                ADShort(dt1.Rows(i)(2)) = dt1.Rows(i)(1)
+            Next
+        End If
+        'For i = 1 To 3
+        'ADLong(i) = ReadLongAD(i)
+        'Next
+        ReadLongAD(0, ADLong)
+        'thisRptDoc.Load(thisPath + "SupShowLogoR-2.rpt", CrystalDecisions.[Shared].OpenReportMethod.OpenReportByDefault)
+        thisRptDoc.Load(Server.MapPath("/SupShowLogoR-2.rpt"), CrystalDecisions.[Shared].OpenReportMethod.OpenReportByDefault)
+        thisRptDoc.Refresh()
+        DateTemp = Format(Now, "yyyyMMddHHmmss")
+        For i = 0 To dt.Rows.Count - 1
+
+            '2014-03-26 Yeh Begin
+            If Right(dt.Rows(i)(20), 1) = "A" Or Right(dt.Rows(i)(20), 1) = "B" Then '燈別
+                type = "2"
+            Else
+                type = "1"
+            End If
+            If Trim(dt.Rows(i)(18)) <> "" Then  '統編
+                priceSel = 2
+            Else
+                priceSel = 1
+            End If
+
+            'dt.Rows(i)(13) = 10306
+            'dt.Rows(i)(17) = "D"
+            ' dt.Rows(i)(9) = 661696 '用戶號碼
+            ' dt.Rows(i)(33) 本次抄表日
+            use_degree = dt.Rows(i)(25)         '使用度數
+
+            dt68 = objAPPM04.GetAM68(dt.Rows(i)(13), dt.Rows(i)(9)).Tables(0)
+            rtPrice1 = ""
+            rtPrice2 = ""
+            rtPrice3 = ""
+            rtPrice4 = ""
+            TempPrice2 = ""
+            TempPrice1 = ""
+            If dt68.Rows.Count > 0 Then
+
+                TempPrice = Trim(dt68.Rows(0).Item("am68_str0"))
+                Dim Temp() As String = TempPrice.Split("=")
+                TempPrice1 = Temp(1) & "=" & Temp(0)
+
+
+                Dim a() As String = Temp(0).Split(")")
+                Dim b() As String = a(0).Split("(")
+                Dim c() As String = b(1).Split("+")
+                Dim yymmdd As String = Left(dt.Rows(i)(13), 3) & dt.Rows(i)(33)
+
+                dt66 = objAPPM04.GetAM66(yymmdd).Tables(0)
+                Dim ii As Integer
+                For ii = 0 To 3
+                    DPriceStr(ii) = ""
+                Next
+                Dim jj As Int16
+                jj = 0
+                For ii = c.Length - 1 To 0 Step -1 ' 0 To c.Length - 1
+                    Dim d() As String = c(jj).Split("*")
+
+                    DPriceStr(jj) = dt66.Rows(ii).Item("am66_adj_date") & "調價每度" & d(0) & "元"
+                    If jj > 2 Then
+                        Exit For
+                    End If
+                    jj = jj + 1
+                Next
+
+                'If dt68.Rows(0).Item("am68_gas_amt1") > 0 And dt68.Rows(0).Item("am68_gas_amt2") > 0 Then
+
+                TempPrice = Trim(dt68.Rows(0).Item("am68_str1"))
+                If TempPrice <> "" Then
+                    Dim Temp1() As String = TempPrice.Split("=")
+                    TempPrice = Trim(dt68.Rows(0).Item("am68_str2"))
+                    If TempPrice <> "" Then
+                        Dim Temp2() As String = TempPrice.Split("=")
+                        TempPrice2 = dt68.Rows(0).Item("am68_gas_amt1") - dt68.Rows(0).Item("am68_gas_amt2") & "=" & Temp1(0) & "-" & Temp2(0)
+                    Else
+                        TempPrice2 = Temp1(1) & "=" & Temp1(0)
+                    End If
+                Else
+                    TempPrice2 = ""
+                End If
+                'End  If
+
+                If Len(TempPrice1) > 44 Then
+                    rtPrice1 = Left(TempPrice1, 44)
+                    rtPrice2 = Right(TempPrice1, Len(TempPrice1) - 44)
+                    Flag44 = 2
+                Else
+                    rtPrice1 = TempPrice1
+                    rtPrice2 = ""
+                    Flag44 = 1
+                End If
+
+                If Len(TempPrice2) > 0 Then
+                    If Flag44 = 1 Then
+                        rtPrice2 = Left(TempPrice2, 44)
+                        If Len(TempPrice2) > 44 Then  '20140725
+                            TempPrice2 = Right(TempPrice2, Len(TempPrice2) - 44)
+                            rtPrice3 = Left(TempPrice2, 44)
+                            If Len(TempPrice2) > 44 Then
+                                TempPrice2 = Right(TempPrice2, Len(TempPrice2) - 44)
+                                rtPrice4 = TempPrice2
+                            Else
+                                rtPrice4 = ""
+                            End If
+                        End If
+
+                    Else
+                        rtPrice3 = Left(TempPrice2, 44)
+                        If Len(TempPrice2) > 44 Then
+                            TempPrice2 = Right(TempPrice2, Len(TempPrice2) - 44)
+                            rtPrice4 = Left(TempPrice2, 44)
+                        Else
+                            rtPrice4 = ""
+                        End If
+                    End If
+
+
+                End If
+
+            End If
+
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("Text21")
+            'RptTextObj.Text = rtPrice1
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("Text22")
+            ' RptTextObj.Text = rtPrice2
+
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rPriceStr1")
+            RptTextObj.Text = rtPrice1
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rPriceStr2")
+            RptTextObj.Text = rtPrice2
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rPriceStr3")
+            RptTextObj.Text = rtPrice3
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rPriceStr4")
+            RptTextObj.Text = rtPrice4
+
+
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rUpPrice1")
+            RptTextObj.Text = DPriceStr(0)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rUpPrice2")
+            RptTextObj.Text = DPriceStr(1)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rUpPrice3")
+            RptTextObj.Text = DPriceStr(2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rUpPrice4")
+            RptTextObj.Text = DPriceStr(3)
+
+            '2014-03-26 Yeh End
+
+
+
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdLine1")
+            RptTextObj.Text = ADLong(1)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdLine2")
+            RptTextObj.Text = ADLong(2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdLine3")
+            RptTextObj.Text = ADLong(3)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine1")
+            RptTextObj.Text = ADShort(1)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine2")
+            RptTextObj.Text = ADShort(2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine3")
+            RptTextObj.Text = ADShort(3)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine4")
+            RptTextObj.Text = ADShort(4)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine5")
+            RptTextObj.Text = ADShort(5)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("AdSLine6")
+            RptTextObj.Text = ADShort(6)
+
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lyear")
+            ' dt.Rows(i)(13) = "09902"
+            If Right(dt.Rows(i)(20), 1) = "A" Or Right(dt.Rows(i)(20), 1) = "B" Then
+                If Right(dt.Rows(i)(13), 2) = "01" Then
+                    RptTextObj.Text = Format(Left(dt.Rows(i)(13), 3) - 1, "000") & " - " & Left(dt.Rows(i)(13), 3)
+                Else
+                    RptTextObj.Text = Left(dt.Rows(i)(13), 3)
+                End If
+            Else
+                RptTextObj.Text = Left(dt.Rows(i)(13), 3)
+            End If
+
+            'RptTextObj.Text = Left(dt.Rows(i)(13), 4)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lmonth")
+            If Right(dt.Rows(i)(20), 1) = "A" Or Right(dt.Rows(i)(20), 1) = "B" Then
+                If Right(dt.Rows(i)(13), 2) = "01" Then
+                    RptTextObj.Text = "12 - " & Right(dt.Rows(i)(13), 2)
+                Else
+                    RptTextObj.Text = Format(Right(dt.Rows(i)(13), 2) - 1, "00") & " - " & Right(dt.Rows(i)(13), 2)
+                End If
+            Else
+                RptTextObj.Text = Right(dt.Rows(i)(13), 2)
+            End If
+            'RptTextObj.Text = Right(dt.Rows(i)(13), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lbnum")
+            RptTextObj.Text = dt.Rows(i)(17)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lhouseno")
+            RptTextObj.Text = dt.Rows(i)(9)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lname")
+            RptTextObj.Text = Trim(dt.Rows(i)(35))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lcompany")
+            RptTextObj.Text = "" ' Trim(dt.Rows(i)(21))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lthemonth")
+            RptTextObj.Text = Left(dt.Rows(i)(33), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("ltheday")
+            RptTextObj.Text = Right(dt.Rows(i)(33), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lnextmonth")
+            RptTextObj.Text = Left(dt.Rows(i)(34), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lnextday")
+            RptTextObj.Text = Right(dt.Rows(i)(34), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lthedegree")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(21))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lpredegree")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(22))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lusedegree")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(25)) ' ReVal(dt.Rows(i)(7) - dt.Rows(i)(8))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lprice")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(26))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lvol")
+            RptTextObj.Text = Conversion.Val(Trim(dt.Rows(i)(38))) 'Conversion.Val(Trim(dt.Rows(i)(27)))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lbasic")
+            RptTextObj.Text = Conversion.Val(Trim(dt.Rows(i)(39))) 'Conversion.Val(Trim(dt.Rows(i)(28)))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lgas")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(40))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lamount")
+            RptTextObj.Text = dt.Rows(i)(29) & Conversion.Val(dt.Rows(i)(30))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lother")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(41))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lsubtotal")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(31))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("ltax")
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(32))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("ltotal")
+            RptTextObj.Text = Conversion.Val(Left(dt.Rows(i)(6), 12)) ' & "." & Right(dt.Rows(i)(6), 2)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lid")
+            'RptTextObj.Text = dt.Rows(i)(7)
+            RptTextObj.Text = IIf(IsDBNull(dt.Rows(i)(18)), "", dt.Rows(i)(18)) ' dt.Rows(i)(31)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("lDate")
+            If IsDBNull(dt.Rows(i)(15)) Then
+                RptTextObj.Text = ""
+            Else
+                If Trim(dt.Rows(i)(15)) <> "" Then
+                    RptTextObj.Text = Left(dt.Rows(i)(15), 4) & "/" & Mid(dt.Rows(i)(15), 5, 2) & "/" & Right(dt.Rows(i)(15), 2) '    Format(ReVal(dt.Rows(i)(15)), "yyyy/MM/dd")
+                    ' RptTextObj.Text = Format(Now, "yyyy/MM/dd")
+                    RptTextObj.Text = Str(Left(RptTextObj.Text, 4) - 1911) & Right(RptTextObj.Text, 6)
+                Else
+                    RptTextObj.Text = ""
+                End If
+            End If
+            FileName = Trim(dt.Rows(i)(9)) & Trim(dt.Rows(i)(13))
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("ryear")                        '收費年
+            If Right(dt.Rows(i)(20), 1) = "A" Or Right(dt.Rows(i)(20), 1) = "B" Then
+                If Right(dt.Rows(i)(13), 2) = "01" Then
+                    RptTextObj.Text = Format(Left(dt.Rows(i)(13), 3) - 1, "000") & " - " & Left(dt.Rows(i)(13), 3)
+                Else
+                    RptTextObj.Text = Left(dt.Rows(i)(13), 3)
+                End If
+            Else
+                RptTextObj.Text = Left(dt.Rows(i)(13), 3)
+            End If
+            'RptTextObj.Text = Left(dt.Rows(i)(13), 4)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rmonth")                       '收費月
+            If Right(dt.Rows(i)(20), 1) = "A" Or Right(dt.Rows(i)(20), 1) = "B" Then
+                If Right(dt.Rows(i)(13), 2) = "01" Then
+                    RptTextObj.Text = "12 - " & Right(dt.Rows(i)(13), 2)
+                Else
+                    RptTextObj.Text = Format(Right(dt.Rows(i)(13), 2) - 1, "00") & " - " & Right(dt.Rows(i)(13), 2)
+                End If
+            Else
+                RptTextObj.Text = Right(dt.Rows(i)(13), 2)
+            End If
+            'RptTextObj.Text = Right(dt.Rows(i)(13), 2)
+            DetailLog(1) = dt.Rows(i)(13)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rbnum")                        '冊別
+            RptTextObj.Text = dt.Rows(i)(17)
+            DetailLog(2) = dt.Rows(i)(17)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rhouseno")                     '用戶號碼
+            RptTextObj.Text = dt.Rows(i)(9)
+            DetailLog(3) = dt.Rows(i)(9)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rname")                        '先生
+            RptTextObj.Text = Trim(dt.Rows(i)(35))
+            DetailLog(4) = dt.Rows(i)(35)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rcompany")                     '寶號
+            RptTextObj.Text = Trim(dt.Rows(i)(36)) '通訊地址
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rthemonth")                    '本次抄表月
+            'RptTextObj.Text = Left(dt.Rows(i)(33), 2)
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rtheday")                      '本次抄表日
+            'RptTextObj.Text = Right(dt.Rows(i)(33), 2)
+            DetailLog(5) = dt.Rows(i)(33)
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rnextmonth")                   '下次抄表月
+            'RptTextObj.Text = Left(dt.Rows(i)(34), 2)
+            'RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rnextday")                     '下次抄表日
+            'RptTextObj.Text = Right(dt.Rows(i)(34), 2)
+            DetailLog(6) = dt.Rows(i)(34)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rthedegree")                   '本月抄表度
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(21))
+            DetailLog(7) = dt.Rows(i)(21)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rpredegree")                   '上月抄表度
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(22))
+            DetailLog(8) = dt.Rows(i)(22)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rusedegree")                   '使用度數
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(25)) ' dt.Rows(i)(7) - dt.Rows(i)(8)
+            DetailLog(9) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rprice")                       '單價
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(26))
+            DetailLog(10) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rvol")                         '從量費
+            RptTextObj.Text = Conversion.Val(Trim(dt.Rows(i)(38))) ' Conversion.Val(Trim(dt.Rows(i)(27)))
+            DetailLog(11) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rbasic")                       '基本費
+            RptTextObj.Text = Conversion.Val(Trim(dt.Rows(i)(39))) 'Conversion.Val(Trim(dt.Rows(i)(28)))
+            DetailLog(12) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rgas")                         '天然氣費
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(40))
+            DetailLog(13) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("ramount")                      '追退金額
+            RptTextObj.Text = dt.Rows(i)(29) & Conversion.Val(dt.Rows(i)(30))
+            DetailLog(14) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rother")                       '其他費用
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(41))
+            DetailLog(15) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rsubtotal")                    '小計
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(31))
+            DetailLog(16) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rtax")                         '營業稅
+            RptTextObj.Text = Conversion.Val(dt.Rows(i)(32))
+            DetailLog(17) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rtotal")                       '實收總金額
+            RptTextObj.Text = Conversion.Val(Left(dt.Rows(i)(6), 12)) ' & "." & Right(dt.Rows(i)(6), 2)
+            DetailLog(18) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rid")                          '統一編號
+            RptTextObj.Text = IIf(IsDBNull(dt.Rows(i)(18)), "", dt.Rows(i)(18)) ' dt.Rows(i)(31)
+            DetailLog(19) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rlightno")                     '燈別
+            RptTextObj.Text = dt.Rows(i)(20)
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rpayment")                     '代繳帳號
+            RptTextObj.Text = Left(dt.Rows(i)(5), 6) & "XXXX" & Right(dt.Rows(i)(5), 4)
+            DetailLog(20) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("raddress")                     '裝置地址
+            RptTextObj.Text = dt.Rows(i)(43) 'dt.Rows(i)(22)
+            DetailLog(21) = RptTextObj.Text
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rnum")                         '代碼
+            RptTextObj.Text = IIf(IsDBNull(dt.Rows(i)(42)), "", dt.Rows(i)(42))
+
+            DetailLog(22) = dt.Rows(i)(49)
+
+            RptTextObj = thisRptDoc.ReportDefinition.ReportObjects.Item("rDate")
+            If IsDBNull(dt.Rows(i)(15)) Then
+                RptTextObj.Text = ""
+            Else
+                If Trim(dt.Rows(i)(15)) <> "" Then
+                    RptTextObj.Text = Left(dt.Rows(i)(15), 4) & "/" & Mid(dt.Rows(i)(15), 5, 2) & "/" & Right(dt.Rows(i)(15), 2) ' Format(ReVal(dt.Rows(i)(15)), "yyyy/MM/dd")
+                    'RptTextObj.Text = Format(Now, "yyyy/MM/dd")
+                    RptTextObj.Text = Str(Left(RptTextObj.Text, 4) - 1911) & Right(RptTextObj.Text, 6)
+                Else
+                    RptTextObj.Text = ""
+                End If
+            End If
+            System.IO.Directory.CreateDirectory("C:\RPT\" & DateTemp)
+
+            'thisRptDoc.SaveAs(PDFPath & FileName & ".rpt", True)
+            thisRptDoc.ExportToDisk(CrystalDecisions.[Shared].ExportFormatType.PortableDocFormat, "c:\RPT\" & DateTemp & "\no" & FileName & ".pdf")
+
+            reader = New PdfReader("c:\RPT\" & DateTemp & "\no" & FileName & ".pdf")
+            stream = CType(New FileStream("c:\RPT\" & DateTemp & "\" & FileName & ".pdf", FileMode.Append), stream)
+            asc = New System.Text.ASCIIEncoding
+            by = asc.GetBytes(dt.Rows(i)(50), 0, dt.Rows(i)(50).Length)
+            iTextSharp.text.pdf.PdfEncryptor.Encrypt(reader, stream, by, by, iTextSharp.text.pdf.PdfWriter.ALLOW_PRINTING, True)
+            System.IO.File.Delete("c:\RPT\" & DateTemp & "\no" & FileName & ".pdf")
+            ReString = "c:\RPT\" & DateTemp & "\" & FileName & ".pdf" & "|" & Trim(dt.Rows(i)(50)) & "|" & Trim(dt.Rows(i)(49)) & "|" & Trim(dt.Rows(i)(44)) & "|" & "c:\RPT\" & DateTemp
+
+
+
+        Next
+        thisRptDoc.Close()
+        thisRptDoc = Nothing
+        ReportList = ReString 'PDFPath & FileName & ".pdf" & "|" & Trim(dt.Rows(i)(50)) & "|" & Trim(dt.Rows(i)(49))
+    End Function
+#End Region
+
+#Region "TrueSend　真正送出Email的函數"
+    Function TrueSend(ByVal FilePath As String, ByVal UserName As String, ByVal Email As String, ByVal REDate As String, ByVal Wmno As Integer)
+        Dim Sendi As Integer
+        Dim int_result As String
+        For Sendi = 0 To 2
+            int_result = SendMailB(FilePath, UserName, Email, REDate)
+            If int_result = "1" Then
+                'WriteDetailLog("1", "Receipt_batch_log", Sendi, "", Wmno)
+                Exit For
+            Else
+                ' WriteDetailLog("2", "Receipt_batch_log", Sendi, int_result, Wmno)
+            End If
+        Next
+    End Function
+#End Region
+
+#Region "SendMailB　實際發送Email的程序"
+    Function SendMailB(ByVal AttPath As String, ByVal ToUserName As String, ByVal ToEmail As String, ByVal REDate As String) As String
+        Dim mailmsg As MailMessage
+        Dim tcpclient As tcpclient
+        Dim stream As NetworkStream
+        Dim BodyStr As String
+        Dim strmessage As String
+        Dim check As Boolean
+        Dim hostName As String = Dns.GetHostName
+        Dim Temp As System.Text.Encoding
+        Dim i As String
+        Try
+            SMTPCodeAdd()
+            If thread_status = False Then
+                thread_status = True
+                mailmsg = New MailMessage
+                mailmsg.From = "contactus@shinshingas.com.tw"
+                mailmsg.To = ToEmail '& "><" & ToEmail '& "><葉先生"  'txtEmail.Text  '"yehjyh@gmail.com" '"cherryli@gmail.com"  ' "<yehjyh@gmail.com>測試 "   ' <yehjyh@pchome.com.tw>; "kate0419@ms37.hinet.net" '  "yehjyh@yahoo.com.tw" ' 
+                mailmsg.Subject = "欣欣天然氣" & Left(REDate, 3) & "/" & Right(REDate, 2) & "月份電子繳費憑證"
+                mailmsg.Priority = MailPriority.Normal
+                Temp = System.Text.Encoding.GetEncoding("big5")
+                mailmsg.BodyFormat = MailFormat.Html
+                BodyStr = "親愛的客戶:<br/><br/>"
+                BodyStr = BodyStr & "感謝您使用欣欣天然氣電子繳費憑證，謹附上您本期的電子繳費憑證（請參閱附件ＰＤＦ檔）。<br/>"
+                BodyStr = BodyStr & "開啟附加檔案需輸入<font color=red>密碼</font>方可瀏覽（密碼即「身份證字號<font color=blue>《第一碼英文字母須大寫》</font>或統一編號」）。<br/>"
+                BodyStr = BodyStr & "若您有任何疑問，歡迎電洽本公司電話：02-2921-7811（可參閱天然氣費繳費憑證之業務分機）。<br/>"
+                BodyStr = BodyStr & "敬祝  生活愉快<br/>"
+                BodyStr = BodyStr & "<DIV align=""right"">欣欣天然氣股份有限公司&nbsp;敬上</DIV><br/><br/>"
+                BodyStr = BodyStr & "※重要訊息公告※<br/>"
+                BodyStr = BodyStr & "1.  本公司電子繳費憑證版面與實體繳費憑證一致。<br/>"
+                BodyStr = BodyStr & "2.  我們所寄送的電子繳費憑證為PDF格式&nbsp;PDF檔案的讀取須透過特別的軟體才可閱讀，所以如果您尚未安裝此軟體，請至網址<a href=""http://www.adobe.com/tw/"">http://www.adobe.com/tw/</a> 下載安裝。<br/>"
+                BodyStr = BodyStr & "<font color=red>3.  此為系統發出的電子郵件，請勿直接回覆。</font><br/><br/><br/>"
+                BodyStr = BodyStr & "※敬告事項※<br/>"
+                BodyStr = BodyStr & "1.  近有假藉本公司名義，偽稱安全檢查乘機推銷器材或改管工程，請注意<font color=red>不要先行付費，以免上當受騙。</font><br/>"
+                BodyStr = BodyStr & "2.  房屋買賣或租賃前請確認計量表<font color=red>度數</font>結算，並聯絡本公司查詢有無積欠氣費，否則概由屋主負責清償。<br/>"
+                BodyStr = BodyStr & "3.  委託郵、銀代扣、繳氣費用戶，如有房屋買賣，租賃終止或其他情事，請至<font color=red>郵局、銀行</font>辦理代繳<font color=red>委託終止</font>作業，<br/>"
+                BodyStr = BodyStr & "&nbsp;&nbsp;&nbsp;    如有續扣情事發生，<font color=red>本公司僅提供氣費繳費證明。</font><br/>"
+                BodyStr = BodyStr & "4.  貴戶如為空戶，可聯絡本公司申請拆表，免計基本費。<br/>"
+                BodyStr = BodyStr & "5.  本公司每<font color=red>十年免費換表</font>乙次。<br/>"
+                BodyStr = BodyStr & "6.  本公司每<font color=red>兩年免費安全檢查</font>乙次，並事先以<font color=red>明信片</font>通知檢查時間。如需更換天然氣開關，<font color=red>現場不收費</font>，改隨氣費收取。<br/>"
+                mailmsg.Body = BodyStr
+                mailmsg.BodyEncoding = Temp
+                mailmsg.Attachments.Add(AttPath)
+                'If SendEmail("msa.hinet.net", 25, True, "ebill", "22325804", mailmsg) = True Then
+                If SendEmail("mail.shinshingas.com.tw", 25, True, "contactus", "22325804", mailmsg) = True Then
+                    Message.Text = "補寄成功"
+                    i = 1
+                Else
+                    Message.Text = "補寄失敗"
+                    i = 0
+                End If
+            End If
+        Catch ex As Exception
+            i = ex.Message
+            Message.Text = "補寄失敗" & ex.StackTrace
+        End Try
+        SendMailB = i
+    End Function
+#End Region
+
+#Region "WriteLog　寫入批次LOG主檔,讓執行者知道是否已傳送完畢　在此不需填入"
+#If 0 Then
+    Function WriteLog(ByVal Flag As Integer, ByVal TableName As String, ByVal Str As String) As Integer
+        Dim sqlStr As String = ""
+        Dim dt As New DataTable
+        Dim CheckDate As String
+        Dim CurrDate As String
+        Dim A() As String = Split(TxtName, "\")
+        MOpen()
+        If Flag = 1 Then    '產生檔案中
+            dt = Read_Sql_Fill_DataSet(TableName, "Select top 1 rb_no from " & TableName & " order by rb_no DESC") ' where rb_file_name='" & A(A.Length - 1) & "'")  '讀取索引值
+            If dt.Rows.Count > 0 Then
+                CheckDate = Format(Year(Now) - 1911, "000") & Format(Now, "MMdd")
+                CurrDate = ReLeft(dt.Rows(0)(0), 7)
+                If CheckDate = CurrDate Then
+                    rb_no = CurrDate & Format(Val(ReRight(dt.Rows(0)(0), 3)) + 1, "000")
+                Else
+                    rb_no = CheckDate & "001"
+                End If
+            Else
+                rb_no = Format(Year(Now) - 1911, "000") & Format(Now, "MMdd") & "001"
+            End If
+            sqlStr = "Insert into " & TableName & " (rb_no,rb_file_name,rb_start_datetime,rb_end_datetime,rb_run_user,rb_status,rb_success,rb_failure) "
+            sqlStr = sqlStr & " values ('" & rb_no & "','" & A(A.Length - 1) & "','" & Format(Now, "yyyy/MM/dd HH:mm:ss") & "','','','1',0,0)"
+        ElseIf Flag = 2 Then    '發送EMAIL中
+            sqlStr = "Update " & TableName & " set rb_status='2' where rb_no='" & rb_no & "'" ' rb_file_name='" & A(A.Length - 1) & "'"
+        ElseIf Flag = 3 Then    '執行完成
+            sqlStr = "Update " & TableName & " set rb_status='3',rb_end_datetime='" & Format(Now, "yyyy/MM/dd HH:mm:ss") & "',rb_success=" & Success & ",rb_failure=" & Failure & " where  rb_no='" & rb_no & "'" ' rb_file_name='" & A(A.Length - 1) & "'"
+        End If
+        MSaveData(TableName, sqlStr)
+        MClose()
+
+    End Function
+#End If
+
+#End Region
+
+#Region "WriteDetailLog　寫入批次LOG明細檔,讓執行者查詢每筆傳送的詳細資料"
+    Function WriteDetailLog(ByVal Status As Integer, ByVal TableName As String, ByVal reSend As Integer, ByVal StatusR As String, ByVal WmNo As Integer) As Integer
+        Dim sqlStr As String = ""
+        Dim Sql As String = ""
+        Dim subStr As String = ""
+        Dim i As Integer
+        Dim bj As New Batch_job
+        sqlStr = "Insert into " & TableName & " ( "
+        For i = 1 To 22
+            sqlStr = sqlStr & "rl_" & Format(i, "00") & ","
+        Next
+        sqlStr = sqlStr & "rl_rb_no,rl_file_srarus,rl_status,rl_status_Reason,rl_runtime,rl_resend,rl_wmno ) values ('"
+
+        Sql = ""
+        For i = 1 To 22
+            Sql = Sql & Trim(DetailLog(i))
+            Sql = Sql & "','"
+        Next
+        Sql = Sql & "0','1','" & Status & "','" & StatusR & "','" & Format(Now, "yyyy/MM/dd HH:mm:ss") & "'," & reSend & "," & WmNo & ")"
+        subStr = sqlStr & Sql
+        bj.Insert(subStr)
+    End Function
+#End Region
+
+
+#If 1 Then
+#Region "SendEmail　真正透過Socket送出信件內容"
+    Private Function SendEmail(ByVal smtpServer As String, ByVal port As Integer, ByVal ESmtp As Boolean, ByVal username As String, ByVal password As String, ByVal mailMessage As MailMessage) As Boolean
+        Dim priority As String
+        Dim Html As Boolean
+        Dim SendBuffer1() As String = New String(3) {}
+        Dim SendBuffer2() As String = New String(1) {}
+        Dim SendBufferstr As String
+        Dim encData_byte_1() As Byte = New Byte(username.Length) {}
+        Dim encData_byte_2() As Byte = New Byte(password.Length) {}
+        Dim encData_byte_3() As Byte = New Byte("郵件內容為HTML格，請選擇HTML方式查看".Length) {}
+        Dim encData_byte_4() As Byte = New Byte(mailMessage.Body.Length) {}
+        Dim encData_byte_5() As Byte = New Byte(mailMessage.Body.Length) {}
+        Dim i As Integer
+        Dim filepath As String
+
+        '測試連接服務器是否成功
+        If connect(smtpServer, port) = False Then
+            Return False
+        End If
+        priority = GetPriorityString(mailMessage.Priority)
+        If mailMessage.BodyFormat = MailFormat.Html Then
+            Html = True
+        Else
+            Html = False
+        End If
+
+        '進行SMTP驗證，現在大部分SMTP服務器都要認證
+        If ESmtp = True Then
+            SendBuffer1(0) = "EHLO " & smtpServer & vbCrLf
+            SendBuffer1(1) = "AUTH LOGIN" & vbCrLf
+            'SendBuffer1(2) = username & vbCrLf
+            'SendBuffer1(3) = password & vbCrLf
+            encData_byte_1 = System.Text.Encoding.Default.GetBytes(username)
+            SendBuffer1(2) = Convert.ToBase64String(encData_byte_1) & vbCrLf
+            encData_byte_2 = System.Text.Encoding.Default.GetBytes(password)
+            SendBuffer1(3) = Convert.ToBase64String(encData_byte_2) & vbCrLf
+
+            If Dialog(SendBuffer1, "SMTP服務器驗證失敗，請核對用戶名和密碼。") = False Then
+                SendBuffer1 = Nothing
+                Return False
+            End If
+        Else
+            '不需要身份認證
+            SendBufferstr = "HELO" & smtpServer & vbCrLf
+            If Dialog(SendBufferstr, "") = False Then
+                Return False
+            End If
+        End If
+
+        '發件人地址
+        SendBufferstr = "MAIL FROM:<" & mailMessage.From & ">" & vbCrLf
+        If Dialog(SendBufferstr, "發件人地址錯誤，或不能為空") = False Then
+            Return False
+        End If
+#If 1 Then
+        SendBuffer2(0) = "RCPT TO: <" & mailMessage.To & ">" & vbCrLf   '
+        If Dialog(SendBuffer2(0), "收件人地址有誤") = False Then
+            Return False
+        End If
+
+        '    SendBuffer2(1) = "Forwarding email to:<yehjyh@yahoo.com.tw>" & vbCrLf ' <" & mailMessage.To & ">" & vbCrLf  '
+        '   If Dialog(SendBuffer2(1), "收件人地址有誤") = False Then
+        '  Return False
+        ' End If
+#Else
+        SendBufferstr = "RCPT TO:<" & mailMessage.To & ">" & vbCrLf
+        If Dialog(SendBufferstr, "收件人地址有誤") = False Then
+            Return False
+        End If
+#End If
+
+        SendBufferstr = "DATA" & vbCrLf
+        If Dialog(SendBufferstr, "") = False Then
+            Return False
+        End If
+
+        If mailMessage.Subject = String.Empty Or mailMessage.Subject Is Nothing Then
+            SendBufferstr = "Subject:"
+        Else
+            SendBufferstr = "Subject:" & mailMessage.Subject & vbCrLf
+        End If
+
+        SendBufferstr &= "X-Priority:" & priority & vbCrLf
+        SendBufferstr &= "X-MSMail-Priority:" & priority & vbCrLf
+        SendBufferstr &= "Importance:" & priority & vbCrLf
+        SendBufferstr &= "X-Mailer:Lion. Web. Mail. SmtpMail Pubclass [cn]" & vbCrLf
+        SendBufferstr &= "MIME-Version: 1.0" & vbCrLf
+        If mailMessage.Attachments.Count <> 0 Then
+            SendBufferstr &= "Content-Type: multipart/mixed;" & vbCrLf
+            If Html = True Then
+                SendBufferstr &= " boundary=""=====001_Dragon520636771063_=====""" & vbCrLf & vbCrLf
+            Else
+                SendBufferstr &= " boundary=""=====001_Dragon303406132050_=====""" & vbCrLf & vbCrLf
+            End If
+        End If
+
+        If Html = True Then
+            If mailMessage.Attachments.Count = 0 Then
+                SendBufferstr &= "Content-Type: multipart/alternative;" & vbCrLf
+                SendBufferstr &= " boundary=""=====003_Dragon520636771063_=====""" & vbCrLf & vbCrLf
+                SendBufferstr &= "This is a multi-part message in MIME format." & vbCrLf & vbCrLf
+            Else
+                SendBufferstr &= "This is a multi-part message in MIME format." & vbCrLf & vbCrLf
+                SendBufferstr &= "--=====001_Dragon520636771063_=====" & vbCrLf
+                SendBufferstr &= "Content-Type: multipart/alternative;" & vbCrLf
+                SendBufferstr &= " boundary=""=====003_Dragon520636771063_=====""" & vbCrLf & vbCrLf
+            End If
+            SendBufferstr &= "--=====003_Dragon520636771063_=====" & vbCrLf
+            SendBufferstr &= "Content-Type: text/plain;" & vbCrLf
+            SendBufferstr &= " charset=""BIG5""" & vbCrLf
+            SendBufferstr &= " Content-Transfer-Encoding: base64" & vbCrLf & vbCrLf
+            encData_byte_3 = System.Text.Encoding.Default.GetBytes("郵件內容為HTML格式，請選擇HTML方式查看")
+            SendBufferstr &= Convert.ToBase64String(encData_byte_3) & vbCrLf & vbCrLf
+            SendBufferstr &= "--=====003_Dragon520636771063_=====" & vbCrLf
+            SendBufferstr &= "Content-Type: text/html;" & vbCrLf
+            SendBufferstr &= " charset=""BIG5""" & vbCrLf
+            SendBufferstr &= "Content-Transfer-Encoding: base64" & vbCrLf & vbCrLf
+            encData_byte_4 = System.Text.Encoding.Default.GetBytes(mailMessage.Body)
+            SendBufferstr &= Convert.ToBase64String(encData_byte_4) & vbCrLf
+            SendBufferstr &= "--=====003_Dragon520636771063_=====--" & vbCrLf
+        Else
+            If mailMessage.Attachments.Count <> 0 Then
+                SendBufferstr &= "--=====001_Dragon303406132050_=====" & vbCrLf
+            End If
+            SendBufferstr &= "Content-Type: text/plain;" & vbCrLf
+            SendBufferstr &= " charset=""BIG5""" & vbCrLf
+            SendBufferstr &= "Content-Transfer-Encoding: base64" & vbCrLf & vbCrLf
+            encData_byte_4 = System.Text.Encoding.Default.GetBytes(mailMessage.Body)
+            SendBufferstr &= Convert.ToBase64String(encData_byte_4) & vbCrLf
+        End If
+#If 1 Then
+        If mailMessage.Attachments.Count <> 0 Then
+            For i = 0 To mailMessage.Attachments.Count - 1
+                filepath = mailMessage.Attachments(i)
+                Dim A() As String = Split(filepath, "\")
+                If Html = True Then
+                    SendBufferstr &= "--=====001_Dragon520636771063_=====" & vbCrLf
+                Else
+                    SendBufferstr &= "--=====001_Dragon303406132050_=====" & vbCrLf
+                End If
+                SendBufferstr &= "Content-Type: text/plain" & vbCrLf
+                SendBufferstr &= " name=""=?" & "GB2312" & "?B?"
+                encData_byte_5 = System.Text.Encoding.Default.GetBytes(A(A.Length - 1)) '(filepath.Substring(filepath.LastIndexOf("\\") + 1))
+                SendBufferstr &= Convert.ToBase64String(encData_byte_5) & "?=""" & vbCrLf
+                SendBufferstr &= "Content-Transfer-Encoding: base64" & vbCrLf
+                SendBufferstr &= "Content-Disposition: attachment;" & vbCrLf
+                SendBufferstr &= " filename=""=?GB2312?B?" & Convert.ToBase64String(encData_byte_5) & "?=""" & vbCrLf & vbCrLf
+                SendBufferstr &= GetStream(filepath) & vbCrLf & vbCrLf
+            Next
+
+            If Html = True Then
+                SendBufferstr &= "--=====001_Dragon520636771063_=====--" & vbCrLf & vbCrLf
+            Else
+                SendBufferstr &= "--=====001_Dragon303406132050_=====--" & vbCrLf & vbCrLf
+            End If
+        End If
+#End If
+        SendBufferstr &= vbCrLf & "." & vbCrLf
+        If Dialog(SendBufferstr, "錯誤信件信息") = False Then
+            Return False
+        End If
+
+        SendBufferstr &= "QUIT" & vbCrLf
+        If Dialog(SendBufferstr, "斷開連接時錯誤") = False Then
+            Return False
+        End If
+
+        stream.Close()
+        tcpClient.Close()
+        Return True
+
+    End Function
+#End Region
+
+#Region "GetStream　讀取檔案資料"
+    Private Function GetStream(ByVal FilePath As String) As String
+        Dim FileStr As FileStream
+        FileStr = New FileStream(FilePath, FileMode.Open)
+
+        Dim by() As Byte = New Byte(System.Convert.ToInt32(FileStr.Length)) {}
+        FileStr.Read(by, 0, by.Length)
+        FileStr.Close()
+        Return (System.Convert.ToBase64String(by))
+    End Function
+#End Region
+
+#Region "connect　連接TCPIP"
+    Private Function connect(ByVal smtpServer As String, ByVal port As Integer) As Boolean
+        Dim s As String
+        Dim ipAddr As System.Net.IPAddress
+        '創建Tcp連接
+        Try
+            tcpClient = New tcpClient
+            tcpClient.Connect(smtpServer, port)
+        Catch ex As Exception
+            s = ex.Message
+            Return False
+        End Try
+
+        stream = tcpClient.GetStream()
+        If RightCodeHT(RecvResponse().Substring(0, 3)) Is Nothing Then
+            Return False
+        End If
+        Return True
+
+    End Function
+#End Region
+
+#Region "SendCommand　發送SMTP命令"
+    '發送SMTP命令
+    Private Function SendCommand(ByVal str As String) As Boolean
+        Dim WriteBuffer() As Byte = New Byte(str.Length) {}
+
+        If str.Trim = String.Empty Or str Is Nothing Then
+            Return True
+        End If
+        WriteBuffer = System.Text.Encoding.Default.GetBytes(str)
+
+        Try
+            stream.Write(WriteBuffer, 0, WriteBuffer.Length)
+        Catch ex As Exception
+            Return False
+        End Try
+        Return True
+    End Function
+#End Region
+
+#Region "RecvResponse　接收SMTP服務器回應"
+    '接收SMTP服務器回應
+    Private Function RecvResponse() As String
+        Dim StreamSize As Integer
+        Dim Returnvalue As String = String.Empty
+        Dim ReadBuffer() As Byte = New Byte(9216) {}
+
+        Try
+            StreamSize = stream.Read(ReadBuffer, 0, ReadBuffer.Length)
+        Catch ex As Exception
+            Return "false"
+        End Try
+
+        If StreamSize = 0 Then
+            Return Returnvalue
+        Else
+            Returnvalue = System.Text.Encoding.Default.GetString(ReadBuffer).Substring(0, StreamSize)
+            Return Returnvalue
+        End If
+    End Function
+#End Region
+
+#Region "SMTPCodeAdd　回應代碼訊息表"
+    'SMTP回應代碼哈希表
+    Private Sub SMTPCodeAdd()
+        ErrCodeHT.Add("421", "服務未就緒，關閉傳輸信道")
+        ErrCodeHT.Add("432", "需要一個密碼轉換")
+        ErrCodeHT.Add("450", "要求的郵件操作未完成，郵箱不可用(例如，郵箱忙)")
+        ErrCodeHT.Add("451", "放棄要求的操作；處理過程中出錯")
+        ErrCodeHT.Add("452", "系統存儲不足，要求的操作未執行")
+        ErrCodeHT.Add("454", "臨時認證失敗")
+        ErrCodeHT.Add("500", "郵箱地址錯誤")
+        ErrCodeHT.Add("501", "參數格式錯誤")
+        ErrCodeHT.Add("502", "命令不可實現")
+        ErrCodeHT.Add("503", "服務器需要SMTP驗證")
+        ErrCodeHT.Add("504", "命令參數不可實現")
+        ErrCodeHT.Add("530", "需要認證")
+        ErrCodeHT.Add("534", "認證機制過於簡單")
+        ErrCodeHT.Add("538", "當前請求的認證機制需要加密")
+        ErrCodeHT.Add("550", "要求的郵件操作未完成，郵箱不可用(例如，郵箱未找到，或不可訪問)")
+        ErrCodeHT.Add("551", "用戶非本地，請嘗試<forward-path>")
+        ErrCodeHT.Add("552", "過量的存儲分配，要求的操作未執行")
+        ErrCodeHT.Add("553", "郵箱名不可用，要求的操作未執行(例如郵箱格式錯誤)")
+        ErrCodeHT.Add("554", "傳輸失敗")
+
+        RightCodeHT.Add("220", "服務就緒")
+        RightCodeHT.Add("221", "服務關閉傳輸信道")
+        RightCodeHT.Add("235", "驗證成功")
+        RightCodeHT.Add("250", "要求的郵件操作完成")
+        RightCodeHT.Add("251", "非本地用戶，將轉發向<forward-path>")
+        RightCodeHT.Add("334", "服務器響應驗證Base64字符串")
+        RightCodeHT.Add("354", "開始郵件輸入，以<CRLF>.<CRLF>結束")
+    End Sub
+#End Region
+
+#Region "Dialog　"
+    Private Overloads Function Dialog(ByVal str As String, ByVal errsstr As String) As Boolean
+        Dim RR As String
+        Dim RRCode As String
+        If str Is Nothing Or str.Trim() = String.Empty Then
+            Return True
+        End If
+        If SendCommand(str) Then
+            RR = RecvResponse()
+            If RR = "false" Then
+                Return False
+            End If
+
+            RRCode = RR.Substring(0, 3)
+            If RightCodeHT(RRCode) Is Nothing Then
+                Return True
+            Else
+                If ErrCodeHT(RRCode) Is Nothing Then
+                    Return True
+                Else
+                    ' Me.Label9.Text = errstr
+                    Return False
+                End If
+            End If
+        Else
+            'Me.Label9.Text = errstr
+            Return False
+        End If
+    End Function
+
+    Private Overloads Function Dialog(ByVal str() As String, ByVal errstr As String) As Boolean
+        Dim i As Integer
+        For i = 0 To str.Length - 1
+            If Dialog(str(i), "") = False Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
+#End Region
+
+#Region "GetPriorityString　判斷郵件優先權"
+    Private Function GetPriorityString(ByVal mailPriority As MailPriority) As String
+        Dim priority As String = "Normal"
+
+        If mailPriority = mailPriority.Low Then
+            priority = "Low"
+        ElseIf mailPriority = mailPriority.High Then
+            priority = "High"
+        End If
+
+        Return priority
+    End Function
+#End Region
+#End If
+
+
+
+
+
+
+#End Region
+
+    Private Sub dgCart_PageIndexChanged(ByVal source As Object, ByVal e As System.Web.UI.WebControls.DataGridPageChangedEventArgs) Handles dgCart.PageIndexChanged
+        dgCart.CurrentPageIndex = e.NewPageIndex
+        dgCart.DataBind()
+    End Sub
+
+End Class

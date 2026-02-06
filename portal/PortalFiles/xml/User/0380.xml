@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 EIIS" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_1" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+    <treenode text="2 欣欣天然氣股份有限公司網站" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_2" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+      <treenode text="238 網站後檯首頁" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_238" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+        <treenode text="661 編輯個人資料" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_661" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+      </treenode>
+      <treenode text="606 網站資料維護" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_606" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+        <treenode text="622 工作區" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_622" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+          <treenode text="626 前台首頁資料管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_626" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+            <treenode text="634 最新消息管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_634" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="636 公司訊息管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_636" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="637 施工通告管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_637" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="638 停氣公告管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_638" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="639 跑馬燈管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_639" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+          </treenode>
+          <treenode text="656 意見反映管理" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_656" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+            <treenode text="631 1.處理意見反映" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_631" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="655 2.指派意見反映" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_655" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+            <treenode text="658 3.列印意見反映表" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" id="N_658" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+          </treenode>
+        </treenode>
+      </treenode>
+    </treenode>
+  </treenode>
+</TREENODES>

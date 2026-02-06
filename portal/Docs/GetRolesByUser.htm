@@ -1,0 +1,54 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetRolesByUser 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序傳回指定使用者所屬的入口網站安全性角色。輸入參數為使用者的電子郵件地址。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_GetRolesByUser
+   (
+       @Email         nvarchar(100)
+   )
+   AS
+   
+   SELECT  
+       Portal_Roles.RoleName,
+       Portal_Roles.RoleID
+   
+   FROM Portal_UserRoles
+     INNER JOIN 
+       Portal_Users ON Portal_UserRoles.UserID = Portal_Users.UserID
+     INNER JOIN 
+       Portal_Roles ON Portal_UserRoles.RoleID = Portal_Roles.RoleID
+   
+   WHERE   
+       Portal_Users.Email = @Email
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>UserRoles：</i>UserRoles 資料表提供入口網站安全性角色 (定義於 Roles 資料表) 與使用者 (定義於 Users 資料表) 之間的多對多連接。在使用 UserRoles 資料表時，每名使用者都能屬於多種角色，而且每項角色的成員也可以為多名使用者。
+		<p>
+		UserRoles 資料表沒有主索引鍵。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+		</p>
+		<i>Users：</i>Users 資料表中的每項記錄都是唯一使用者識別項。此資料表的主索引鍵為 UserID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+		</p>
+		<i>Roles：</i>Roles 資料表中的每項記錄都在選取的入口中定義一項唯一角色。並透過 UserRoles 查詢值資料表，將使用者加入至角色中。
+		<p>
+		此資料表的主索引鍵為 RoleID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+		</p>
+	</body>
+</html>

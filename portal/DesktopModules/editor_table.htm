@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://dob.tnc.edu.tw/authorHD/74/editor_table.htm -->
+<HTML><HEAD><TITLE>插入表格</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=big5">
+<STYLE type=text/css>BODY {
+	FONT-SIZE: 12px; FONT-FAMILY: 細明體
+}
+TD {
+	FONT-SIZE: 12px; FONT-FAMILY: 細明體
+}
+.cmdbtn {
+	WIDTH: 45px; HEIGHT: 20px
+}
+.hole {
+	FONT-SIZE: 10px; WIDTH: 24px; FONT-FAMILY: arial; HEIGHT: 18px; TEXT-ALIGN: right
+}
+DIV {
+	CURSOR: default
+}
+</STYLE>
+
+<SCRIPT language=javascript>
+function TableOK(){
+var dotable,tmpcol,tmprow,docol,dorow
+if(tba[0].checked){algn="left";} 
+if(tba[1].checked){algn="center";} 
+if(tba[2].checked){algn="right";} 
+tmpcol="<td align="+algn+"></td>";
+docol=""
+dorow=""
+for ( var i=0; i<tbc.value; i++ ){
+docol=docol+tmpcol;
+}
+docol="<tr>"+docol+"</tr>"
+for ( var j=0; j<tbr.value; j++ ){
+dorow=dorow+docol;
+}
+dotable="<table border="+tbb.value+" cellspacing="+tbs.value+" cellpadding="+tbp.value+">"+dorow+"</table>"
+window.returnValue = dotable;
+window.close();
+}
+</SCRIPT>
+
+<SCRIPT language=VBScript>
+Sub TabStrip_Change()
+if (TabStrip.Value = 0) then
+Page1.style.visibility = "hidden"
+Page0.style.visibility = "visible"
+end if
+if (TabStrip.Value = 1) then
+Page0.style.visibility = "hidden"
+Page1.style.visibility = "visible"
+end if
+end sub
+</SCRIPT>
+
+<META content="MSHTML 6.00.3790.2491" name=GENERATOR></HEAD>
+<BODY bgColor=buttonface topMargin=5 scroll=no>
+<CENTER>
+<OBJECT id=TabStrip classid=clsid:eae50eb0-4a62-11ce-bed6-00aa00611080><PARAM NAME="ListIndex" VALUE="0"><PARAM NAME="NewVersion" VALUE="-1"><PARAM NAME="Size" VALUE="4800;2600"><PARAM NAME="FontHeight" VALUE="180"><PARAM NAME="FontName" VALUE="細明體"><PARAM NAME="Items" VALUE="一般設定;進階設定;"></OBJECT>
+<DIV id=Page0 
+style="LEFT: 12px; VISIBILITY: visible; WIDTH: 180px; POSITION: absolute; TOP: 30px; HEIGHT: 80px; TEXT-ALIGN: left">
+<TABLE cellSpacing=2 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>邊框粗細：</TD>
+    <TD><INPUT class=hole 
+      onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+      maxLength=2 size=2 value=1 name=tbb></TD>
+    <TD>px</TD></TR>
+  <TR>
+    <TD>表格欄數：</TD>
+    <TD><INPUT class=hole 
+      onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+      maxLength=2 size=2 value=2 name=tbc></TD>
+    <TD>欄</TD></TR>
+  <TR>
+    <TD>表格列數：</TD>
+    <TD><INPUT class=hole 
+      onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+      maxLength=2 size=2 value=2 name=tbr></TD>
+    <TD>列</TD></TR></TBODY></TABLE></DIV>
+<DIV id=Page1 
+style="LEFT: 12px; VISIBILITY: hidden; WIDTH: 180px; POSITION: absolute; TOP: 30px; HEIGHT: 80px; TEXT-ALIGN: left">
+<TABLE cellSpacing=2 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>邊框間距：</TD>
+    <TD width=24><INPUT class=hole 
+      onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+      maxLength=2 size=2 value=2 name=tbs></TD>
+    <TD width=85>px</TD></TR>
+  <TR>
+    <TD>欄內留白：</TD>
+    <TD width=24><INPUT class=hole 
+      onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+      maxLength=2 size=2 value=2 name=tbp></TD>
+    <TD>px</TD></TR>
+  <TR>
+    <TD>欄位對齊：</TD>
+    <TD colSpan=2><INPUT type=radio CHECKED name=tba>左<INPUT type=radio 
+      name=tba>中<INPUT type=radio name=tba>右</TD></TR></TBODY></TABLE></DIV>
+<DIV 
+style="LEFT: 10px; WIDTH: 170px; POSITION: absolute; TOP: 108px; HEIGHT: 80px">
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle width=50><INPUT class=cmdbtn onclick=window.close(); type=button value=取消></TD>
+    <TD align=middle width=50><INPUT class=cmdbtn onclick=TableOK(); type=button value=完成></TD></TR></TBODY></TABLE></DIV></CENTER>
+<SCRIPT>
+window.setTimeout('TabStrip.blur()',100);
+</SCRIPT>
+</BODY></HTML>

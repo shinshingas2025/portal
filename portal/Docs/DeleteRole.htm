@@ -1,0 +1,36 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			DeleteRole 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序從資料庫刪除選擇的角色。輸入參數為 RoleID，也就是記錄的主索引鍵。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_DeleteRole
+   (
+       @RoleID int
+   )
+   AS
+   
+   DELETE FROM Portal_Roles
+   
+   WHERE
+       RoleID = @RoleID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Roles：</i>
+		Roles 資料表中的每筆記錄在選擇的入口網站中會定義一個唯一的角色，UserRoles 查詢值資料表會將使用者加入角色。
+		<p>
+		此資料表的主索引鍵為 RoleID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+	</body>
+</html>

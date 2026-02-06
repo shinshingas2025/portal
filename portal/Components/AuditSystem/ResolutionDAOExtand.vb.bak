@@ -1,0 +1,46 @@
+Imports System
+Imports System.Configuration
+Imports System.Data
+Imports System.Data.SqlClient
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+
+Namespace ASPNET.StarterKit.Portal.AuditSystem.DAO
+	Public Class ResolutionDAOExtand
+		Inherits ResolutionDAO
+		Public Overridable Function GetEntitysByEntityID(ByVal entityID As String) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from Resolution where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 16).Value = entityID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Function GetEntitys() As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from Resolution order by ItemID", myConnection)
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overloads Sub UpdateEntity(ByVal entityID As String, ByVal resolutionNumber As String, ByVal content As String, ByVal mainOfficeID As String, ByVal mainUnit As String, ByVal auditStateID As String, ByVal forecastDate As Date, ByVal finishID As Integer, ByVal note As String, ByVal modifierID As String, ByVal modifiedDate As Date)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update Resolution set ResolutionNumber=@ResolutionNumber , Content=@Content , MainOfficeID=@MainOfficeID , MainUnitID=@MainUnitID , AuditStateID=@AuditStateID , ForecastDate=@ForecastDate , FinishID=@FinishID , Note=@Note , ModifierID=@ModifierID , ModifiedDate=@ModifiedDate where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@ResolutionNumber", SqlDbType.NVarChar, 16).Value = resolutionNumber
+			myCommand.Parameters.Add("@Content", SqlDbType.NVarChar, 1024).Value = content
+			myCommand.Parameters.Add("@MainOfficeID", SqlDbType.NVarChar, 24).Value = mainOfficeID
+			myCommand.Parameters.Add("@MainUnit", SqlDbType.NVarChar, 256).Value = mainUnit
+			myCommand.Parameters.Add("@AuditStateID", SqlDbType.NVarChar, 24).Value = auditStateID
+			myCommand.Parameters.Add("@ForecastDate", SqlDbType.DateTime, 8).Value = forecastDate
+			myCommand.Parameters.Add("@FinishID", SqlDbType.Int, 4).Value = finishID
+			myCommand.Parameters.Add("@Note", SqlDbType.NVarChar, 256).Value = note
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.NVarChar, 50).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 16).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+	End Class
+End Namespace

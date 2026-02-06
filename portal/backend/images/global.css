@@ -1,0 +1,90 @@
+BODY {
+	
+}
+A {
+	COLOR: #003399
+}
+A:hover {
+	COLOR: #3366cc
+}
+.topnavlink {
+	COLOR: #ffffff; FONT-SIZE: 9.5px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.topnavlink:hover {
+	COLOR: #ffffff; TEXT-DECORATION: underline
+}
+TR {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+TD {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+TABLE {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+FORM {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+INPUT {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+BUTTON {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+SELECT {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+OPTION {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+TEXTAREA {
+	COLOR: #333333; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt; page-break-inside: avoid
+}
+TABLE.border {
+	BORDER-BOTTOM: black 1px solid; BORDER-COLLAPSE: collapse; BORDER-LEFT: black 1px solid; BORDER-RIGHT: black 1px solid; BORDER-TOP: black 1px solid; COLOR: black; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; page-break-inside: avoid
+}
+.tableheader {
+	BACKGROUND-COLOR: #99cc33
+}
+.normal {
+	FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 9.5pt
+}
+.smallprint {
+	FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 8pt
+}
+.storesmallprint {
+	FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 8pt
+}
+.footer {
+	FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 8pt
+}
+.subhead {
+	COLOR: #99cc00; FONT-FAMILY: verdana,geneva,arial,helvetica,sans-serif; FONT-SIZE: 12pt; FONT-WEIGHT: bold
+}
+.head {
+	COLOR: #333333; FONT-FAMILY: verdana,arial,helvetica,sans-serif; FONT-SIZE: 14pt; LINE-HEIGHT: 100%
+}
+IMG.imageborder {
+	BORDER-BOTTOM-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px; BORDER-TOP-WIDTH: 0px
+}
+.tableheaderbg {
+	BACKGROUND-COLOR: #99cc00; COLOR: #ffffff
+}
+.checkoutbg {
+	BACKGROUND-COLOR: #ffffff
+}
+.tablebg {
+	BACKGROUND-COLOR: #f5f5f5; COLOR: #000000
+}
+.tablebg2 {
+	BACKGROUND-COLOR: #e9e9e9; COLOR: #000000
+}
+.sidebartext {
+	COLOR: #000000
+}
+.sidebarbg {
+	BACKGROUND-COLOR: #ffffff
+}
+.alertmessage {
+	COLOR: #ff0000
+}

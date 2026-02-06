@@ -1,0 +1,39 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			DeleteUserRole 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序從指定的安全性角色刪除使用者。Roles 資料表中以個別的入口網站為基準來定義角色。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_DeleteUserRole
+   (
+       @UserID int,
+       @RoleID int
+   )
+   AS
+   
+   DELETE FROM Portal_UserRoles
+   
+   WHERE
+       UserID=@UserID
+       AND
+       RoleID=@RoleID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>UserRoles：</i>
+	UserRoles 資料表提供入口網站安全性角色 (定義於 Roles 資料表) 與使用者 (定義於 Users 資料表) 之間的多對多連接。 在使用 UserRoles 資料表時，每名使用者都能屬於多種角色，而且每項角色的成員也可以為多名使用者。
+		<p>
+		UserRoles 資料表沒有主索引鍵。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+	</body>
+</html>

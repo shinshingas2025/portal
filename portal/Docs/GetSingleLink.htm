@@ -1,0 +1,47 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetSingleLink 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+		此預存程序從資料庫傳回單一連結項目。輸入參數為 ItemID，也就是記錄的主索引鍵。傳回的值包括連結詳細資料，以及建立與最後編輯此項目的使用者相關資訊。
+		<p>
+			此預存程序可由 Links 的編輯頁使用。
+		</p>
+		<b>定義：</b>
+		<pre>
+
+   CREATE PROCEDURE Portal_GetSingleLink
+   (
+       @ItemID int
+   )
+   AS
+   
+   SELECT
+       CreatedByUser,
+       CreatedDate,
+       Title,
+       Url,
+       MobileUrl,
+       ViewOrder,
+       Description
+   
+   FROM Portal_Links
+   
+   WHERE
+       ItemID = @ItemID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Links：</i>如 Links Portal 模組所示，Links 資料表中的每筆記錄都是超連結。由於所有的 Links 模組會將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意連結說明不得超過 4000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/links.jpg">
+		</p>
+	</body>
+</html>

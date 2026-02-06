@@ -1,0 +1,1469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{859149BC-C37D-4114-9F6C-19202E06E384}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>portal</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>portal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>portal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="GenCode128, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\GenCode128.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\shinshin\shinshin\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\AddAllContextViewSetting.aspx" />
+    <Content Include="admin\AllContextViewSetting.ascx" />
+    <Content Include="admin\AllWebFormSetting.ascx" />
+    <Content Include="admin\EditAccessDenied.aspx" />
+    <Content Include="admin\EditAllContextViewSetting.aspx" />
+    <Content Include="admin\EditAllWebFormSetting.aspx" />
+    <Content Include="admin\EditSecurityAuthority.aspx" />
+    <Content Include="admin\EditUserInfo.aspx" />
+    <Content Include="admin\EditUserPassword.aspx" />
+    <Content Include="admin\Logoff.aspx" />
+    <Content Include="admin\SecurityAuthoritySetting.ascx" />
+    <Content Include="admin\UserInfo.ascx" />
+    <Content Include="backend\assignUser.aspx" />
+    <Content Include="backend\contact.aspx" />
+    <Content Include="backend\contactAdmin.aspx" />
+    <Content Include="backend\contactAdmin_2.aspx" />
+    <Content Include="backend\contactEdit.aspx" />
+    <Content Include="backend\contactMgt.aspx" />
+    <Content Include="backend\contactMgt_2.aspx" />
+    <Content Include="backend\contactView.aspx" />
+    <Content Include="backend\contactView_2.aspx" />
+    <Content Include="backend\contact_2.aspx" />
+    <Content Include="backend\Contact_deatail_report.aspx" />
+    <Content Include="backend\contact_report.aspx" />
+    <Content Include="backend\contact_report_2.aspx" />
+    <Content Include="backend\Default.aspx" />
+    <Content Include="backend\dividend.aspx" />
+    <Content Include="backend\download_grp.aspx" />
+    <Content Include="backend\download_grp2.aspx" />
+    <Content Include="backend\download_item.aspx" />
+    <Content Include="backend\download_item2.aspx" />
+    <Content Include="backend\faq_grp.aspx" />
+    <Content Include="backend\faq_item.aspx" />
+    <Content Include="backend\file_spec_download.aspx" />
+    <Content Include="backend\hotnews.aspx" />
+    <Content Include="backend\information.aspx" />
+    <Content Include="backend\InsuFileMapping.aspx" />
+    <Content Include="backend\InsuFileMapping_detail.aspx" />
+    <Content Include="backend\invest_01.aspx" />
+    <Content Include="backend\invest_02.aspx" />
+    <Content Include="backend\invest_03.aspx" />
+    <Content Include="backend\invest_04.aspx" />
+    <Content Include="backend\invest_05.aspx" />
+    <Content Include="backend\invest_06.aspx" />
+    <Content Include="backend\invest_07.aspx" />
+    <Content Include="backend\invest_08.aspx" />
+    <Content Include="backend\invest_101.aspx" />
+    <Content Include="backend\logout.aspx" />
+    <Content Include="backend\member_01.aspx" />
+    <Content Include="backend\message.aspx" />
+    <Content Include="backend\monthincome.aspx" />
+    <Content Include="backend\product_grp.aspx" />
+    <Content Include="backend\product_item.aspx" />
+    <Content Include="backend\queryDegS.aspx" />
+    <Content Include="backend\replace_allow.aspx" />
+    <Content Include="backend\replace_apply.aspx" />
+    <Content Include="backend\replace_detail_tmp.aspx" />
+    <Content Include="backend\replace_master_tmp.aspx" />
+    <Content Include="backend\resend_allow.aspx" />
+    <Content Include="backend\resend_detail_tmp.aspx" />
+    <Content Include="backend\resend_file_tmp.aspx" />
+    <Content Include="backend\resend_master_tmp.aspx" />
+    <Content Include="backend\revoke_allow.aspx" />
+    <Content Include="backend\revoke_apply.aspx" />
+    <Content Include="backend\sample.aspx" />
+    <Content Include="backend\send_detail_tmp.aspx" />
+    <Content Include="backend\send_file_tmp.aspx" />
+    <Content Include="backend\send_master_tmp.aspx" />
+    <Content Include="backend\stopinfor.aspx" />
+    <Content Include="backend\user_01.aspx" />
+    <Content Include="backend\user_02.aspx" />
+    <Content Include="backend\user_03.aspx" />
+    <Content Include="backend\user_98.aspx" />
+    <Content Include="backend\workinfor.aspx" />
+    <Content Include="backend\_footer.ascx" />
+    <Content Include="backend\_Header.ascx" />
+    <Content Include="backend\_NewMenu.ascx" />
+    <Content Include="Default.aspx" />
+    <Content Include="DesktopDefault.aspx" />
+    <Content Include="DesktopModuleBottom.ascx" />
+    <Content Include="DesktopModules\announce.ascx" />
+    <Content Include="DesktopModules\Document.ascx" />
+    <Content Include="DesktopModules\Events.ascx" />
+    <Content Include="DesktopModules\HTMLeditor.aspx" />
+    <Content Include="DesktopModules\MenuControl.ascx" />
+    <Content Include="DesktopModules\Signin.ascx" />
+    <Content Include="DesktopModuleTitle.ascx" />
+    <Content Include="DesktopNormalTitle.ascx" />
+    <Content Include="DesktopPortalBanner.ascx" />
+    <Content Include="EIIS\View\AccountMgtView.aspx" />
+    <Content Include="EIIS\View\FunctionView.aspx" />
+    <Content Include="EIIS\View\GroupsView.aspx" />
+    <Content Include="EIIS\View\iFrame.aspx" />
+    <Content Include="EIIS\View\ImportDomains.aspx" />
+    <Content Include="EIIS\View\JobListView.aspx" />
+    <Content Include="EIIS\View\UserInfoView.aspx" />
+    <Content Include="ereceipt\batch_delete.aspx" />
+    <Content Include="ereceipt\Batch_job_inquiries.aspx" />
+    <Content Include="ereceipt\Batch_Record_Search.aspx" />
+    <Content Include="ereceipt\Batch_Record_Search_S.aspx" />
+    <Content Include="ereceipt\batch_send_receipt.html" />
+    <Content Include="ereceipt\ers_send_detail.aspx" />
+    <Content Include="ereceipt\ers_send_detailMgt.aspx" />
+    <Content Include="ereceipt\memberEdit.aspx" />
+    <Content Include="ereceipt\member_manage.aspx" />
+    <Content Include="ereceipt\member_manageMgtAdd.aspx" />
+    <Content Include="ereceipt\member_manageMgtDelet.aspx" />
+    <Content Include="ereceipt\member_trans_log.aspx" />
+    <Content Include="ereceipt\member_trans_mis.aspx" />
+    <Content Include="ereceipt\member_trans_mis_result.aspx" />
+    <Content Include="ereceipt\querymeber_house.aspx" />
+    <Content Include="ereceipt\receipt_ad.aspx" />
+    <Content Include="ereceipt\receipt_notice.aspx" />
+    <Content Include="ereceipt\Receipt_Send_Record.aspx" />
+    <Content Include="ereceipt\send_to_batch.aspx" />
+    <Content Include="ereceipt\startmember_01.aspx" />
+    <Content Include="ereceipt\startmember_02.aspx" />
+    <Content Include="ereceipt\startmember_03.aspx" />
+    <Content Include="ereceipt\startmember_04.aspx" />
+    <Content Include="ereceipt\startmember_05.aspx" />
+    <Content Include="ereceipt\Webmember_01.aspx" />
+    <Content Include="ereceipt\wmemberView_01.aspx" />
+    <Content Include="ereceipt\wmemberView_02.aspx" />
+    <Content Include="ereceipt\wmember_01.aspx" />
+    <Content Include="ereceipt\wmember_02.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="MobileModuleTitle.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="admin\AddAllContextViewSetting.aspx.vb">
+      <DependentUpon>AddAllContextViewSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\AllContextViewSetting.ascx.vb">
+      <DependentUpon>AllContextViewSetting.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\AllWebFormSetting.ascx.vb">
+      <DependentUpon>AllWebFormSetting.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditAccessDenied.aspx.vb">
+      <DependentUpon>EditAccessDenied.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditAllContextViewSetting.aspx.vb">
+      <DependentUpon>EditAllContextViewSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditAllWebFormSetting.aspx.vb">
+      <DependentUpon>EditAllWebFormSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditSecurityAuthority.aspx.vb">
+      <DependentUpon>EditSecurityAuthority.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditUserInfo.aspx.vb">
+      <DependentUpon>EditUserInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\EditUserPassword.aspx.vb">
+      <DependentUpon>EditUserPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\Logoff.aspx.vb">
+      <DependentUpon>Logoff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\SecurityAuthoritySetting.ascx.vb">
+      <DependentUpon>SecurityAuthoritySetting.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\UserInfo.ascx.vb">
+      <DependentUpon>UserInfo.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\assignUser.aspx.vb">
+      <DependentUpon>assignUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contact.aspx.vb">
+      <DependentUpon>contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactAdmin.aspx.vb">
+      <DependentUpon>contactAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactAdmin_2.aspx.vb">
+      <DependentUpon>contactAdmin_2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactEdit.aspx.vb">
+      <DependentUpon>contactEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactMgt.aspx.vb">
+      <DependentUpon>contactMgt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactMgt_2.aspx.vb">
+      <DependentUpon>contactMgt_2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactView.aspx.vb">
+      <DependentUpon>contactView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contactView_2.aspx.vb">
+      <DependentUpon>contactView_2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contact_2.aspx.vb">
+      <DependentUpon>contact_2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\Contact_deatail_report.aspx.vb">
+      <DependentUpon>Contact_deatail_report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contact_report.aspx.vb">
+      <DependentUpon>contact_report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\contact_report_2.aspx.vb">
+      <DependentUpon>contact_report_2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\DataSet_admin.vb" />
+    <Compile Include="backend\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\dividend.aspx.vb">
+      <DependentUpon>dividend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\download_grp.aspx.vb">
+      <DependentUpon>download_grp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\download_grp2.aspx.vb">
+      <DependentUpon>download_grp2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\download_item.aspx.vb">
+      <DependentUpon>download_item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\download_item2.aspx.vb">
+      <DependentUpon>download_item2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\faq_grp.aspx.vb">
+      <DependentUpon>faq_grp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\faq_item.aspx.vb">
+      <DependentUpon>faq_item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\file_spec_download.aspx.vb">
+      <DependentUpon>file_spec_download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\hotnews.aspx.vb">
+      <DependentUpon>hotnews.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\information.aspx.vb">
+      <DependentUpon>information.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\InsuFileMapping.aspx.vb">
+      <DependentUpon>InsuFileMapping.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\InsuFileMapping_detail.aspx.vb">
+      <DependentUpon>InsuFileMapping_detail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_01.aspx.vb">
+      <DependentUpon>invest_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_02.aspx.vb">
+      <DependentUpon>invest_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_03.aspx.vb">
+      <DependentUpon>invest_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_04.aspx.vb">
+      <DependentUpon>invest_04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_05.aspx.vb">
+      <DependentUpon>invest_05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_06.aspx.vb">
+      <DependentUpon>invest_06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_07.aspx.vb">
+      <DependentUpon>invest_07.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_08.aspx.vb">
+      <DependentUpon>invest_08.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\invest_101.aspx.vb">
+      <DependentUpon>invest_101.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\logout.aspx.vb">
+      <DependentUpon>logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\member_01.aspx.vb">
+      <DependentUpon>member_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\message.aspx.vb">
+      <DependentUpon>message.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\monthincome.aspx.vb">
+      <DependentUpon>monthincome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\product_grp.aspx.vb">
+      <DependentUpon>product_grp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\product_item.aspx.vb">
+      <DependentUpon>product_item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\queryDegS.aspx.designer.vb">
+      <DependentUpon>queryDegS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="backend\queryDegS.aspx.vb">
+      <DependentUpon>queryDegS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\replace_allow.aspx.vb">
+      <DependentUpon>replace_allow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\replace_apply.aspx.vb">
+      <DependentUpon>replace_apply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\replace_detail_tmp.aspx.vb">
+      <DependentUpon>replace_detail_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\replace_master_tmp.aspx.vb">
+      <DependentUpon>replace_master_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\resend_allow.aspx.vb">
+      <DependentUpon>resend_allow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\resend_detail_tmp.aspx.vb">
+      <DependentUpon>resend_detail_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\resend_file_tmp.aspx.vb">
+      <DependentUpon>resend_file_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\resend_master_tmp.aspx.vb">
+      <DependentUpon>resend_master_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\revoke_allow.aspx.vb">
+      <DependentUpon>revoke_allow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\revoke_apply.aspx.vb">
+      <DependentUpon>revoke_apply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\sample.aspx.vb">
+      <DependentUpon>sample.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\send_detail_tmp.aspx.vb">
+      <DependentUpon>send_detail_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\send_file_tmp.aspx.vb">
+      <DependentUpon>send_file_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\send_master_tmp.aspx.vb">
+      <DependentUpon>send_master_tmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\stopinfor.aspx.vb">
+      <DependentUpon>stopinfor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\user_01.aspx.vb">
+      <DependentUpon>user_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\user_02.aspx.vb">
+      <DependentUpon>user_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\user_03.aspx.vb">
+      <DependentUpon>user_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\user_98.aspx.vb">
+      <DependentUpon>user_98.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\workinfor.aspx.vb">
+      <DependentUpon>workinfor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\_footer.ascx.vb">
+      <DependentUpon>_footer.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\_Header.ascx.vb">
+      <DependentUpon>_Header.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="backend\_NewMenu.ascx.vb">
+      <DependentUpon>_NewMenu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\AnnounceDB.vb" />
+    <Compile Include="Components\AnnouncementsDB.vb" />
+    <Compile Include="Components\AuditSystem\AffairProcessCheckFormDAO.vb" />
+    <Compile Include="Components\AuditSystem\AffairProcessCheckFormDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\AffairProcessMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\AffairProcessMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ClassesDAO.vb" />
+    <Compile Include="Components\AuditSystem\ClassListDAO.vb" />
+    <Compile Include="Components\AuditSystem\ControlDefinitionDAO.vb" />
+    <Compile Include="Components\AuditSystem\ControlDefinitionDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\CouncilmanInstructionCouncilmanMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\CouncilmanInstructionCouncilmanMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\CouncilmanInstructionDAO.vb" />
+    <Compile Include="Components\AuditSystem\CouncilmanInstructionDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\DeptWorkPlanDAO.vb" />
+    <Compile Include="Components\AuditSystem\EventAnserDAO.vb" />
+    <Compile Include="Components\AuditSystem\EventResolutionMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\EventResolutionMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\EveryDayScheduleDAO.vb" />
+    <Compile Include="Components\AuditSystem\LawAppendDAO.vb" />
+    <Compile Include="Components\AuditSystem\LawAppendDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\LawContentDAO.vb" />
+    <Compile Include="Components\AuditSystem\LawContentDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\LawDAO.vb" />
+    <Compile Include="Components\AuditSystem\LawDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\MajorMemberCaseTracertDAO.vb" />
+    <Compile Include="Components\AuditSystem\MeetingRecordDAO.vb" />
+    <Compile Include="Components\AuditSystem\MeetingRecordDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\MeetingRecordResolutionDAO.vb" />
+    <Compile Include="Components\AuditSystem\MeetingRecordResolutionDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\MonthPerformenceDAO.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseAppendDAO.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseAppendDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseContentDAO.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseContentDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseDAO.vb" />
+    <Compile Include="Components\AuditSystem\NewsReleaseDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\NormalCodeDAO.vb" />
+    <Compile Include="Components\AuditSystem\NormalCodeDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\NormalCodeGroupDAO.vb" />
+    <Compile Include="Components\AuditSystem\NormalCodeGroupDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceCodeDAO.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceCodeDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceMemberMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\PolicyInsuranceMemberMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\PolicyLawCheckFormDAO.vb" />
+    <Compile Include="Components\AuditSystem\PolicyLawCheckFormDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\PolicyLawCommentDAO.vb" />
+    <Compile Include="Components\AuditSystem\PolicyLawCommentDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAttributeCodeDAO.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAttributeCodeDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAttributeMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAttributeMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAuditMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\ProcessAuditMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionAuditCodeDAO.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionAuditCodeDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionAuditMapDAO.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionAuditMapDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionDAO.vb" />
+    <Compile Include="Components\AuditSystem\ResolutionDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\ScheduleDAO.vb" />
+    <Compile Include="Components\AuditSystem\ScheduleDAOExtand.vb" />
+    <Compile Include="Components\AuditSystem\SchedulePointDAO.vb" />
+    <Compile Include="Components\Configuration.vb" />
+    <Compile Include="Components\ContactsDB.vb" />
+    <Compile Include="Components\ContextAuthBO.vb" />
+    <Compile Include="Components\ContextAuthDAO.vb" />
+    <Compile Include="Components\CounterDB.vb" />
+    <Compile Include="Components\DeptDAO.vb" />
+    <Compile Include="Components\DeptEntity.vb" />
+    <Compile Include="Components\DeptExtendOrgEntity.vb" />
+    <Compile Include="Components\DesktopControls.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\DiscussionDB.vb" />
+    <Compile Include="Components\DMS_DocumentTypeDAO.vb" />
+    <Compile Include="Components\DMS_DocumentTypeDAOExtand.vb" />
+    <Compile Include="Components\DMS_FileDAO.vb" />
+    <Compile Include="Components\DMS_FileDAOExtand.vb" />
+    <Compile Include="Components\DMS_FileDataDAO.vb" />
+    <Compile Include="Components\DMS_FileDataDAOExtand.vb" />
+    <Compile Include="Components\DMS_FlowTypeDAO.vb" />
+    <Compile Include="Components\DMS_FlowTypeDAOExtand.vb" />
+    <Compile Include="Components\DMS_FolderDAO.vb" />
+    <Compile Include="Components\DMS_FolderDAOExtand.vb" />
+    <Compile Include="Components\DMS_MetaKeywordDAO.vb" />
+    <Compile Include="Components\DMS_MetaKeywordDAOExtand.vb" />
+    <Compile Include="Components\DocumentDB.vb" />
+    <Compile Include="Components\EIIS_CommunityDAOExtand.vb" />
+    <Compile Include="Components\EventsDB.vb" />
+    <Compile Include="Components\HtmlTextDB.vb" />
+    <Compile Include="Components\ImageListDB.vb" />
+    <Compile Include="Components\LinksDB.vb" />
+    <Compile Include="Components\Mail.vb" />
+    <Compile Include="Components\OrgBO.vb" />
+    <Compile Include="Components\OrgCollection.vb" />
+    <Compile Include="Components\OrgDAO.vb" />
+    <Compile Include="Components\OrgEntity.vb" />
+    <Compile Include="Components\Portal_AnswerDAO.vb" />
+    <Compile Include="Components\Portal_AnswerDAOExtand.vb" />
+    <Compile Include="Components\Portal_AuditDAO.vb" />
+    <Compile Include="Components\Portal_AuditDAOExtand.vb" />
+    <Compile Include="Components\Portal_AuditDetailDAO.vb" />
+    <Compile Include="Components\Portal_AuditDetailDAOExtand.vb" />
+    <Compile Include="Components\Portal_BulletinAppendDAO.vb" />
+    <Compile Include="Components\Portal_BulletinAppendDAOExtand.vb" />
+    <Compile Include="Components\Portal_BulletinDAO.vb" />
+    <Compile Include="Components\Portal_BulletinDAOExtand.vb" />
+    <Compile Include="Components\Portal_BulletinMapDAO.vb" />
+    <Compile Include="Components\Portal_BulletinMapDAOExtand.vb" />
+    <Compile Include="Components\Portal_CodeGroupDAO.vb" />
+    <Compile Include="Components\Portal_CodeNormalDAO.vb" />
+    <Compile Include="Components\Portal_CodeNormalDAOExtand.vb" />
+    <Compile Include="Components\Portal_DefModuleDB.vb" />
+    <Compile Include="Components\Portal_EPaperDAO.vb" />
+    <Compile Include="Components\Portal_EPaperDAOExtand.vb" />
+    <Compile Include="Components\Portal_EPaperDeliverManagerDAO.vb" />
+    <Compile Include="Components\Portal_EPaperDeliverManagerDAOExtand.vb" />
+    <Compile Include="Components\Portal_ExportColumnDAO.vb" />
+    <Compile Include="Components\Portal_ExportColumnDAOExtand.vb" />
+    <Compile Include="Components\Portal_ExportDAO.vb" />
+    <Compile Include="Components\Portal_ExportDAOExtand.vb" />
+    <Compile Include="Components\Portal_GuestBookDAO.vb" />
+    <Compile Include="Components\Portal_GuestBookDAOExtand.vb" />
+    <Compile Include="Components\Portal_iframeDB.vb" />
+    <Compile Include="Components\Portal_ImportColumnDAO.vb" />
+    <Compile Include="Components\Portal_ImportColumnDAOExtand.vb" />
+    <Compile Include="Components\Portal_ImportDAO.vb" />
+    <Compile Include="Components\Portal_ImportDAOExtand.vb" />
+    <Compile Include="Components\Portal_ModuleStatisticDAO.vb" />
+    <Compile Include="Components\Portal_ModuleStatisticDAOExtand.vb" />
+    <Compile Include="Components\Portal_QAMapDAO.vb" />
+    <Compile Include="Components\Portal_QAMapDAOExtand.vb" />
+    <Compile Include="Components\Portal_QAResultDAO.vb" />
+    <Compile Include="Components\Portal_QuestionDAO.vb" />
+    <Compile Include="Components\Portal_QuestionDAOExtand.vb" />
+    <Compile Include="Components\Portal_ReportArgumentDAO.vb" />
+    <Compile Include="Components\Portal_ReportArgumentDAOExtand.vb" />
+    <Compile Include="Components\Portal_ReportGroupDAO.vb" />
+    <Compile Include="Components\Portal_ReportGroupDAOExtand.vb" />
+    <Compile Include="Components\Portal_ReportNormalDAO.vb" />
+    <Compile Include="Components\Portal_ReportNormalDAOExtand.vb" />
+    <Compile Include="Components\Portal_ReportSchoolDAO.vb" />
+    <Compile Include="Components\Portal_ReportSchoolDAOExtand.vb" />
+    <Compile Include="Components\Portal_ResultTextBoxDAO.vb" />
+    <Compile Include="Components\Portal_SchoolUserDAO.vb" />
+    <Compile Include="Components\Portal_SiteDAO.vb" />
+    <Compile Include="Components\Portal_SiteDAOExtand.vb" />
+    <Compile Include="Components\Portal_SubscriptionDAO.vb" />
+    <Compile Include="Components\Portal_SubscriptionDAOExtand.vb" />
+    <Compile Include="Components\Portal_SubscriptionListDAO.vb" />
+    <Compile Include="Components\Portal_SubscriptionListDAOExtand.vb" />
+    <Compile Include="Components\Portal_SubscriptionUserDAO.vb" />
+    <Compile Include="Components\Portal_SubscriptionUserDAOExtand.vb" />
+    <Compile Include="Components\RolesDB.vb" />
+    <Compile Include="Components\Security.vb" />
+    <Compile Include="Components\SecurityDAO.vb" />
+    <Compile Include="Components\SecurityDB.vb" />
+    <Compile Include="Components\Shinshin\APPC02DAO.vb" />
+    <Compile Include="Components\Shinshin\APPX01DAO.vb" />
+    <Compile Include="Components\Shinshin\APPX01Entity.vb" />
+    <Compile Include="Components\Shinshin\BatchDeleteBO.vb" />
+    <Compile Include="Components\Shinshin\Batch_job.vb" />
+    <Compile Include="Components\Shinshin\ContactBO.vb" />
+    <Compile Include="Components\Shinshin\DividendBO.vb" />
+    <Compile Include="Components\Shinshin\Download2BO.vb" />
+    <Compile Include="Components\Shinshin\DownloadBO.vb" />
+    <Compile Include="Components\Shinshin\EaccountBO.vb" />
+    <Compile Include="Components\Shinshin\Encontact.vb" />
+    <Compile Include="Components\Shinshin\Endividend.vb" />
+    <Compile Include="Components\Shinshin\Endownload.vb" />
+    <Compile Include="Components\Shinshin\Endownload2.vb" />
+    <Compile Include="Components\Shinshin\Eneaccount.vb" />
+    <Compile Include="Components\Shinshin\Enfaq.vb" />
+    <Compile Include="Components\Shinshin\Enhistory.vb" />
+    <Compile Include="Components\Shinshin\Enhotnews.vb" />
+    <Compile Include="Components\Shinshin\Enifor.vb" />
+    <Compile Include="Components\Shinshin\Eninforappm01.vb" />
+    <Compile Include="Components\Shinshin\Eninforappm17.vb" />
+    <Compile Include="Components\Shinshin\Eninvest.vb" />
+    <Compile Include="Components\Shinshin\Eninvest101.vb" />
+    <Compile Include="Components\Shinshin\Enitem.vb" />
+    <Compile Include="Components\Shinshin\Enlinks.vb" />
+    <Compile Include="Components\Shinshin\Enmember.vb" />
+    <Compile Include="Components\Shinshin\Enmonthincome.vb" />
+    <Compile Include="Components\Shinshin\Enmsg.vb" />
+    <Compile Include="Components\Shinshin\Ennewuser.vb" />
+    <Compile Include="Components\Shinshin\Enproducts.vb" />
+    <Compile Include="Components\Shinshin\Enreceiptad.vb" />
+    <Compile Include="Components\Shinshin\Enreceiptnotice.vb" />
+    <Compile Include="Components\Shinshin\Enscale.vb" />
+    <Compile Include="Components\Shinshin\Enstop.vb" />
+    <Compile Include="Components\Shinshin\Enwebmember.vb" />
+    <Compile Include="Components\Shinshin\Enwork.vb" />
+    <Compile Include="Components\Shinshin\ErsSendDetailBO.vb" />
+    <Compile Include="Components\Shinshin\FaqBO.vb" />
+    <Compile Include="Components\Shinshin\HotnewsBO.vb" />
+    <Compile Include="Components\Shinshin\IforBO.vb" />
+    <Compile Include="Components\Shinshin\Inforappm01BO.vb" />
+    <Compile Include="Components\Shinshin\Inforappm17BO.vb" />
+    <Compile Include="Components\Shinshin\Invest101BO.vb" />
+    <Compile Include="Components\Shinshin\InvestBO.vb" />
+    <Compile Include="Components\Shinshin\item.vb" />
+    <Compile Include="Components\Shinshin\ItemBO.vb" />
+    <Compile Include="Components\Shinshin\LinksBO.vb" />
+    <Compile Include="Components\Shinshin\MemberBO.vb" />
+    <Compile Include="Components\Shinshin\Memberhouse.vb" />
+    <Compile Include="Components\Shinshin\MemberManageBO.vb" />
+    <Compile Include="Components\Shinshin\MemberManageMgtAddBO.vb" />
+    <Compile Include="Components\Shinshin\MemberTransLogBO.vb" />
+    <Compile Include="Components\Shinshin\MonthincomeBO.vb" />
+    <Compile Include="Components\Shinshin\MsgBO.vb" />
+    <Compile Include="Components\Shinshin\NewApplyBO.vb" />
+    <Compile Include="Components\Shinshin\NewuserBO.vb" />
+    <Compile Include="Components\Shinshin\ProductsBO.vb" />
+    <Compile Include="Components\Shinshin\QdegDAO.vb" />
+    <Compile Include="Components\Shinshin\ReceiptAdBO.vb" />
+    <Compile Include="Components\Shinshin\ReceiptNoticeBO.vb" />
+    <Compile Include="Components\Shinshin\RecentDAO.vb" />
+    <Compile Include="Components\Shinshin\ScaleBO.vb" />
+    <Compile Include="Components\Shinshin\SelfReportDotDAO.vb" />
+    <Compile Include="Components\Shinshin\StopBO.vb" />
+    <Compile Include="Components\Shinshin\User01BO.vb" />
+    <Compile Include="Components\Shinshin\vUserInfoBO.vb" />
+    <Compile Include="Components\Shinshin\WebmemberBO.vb" />
+    <Compile Include="Components\Shinshin\WebmemberDotDAO.vb" />
+    <Compile Include="Components\Shinshin\WorkBO.vb" />
+    <Compile Include="Components\SiteDB.vb" />
+    <Compile Include="Components\StatisticsDB.vb" />
+    <Compile Include="Components\UserInfoDAO.vb" />
+    <Compile Include="Components\VoteDB.vb" />
+    <Compile Include="Components\WebTemplateDB.vb" />
+    <Compile Include="Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopDefault.aspx.vb">
+      <DependentUpon>DesktopDefault.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModuleBottom.ascx.vb">
+      <DependentUpon>DesktopModuleBottom.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\announce.ascx.vb">
+      <DependentUpon>announce.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\Document.ascx.vb">
+      <DependentUpon>Document.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\Events.ascx.vb">
+      <DependentUpon>Events.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\HTMLeditor.aspx.vb">
+      <DependentUpon>HTMLeditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\MenuControl.ascx.vb">
+      <DependentUpon>MenuControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\Signin.ascx.vb">
+      <DependentUpon>Signin.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModuleTitle.ascx.vb">
+      <DependentUpon>DesktopModuleTitle.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopNormalTitle.ascx.vb">
+      <DependentUpon>DesktopNormalTitle.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopPortalBanner.ascx.vb">
+      <DependentUpon>DesktopPortalBanner.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\BO\AuthorityBO.vb" />
+    <Compile Include="EIIS\BO\CommunityBO.vb" />
+    <Compile Include="EIIS\BO\DomainsBO.vb" />
+    <Compile Include="EIIS\BO\FunctionsBO.vb" />
+    <Compile Include="EIIS\BO\GroupsBO.vb" />
+    <Compile Include="EIIS\BO\SecurityBO.vb" />
+    <Compile Include="EIIS\BO\UserInfoBO.vb" />
+    <Compile Include="EIIS\Common\Configration.vb" />
+    <Compile Include="EIIS\Common\DBConn.vb" />
+    <Compile Include="EIIS\Common\DBConn2.vb" />
+    <Compile Include="EIIS\Common\DBConn3.vb" />
+    <Compile Include="EIIS\Common\Entity\Account.vb" />
+    <Compile Include="EIIS\Common\Entity\Community.vb" />
+    <Compile Include="EIIS\Common\Entity\CommunityNode.vb" />
+    <Compile Include="EIIS\Common\Entity\CommunityNodeCollection.vb" />
+    <Compile Include="EIIS\Common\Entity\Domains.vb" />
+    <Compile Include="EIIS\Common\Entity\DomainsNode.vb" />
+    <Compile Include="EIIS\Common\Entity\FunctionAuthority.vb" />
+    <Compile Include="EIIS\Common\Entity\FunctionCollection.vb" />
+    <Compile Include="EIIS\Common\Entity\Functions.vb" />
+    <Compile Include="EIIS\Common\Entity\Groups.vb" />
+    <Compile Include="EIIS\Common\Entity\Security.vb" />
+    <Compile Include="EIIS\Common\Entity\User.vb" />
+    <Compile Include="EIIS\Common\Functions.vb" />
+    <Compile Include="EIIS\Common\FunctionViewModule.vb" />
+    <Compile Include="EIIS\Common\LinksDB.vb" />
+    <Compile Include="EIIS\View\AccountMgtView.aspx.vb">
+      <DependentUpon>AccountMgtView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\FunctionView.aspx.vb">
+      <DependentUpon>FunctionView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\GroupsView.aspx.vb">
+      <DependentUpon>GroupsView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\iFrame.aspx.vb">
+      <DependentUpon>iFrame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\ImportDomains.aspx.vb">
+      <DependentUpon>ImportDomains.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\JobListView.aspx.vb">
+      <DependentUpon>JobListView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EIIS\View\UserInfoView.aspx.vb">
+      <DependentUpon>UserInfoView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\batch_delete.aspx.vb">
+      <DependentUpon>batch_delete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\Batch_job_inquiries.aspx.vb">
+      <DependentUpon>Batch_job_inquiries.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\Batch_Record_Search.aspx.vb">
+      <DependentUpon>Batch_Record_Search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\Batch_Record_Search_S.aspx.vb">
+      <DependentUpon>Batch_Record_Search_S.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\ers_send_detail.aspx.vb">
+      <DependentUpon>ers_send_detail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\ers_send_detailMgt.aspx.vb">
+      <DependentUpon>ers_send_detailMgt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\memberEdit.aspx.vb">
+      <DependentUpon>memberEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_manage.aspx.vb">
+      <DependentUpon>member_manage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_manageMgtAdd.aspx.vb">
+      <DependentUpon>member_manageMgtAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_manageMgtDelet.aspx.vb">
+      <DependentUpon>member_manageMgtDelet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_trans_log.aspx.vb">
+      <DependentUpon>member_trans_log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_trans_mis.aspx.vb">
+      <DependentUpon>member_trans_mis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\member_trans_mis_result.aspx.vb">
+      <DependentUpon>member_trans_mis_result.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\querymeber_house.aspx.designer.vb">
+      <DependentUpon>querymeber_house.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ereceipt\querymeber_house.aspx.vb">
+      <DependentUpon>querymeber_house.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\receipt_ad.aspx.vb">
+      <DependentUpon>receipt_ad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\receipt_notice.aspx.vb">
+      <DependentUpon>receipt_notice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\Receipt_Send_Record.aspx.vb">
+      <DependentUpon>Receipt_Send_Record.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\send_to_batch.aspx.vb">
+      <DependentUpon>send_to_batch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\startmember_01.aspx.vb">
+      <DependentUpon>startmember_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\startmember_02.aspx.vb">
+      <DependentUpon>startmember_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\startmember_03.aspx.vb">
+      <DependentUpon>startmember_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\startmember_04.aspx.vb">
+      <DependentUpon>startmember_04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\startmember_05.aspx.vb">
+      <DependentUpon>startmember_05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\Webmember_01.aspx.vb">
+      <DependentUpon>Webmember_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\wmemberView_01.aspx.vb">
+      <DependentUpon>wmemberView_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\wmemberView_02.aspx.vb">
+      <DependentUpon>wmemberView_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\wmember_01.aspx.vb">
+      <DependentUpon>wmember_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ereceipt\wmember_02.aspx.vb">
+      <DependentUpon>wmember_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PortalCfg.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="admin\AddAllContextViewSetting.aspx.resx">
+      <DependentUpon>AddAllContextViewSetting.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\AllContextViewSetting.ascx.resx">
+      <DependentUpon>AllContextViewSetting.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\AllWebFormSetting.ascx.resx">
+      <DependentUpon>AllWebFormSetting.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditAccessDenied.aspx.resx">
+      <DependentUpon>EditAccessDenied.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditAllContextViewSetting.aspx.resx">
+      <DependentUpon>EditAllContextViewSetting.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditAllWebFormSetting.aspx.resx">
+      <DependentUpon>EditAllWebFormSetting.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditSecurityAuthority.aspx.resx">
+      <DependentUpon>EditSecurityAuthority.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditUserInfo.aspx.resx">
+      <DependentUpon>EditUserInfo.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\EditUserPassword.aspx.resx">
+      <DependentUpon>EditUserPassword.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\Logoff.aspx.resx">
+      <DependentUpon>Logoff.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\SecurityAuthoritySetting.ascx.resx">
+      <DependentUpon>SecurityAuthoritySetting.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="admin\UserInfo.ascx.resx">
+      <DependentUpon>UserInfo.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\assignUser.aspx.resx">
+      <DependentUpon>assignUser.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contact.aspx.resx">
+      <DependentUpon>contact.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactAdmin.aspx.resx">
+      <DependentUpon>contactAdmin.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactAdmin_2.aspx.resx">
+      <DependentUpon>contactAdmin_2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactEdit.aspx.resx">
+      <DependentUpon>contactEdit.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactMgt.aspx.resx">
+      <DependentUpon>contactMgt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactMgt_2.aspx.resx">
+      <DependentUpon>contactMgt_2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactView.aspx.resx">
+      <DependentUpon>contactView.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contactView_2.aspx.resx">
+      <DependentUpon>contactView_2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contact_2.aspx.resx">
+      <DependentUpon>contact_2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\Contact_deatail_report.aspx.resx">
+      <DependentUpon>Contact_deatail_report.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contact_report.aspx.resx">
+      <DependentUpon>contact_report.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\contact_report_2.aspx.resx">
+      <DependentUpon>contact_report_2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\Default.aspx.resx">
+      <DependentUpon>Default.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\dividend.aspx.resx">
+      <DependentUpon>dividend.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\download_grp.aspx.resx">
+      <DependentUpon>download_grp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\download_grp2.aspx.resx">
+      <DependentUpon>download_grp2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\download_item.aspx.resx">
+      <DependentUpon>download_item.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\download_item2.aspx.resx">
+      <DependentUpon>download_item2.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\faq_grp.aspx.resx">
+      <DependentUpon>faq_grp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\faq_item.aspx.resx">
+      <DependentUpon>faq_item.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\file_spec_download.aspx.resx">
+      <DependentUpon>file_spec_download.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\hotnews.aspx.resx">
+      <DependentUpon>hotnews.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\information.aspx.resx">
+      <DependentUpon>information.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\InsuFileMapping.aspx.resx">
+      <DependentUpon>InsuFileMapping.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\InsuFileMapping_detail.aspx.resx">
+      <DependentUpon>InsuFileMapping_detail.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_01.aspx.resx">
+      <DependentUpon>invest_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_02.aspx.resx">
+      <DependentUpon>invest_02.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_03.aspx.resx">
+      <DependentUpon>invest_03.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_04.aspx.resx">
+      <DependentUpon>invest_04.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_05.aspx.resx">
+      <DependentUpon>invest_05.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_06.aspx.resx">
+      <DependentUpon>invest_06.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_07.aspx.resx">
+      <DependentUpon>invest_07.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_08.aspx.resx">
+      <DependentUpon>invest_08.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\invest_101.aspx.resx">
+      <DependentUpon>invest_101.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\logout.aspx.resx">
+      <DependentUpon>logout.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\member_01.aspx.resx">
+      <DependentUpon>member_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\message.aspx.resx">
+      <DependentUpon>message.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\monthincome.aspx.resx">
+      <DependentUpon>monthincome.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\product_grp.aspx.resx">
+      <DependentUpon>product_grp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\product_item.aspx.resx">
+      <DependentUpon>product_item.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\replace_allow.aspx.resx">
+      <DependentUpon>replace_allow.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\replace_apply.aspx.resx">
+      <DependentUpon>replace_apply.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\replace_detail_tmp.aspx.resx">
+      <DependentUpon>replace_detail_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\replace_master_tmp.aspx.resx">
+      <DependentUpon>replace_master_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\resend_allow.aspx.resx">
+      <DependentUpon>resend_allow.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\resend_detail_tmp.aspx.resx">
+      <DependentUpon>resend_detail_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\resend_file_tmp.aspx.resx">
+      <DependentUpon>resend_file_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\resend_master_tmp.aspx.resx">
+      <DependentUpon>resend_master_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\revoke_allow.aspx.resx">
+      <DependentUpon>revoke_allow.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\revoke_apply.aspx.resx">
+      <DependentUpon>revoke_apply.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\sample.aspx.resx">
+      <DependentUpon>sample.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\send_detail_tmp.aspx.resx">
+      <DependentUpon>send_detail_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\send_file_tmp.aspx.resx">
+      <DependentUpon>send_file_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\send_master_tmp.aspx.resx">
+      <DependentUpon>send_master_tmp.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\stopinfor.aspx.resx">
+      <DependentUpon>stopinfor.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\user_01.aspx.resx">
+      <DependentUpon>user_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\user_02.aspx.resx">
+      <DependentUpon>user_02.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\user_03.aspx.resx">
+      <DependentUpon>user_03.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\user_98.aspx.resx">
+      <DependentUpon>user_98.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\workinfor.aspx.resx">
+      <DependentUpon>workinfor.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\_footer.ascx.resx">
+      <DependentUpon>_footer.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\_Header.ascx.resx">
+      <DependentUpon>_Header.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="backend\_NewMenu.ascx.resx">
+      <DependentUpon>_NewMenu.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\SiteDB.resx">
+      <DependentUpon>SiteDB.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\StatisticsDB.resx">
+      <DependentUpon>StatisticsDB.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Default.aspx.resx">
+      <DependentUpon>Default.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopDefault.aspx.resx">
+      <DependentUpon>DesktopDefault.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModuleBottom.ascx.resx">
+      <DependentUpon>DesktopModuleBottom.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\announce.ascx.resx">
+      <DependentUpon>announce.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\Document.ascx.resx">
+      <DependentUpon>Document.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\Events.ascx.resx">
+      <DependentUpon>Events.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\HTMLeditor.aspx.resx">
+      <DependentUpon>HTMLeditor.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\MenuControl.ascx.resx">
+      <DependentUpon>MenuControl.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModules\Signin.ascx.resx">
+      <DependentUpon>Signin.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopModuleTitle.ascx.resx">
+      <DependentUpon>DesktopModuleTitle.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopNormalTitle.ascx.resx">
+      <DependentUpon>DesktopNormalTitle.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesktopPortalBanner.ascx.resx">
+      <DependentUpon>DesktopPortalBanner.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\AccountMgtView.aspx.resx">
+      <DependentUpon>AccountMgtView.aspx.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\FunctionView.aspx.resx">
+      <DependentUpon>FunctionView.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\GroupsView.aspx.resx">
+      <DependentUpon>GroupsView.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\iFrame.aspx.resx">
+      <DependentUpon>iFrame.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\ImportDomains.aspx.resx">
+      <DependentUpon>ImportDomains.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\JobListView.aspx.resx">
+      <DependentUpon>JobListView.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EIIS\View\UserInfoView.aspx.resx">
+      <DependentUpon>UserInfoView.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\batch_delete.aspx.resx">
+      <DependentUpon>batch_delete.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\Batch_job_inquiries.aspx.resx">
+      <DependentUpon>Batch_job_inquiries.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\Batch_Record_Search.aspx.resx">
+      <DependentUpon>Batch_Record_Search.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\Batch_Record_Search_S.aspx.resx">
+      <DependentUpon>Batch_Record_Search_S.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\ers_send_detail.aspx.resx">
+      <DependentUpon>ers_send_detail.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\ers_send_detailMgt.aspx.resx">
+      <DependentUpon>ers_send_detailMgt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\memberEdit.aspx.resx">
+      <DependentUpon>memberEdit.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_manage.aspx.resx">
+      <DependentUpon>member_manage.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_manageMgtAdd.aspx.resx">
+      <DependentUpon>member_manageMgtAdd.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_manageMgtDelet.aspx.resx">
+      <DependentUpon>member_manageMgtDelet.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_trans_log.aspx.resx">
+      <DependentUpon>member_trans_log.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_trans_mis.aspx.resx">
+      <DependentUpon>member_trans_mis.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\member_trans_mis_result.aspx.resx">
+      <DependentUpon>member_trans_mis_result.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\receipt_ad.aspx.resx">
+      <DependentUpon>receipt_ad.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\receipt_notice.aspx.resx">
+      <DependentUpon>receipt_notice.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\Receipt_Send_Record.aspx.resx">
+      <DependentUpon>Receipt_Send_Record.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\send_to_batch.aspx.resx">
+      <DependentUpon>send_to_batch.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\startmember_01.aspx.resx">
+      <DependentUpon>startmember_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\startmember_02.aspx.resx">
+      <DependentUpon>startmember_02.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\startmember_03.aspx.resx">
+      <DependentUpon>startmember_03.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\startmember_04.aspx.resx">
+      <DependentUpon>startmember_04.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\startmember_05.aspx.resx">
+      <DependentUpon>startmember_05.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\Webmember_01.aspx.resx">
+      <DependentUpon>Webmember_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\wmemberView_01.aspx.resx">
+      <DependentUpon>wmemberView_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\wmemberView_02.aspx.resx">
+      <DependentUpon>wmemberView_02.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\wmember_01.aspx.resx">
+      <DependentUpon>wmember_01.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ereceipt\wmember_02.aspx.resx">
+      <DependentUpon>wmember_02.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Components\AuditSystem\NormalCodeGroupDAO.vb.bak" />
+    <Content Include="Components\AuditSystem\ProcessAttributeMapDAO.vb.bak" />
+    <Content Include="Components\AuditSystem\ResolutionDAO.vb.bak" />
+    <Content Include="Components\AuditSystem\ResolutionDAOExtand.vb.bak" />
+    <Content Include="Components\AuditSystem\ScheduleDAO.vb.bak" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>15175</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:15175/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

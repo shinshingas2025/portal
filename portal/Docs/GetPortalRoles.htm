@@ -1,0 +1,41 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetPortalRoles 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序傳回指定入口網站的所有安全性角色。輸入參數為 PortalID。
+		</P>
+		<b>定義：</b>
+		<pre>
+        
+   CREATE PROCEDURE Portal_GetPortalRoles
+   (
+       @PortalID  int
+   )
+   AS
+   
+   SELECT  
+       RoleName,
+       RoleID
+   
+   FROM Portal_Roles
+   
+   WHERE   
+       PortalID = @PortalID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Roles：</i>
+		Roles 資料表中的每項記錄會在選取的入口網站中定義一項唯一角色，並透過 UserRoles 查詢值資料表，將使用者加入角色。
+		<p>
+		此資料表的主索引鍵為 RoleID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+		</p>
+	</body>
+</html>

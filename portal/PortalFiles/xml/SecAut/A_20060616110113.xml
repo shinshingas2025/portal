@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="69 管理中心" IMAGEURL="../eiis/images/folder.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_69">
+    <treenode text="70 管理者" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_70" />
+    <treenode text="191 網站管理者" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_191" />
+    <treenode text="192 網頁資料維者" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_192" />
+    <treenode text="194 操作員" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_194" />
+    <treenode text="196 翁惠芳" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_196" />
+    <treenode text="197 張模舜" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_197" />
+    <treenode text="199 李克曾" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_199" />
+    <treenode text="201 羅鼎富" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_201" />
+    <treenode text="202 葛建華" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_202" />
+    <treenode text="203 吳寶愛" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_203" />
+    <treenode text="204 陳建森" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_204" />
+    <treenode text="207 黃淳彥" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_207" />
+    <treenode text="208 駱夷生" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_208" />
+    <treenode text="209 陳見成" IMAGEURL="../eiis/images/User.gif" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" id="N_209" />
+  </treenode>
+</TREENODES>

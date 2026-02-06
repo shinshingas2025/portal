@@ -1,0 +1,83 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">&lt</font><font color="maroon">?xml</font> version="1.0"?<font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">xs:schema</font> id="SiteConfiguration" targetNamespace="http://tempuri.org/PortalCfg.xsd" xmlns:mstns="http://tempuri.org/PortalCfg.xsd" xmlns="http://tempuri.org/PortalCfg.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="SiteConfiguration" msdata:IsDataSet="true" msdata:EnforceConstraints="False"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:choice</font> maxOccurs="unbounded"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="Global"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="PortalId" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="PortalName" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="AlwaysShowEditButton" form="unqualified" type="xs:boolean" <font color= "blue">/&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="Tab"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="Module" minOccurs="0" maxOccurs="unbounded"<font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="Settings" minOccurs="0" maxOccurs="unbounded"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="Setting" minOccurs="0" maxOccurs="unbounded" nillable="true"<font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">xs:simpleContent</font> msdata:ColumnName="Setting_Text" msdata:Ordinal="1"<font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">xs:extension</font> base="xs:string"<font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="Name" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">xs:extension</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt/</font><font color="maroon">xs:simpleContent</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt/</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ModuleId" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ModuleTitle" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="EditRoles" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ModuleDefId" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="PaneName" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="CacheTimeout" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ModuleOrder" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ShowMobile" form="unqualified" type="xs:boolean" <font color= "blue">/&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">xs:sequence</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="TabId" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="TabName" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="AccessRoles" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="TabOrder" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ShowMobile" form="unqualified" type="xs:boolean" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="MobileTabName" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">xs:element</font> name="ModuleDefinition"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="FriendlyName" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="MobileSourceFile" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="DesktopSourceFile" form="unqualified" type="xs:string" <font color= "blue">/&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">xs:attribute</font> name="ModuleDefId" form="unqualified" type="xs:integer" <font color= "blue">/&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">xs:choice</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">xs:complexType</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">xs:key</font> name="PortalId" msdata:PrimaryKey="true"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:selector</font> xpath=".//mstns:Global" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:field</font> xpath="@PortalID" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">xs:key</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">xs:key</font> name="TabId" msdata:PrimaryKey="true"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:selector</font> xpath=".//mstns:Tab" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:field</font> xpath="@TabId" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">xs:key</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">xs:key</font> name="ModuleId" msdata:PrimaryKey="true"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:selector</font> xpath=".//mstns:Module" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:field</font> xpath="@ModuleID" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">xs:key</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">xs:key</font> name="ModuleDefId" msdata:PrimaryKey="true"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:selector</font> xpath=".//mstns:ModuleDefinition" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">xs:field</font> xpath="@ModuleDefId" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">xs:key</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">xs:element</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">xs:schema</font><font color= "blue">&gt</font>
+</pre>

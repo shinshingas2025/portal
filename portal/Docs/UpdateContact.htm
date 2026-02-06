@@ -1,0 +1,50 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			UpdateContact 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序可由 Contacts 編輯頁使用，以套用變更至現有的連絡人項目。輸入參數包括項目的主索引鍵 (ItemID)，還有連絡人名稱、角色、組別與連絡人資訊，編輯者的 UserName 也會傳入，以便更新 CreatedByUser  欄位。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_UpdateContact
+   (
+       @ItemID   int,
+       @UserName nvarchar(100),
+       @Name     nvarchar(50),
+       @Role     nvarchar(100),
+       @Email    nvarchar(100),
+       @Contact1 nvarchar(250),
+       @Contact2 nvarchar(250)
+   )
+   AS
+   
+   UPDATE Portal_Contacts
+   
+   SET
+       CreatedByUser = @UserName,
+       CreatedDate   = GetDate(),
+       Name          = @Name,
+       Role          = @Role,
+       Email         = @Email,
+       Contact1      = @Contact1,
+       Contact2      = @Contact2
+   
+   WHERE
+       ItemID = @ItemID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Contacts：</i>如 Contacts Portal 模組所示，Contacts 資料表中的每筆記錄都是單一項目。由於所有的 Contacts 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關的項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/contacts.jpg">
+	</body>
+</html>

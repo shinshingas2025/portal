@@ -1,0 +1,2 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" Codebehind="TestControl2.ascx.vb" Inherits="ASPNET.StarterKit.Portal.AuditSystem.Control.TestControl2" TargetSchema="http://schemas.microsoft.com/intellisense/ie3-2nav3-0" %>
+<asp:Label id="Label1" runat="server">天字第二號測試控制項</asp:Label>

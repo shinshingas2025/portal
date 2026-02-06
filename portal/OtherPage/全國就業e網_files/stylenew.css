@@ -1,0 +1,72 @@
+.copyright {
+	FONT-SIZE: 9pt; COLOR: #ffffff; LINE-HEIGHT: 15px; FONT-FAMILY: "新細明體"
+}
+.welcomefont {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體"
+}
+.font {
+	FONT-SIZE: 9pt; COLOR: #000000; LINE-HEIGHT: 19px; FONT-FAMILY: "新細明體"
+}
+.fonttitle {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體"
+}
+copylink {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 130%
+}
+A.copylink {
+	FONT-SIZE: 9pt; COLOR: #ffffff; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.copylink:visited {
+	FONT-SIZE: 9pt; COLOR: #ffffff; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.copylink:active {
+	FONT-SIZE: 9pt; COLOR: #ffffff; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.copylink:hover {
+	FONT-SIZE: 9pt; LEFT: 1px; COLOR: #ffffff; FONT-FAMILY: "新細明體", "細明體","Arial, Helvetica, sans-serif"; POSITION: relative; TOP: 1px; TEXT-DECORATION: underline
+}
+newlink {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 130%
+}
+A.newlink {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:visited {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:active {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:hover {
+	FONT-SIZE: 9pt; LEFT: 1px; COLOR: #009933; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; POSITION: relative; TOP: 1px; TEXT-DECORATION: underline
+}
+finejoblink {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 130%
+}
+A.finejoblink {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.finejoblink:visited {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.finejoblink:active {
+	FONT-SIZE: 9pt; COLOR: #336699; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.finejoblink:hover {
+	FONT-SIZE: 9pt; LEFT: 1px; COLOR: #336699; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; POSITION: relative; TOP: 1px; TEXT-DECORATION: underline
+}
+finepepolelink {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 130%
+}
+A.finepepolelink {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.finepepolelink:visited {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.finepepolelink:active {
+	FONT-SIZE: 9pt; COLOR: #339933; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.finepepolelink:hover {
+	FONT-SIZE: 9pt; LEFT: 1px; COLOR: #339933; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; POSITION: relative; TOP: 1px; TEXT-DECORATION: underline
+}

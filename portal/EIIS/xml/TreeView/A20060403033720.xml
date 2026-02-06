@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" id="N_1">
+    <treenode text="6 公司" id="N_6" />
+    <treenode text="18 訪客" id="N_18" />
+    <treenode text="69 管理中心" id="N_69">
+      <treenode text="70 中心管理者" id="N_70" />
+      <treenode text="78 黃天牧" id="N_78" />
+    </treenode>
+    <treenode text="79 承辦人員" id="N_79">
+      <treenode text="81 承辦人A" id="N_81" />
+      <treenode text="82 承辦人B" id="N_82" />
+      <treenode text="83 承辦人O" id="N_83" />
+    </treenode>
+    <treenode text="84 文件紀錄人員" id="N_84" />
+  </treenode>
+</TREENODES>

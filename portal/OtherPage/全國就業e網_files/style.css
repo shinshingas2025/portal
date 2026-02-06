@@ -1,0 +1,18 @@
+.font {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 17px; FONT-FAMILY: "新細明體"
+}
+newlink {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 130%
+}
+A.newlink {
+	FONT-SIZE: 9pt; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:visited {
+	FONT-SIZE: 9pt; COLOR: #666666; FONT-FAMILY: "新細明體", "細明體", "Arial, Helvetica, sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:active {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; TEXT-DECORATION: none
+}
+A.newlink:hover {
+	FONT-SIZE: 9pt; LEFT: 1px; COLOR: #0066cc; FONT-FAMILY: "新細明體", "細明體", "Arial, "Helvetica", sans-serif"; POSITION: relative; TOP: 1px; TEXT-DECORATION: underline
+}

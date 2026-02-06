@@ -1,0 +1,2 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" Codebehind="MeetingRecordAdminLink.ascx.vb" Inherits="ASPNET.StarterKit.Portal.AuditSystem.Control.MeetingRecordAdminLink" TargetSchema="http://schemas.microsoft.com/intellisense/ie3-2nav3-0" %>
+<a href='DesktopModules/AuditSystem/MeetingRecordAdmin.aspx?sid=<%=Request.Params("sid")%>&mid=<%=ModuleId%>&tabid=<%=tabid%>&tabindex=<%=tabindex%>'><img src="/PortalFiles/WebImage/AuditSystem/MeetingRecord.gif" border="0" alt="會議記錄" /></a>

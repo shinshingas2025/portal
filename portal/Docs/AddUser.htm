@@ -1,0 +1,50 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			AddUser 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序將新使用者加入資料庫。輸出參數包括「名稱」、「電子郵件地址」及「密碼」。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_AddUser
+   (
+       @Name     nvarchar(50),
+       @Email    nvarchar(100),
+       @Password nvarchar(50),
+       @UserID   int OUTPUT
+   )
+   AS
+   
+   INSERT INTO Portal_Users
+   (
+       Name,
+       Email,
+       Password
+   )
+   
+   VALUES
+   (
+       @Name,
+       @Email,
+       @Password
+   )
+   
+   SELECT
+       @UserID = @@Identity
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Users：</i>
+Users 資料表中的每項記錄都是唯一使用者識別項。此資料表的主索引鍵為 UserID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+		</p>
+	</body>
+</html>

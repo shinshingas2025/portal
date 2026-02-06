@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" id="N_1">
+    <treenode text="6 學校" id="N_6" />
+    <treenode text="18 訪客" id="N_18" />
+    <treenode text="21 管理中心" id="N_21">
+      <treenode text="22 中心管理者" id="N_22" />
+      <treenode text="63 test" id="N_63" />
+      <treenode text="64 test" id="N_64" />
+      <treenode text="65 test" id="N_65" />
+      <treenode text="66 test" id="N_66" />
+    </treenode>
+  </treenode>
+</TREENODES>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 EIIS" id="N_1" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="2 校園聯名網Portal" id="N_2" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="238 首頁" id="N_238" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="244 通訊錄" id="N_244" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="247 廣告" id="N_247" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="252 本日主題" id="N_252" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="293 找學校" id="N_293" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="342 最新消息" id="N_342" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="348 訊息公告" id="N_348" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="239 管理" id="N_239" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="248 網站版型" id="N_248" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="273 網站內容維護" id="N_273" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="290 權限管理" id="N_290" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="292 模組型別維護" id="N_292" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="318 稽核模組" id="N_318" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="319 權限管理(全)" id="N_319" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="320 網站管理(全)" id="N_320" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="321 學校Logo" id="N_321" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="254 訊息區" id="N_254" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="255 訊息公告" id="N_255" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="256 電子報" id="N_256" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="257 線上投票" id="N_257" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="291 學校搜尋" id="N_291" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="331 匯出匯入資料" id="N_331" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="350 留這板" id="N_350" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="357 ?私權宣告" id="N_357" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="274 測試區" id="N_274" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="279 文件" id="N_279" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="281 連絡人" id="N_281" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="282 討論" id="N_282" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="283 事件" id="N_283" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="284 Html文件" id="N_284" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="286 連結" id="N_286" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="288 網站來源" id="N_288" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="356 ?私權宣告" id="N_356" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+    </treenode>
+    <treenode text="343 弘光科技大學" id="N_343" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="344 首頁" id="N_344" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="349 訊息公告" id="N_349" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="345 管理" id="N_345" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="346 網站內容維護" id="N_346" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="347 網站權限維護" id="N_347" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+    </treenode>
+  </treenode>
+</TREENODES>

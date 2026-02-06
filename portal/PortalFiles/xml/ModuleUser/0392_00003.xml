@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode1 text="投資人訊息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_632" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+    <treenode2 text="近五年財務報告書管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_690" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+</TREENODES>

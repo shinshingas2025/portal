@@ -1,0 +1,293 @@
+﻿Imports System
+Imports System.IO
+Imports System.Math
+Imports System.Configuration
+Imports System.Data
+Imports System.Data.SqlClient
+Imports ASPNET.StarterKit.Portal
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+
+Namespace ASPNET.StarterKit.Portal.AuditSystem.Module
+	Public Class NewsReleaseList
+		Inherits System.Web.UI.Page
+
+#Region " Web Form 設計工具產生的程式碼 "
+
+		'此為 Web Form 設計工具所需的呼叫。
+		<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+
+		End Sub
+		Protected WithEvents DataList1 As System.Web.UI.WebControls.DataList
+		Protected WithEvents LinkButtonNewsListTenPageUp As System.Web.UI.WebControls.LinkButton
+		Protected WithEvents LinkButtonNewsListPageUp As System.Web.UI.WebControls.LinkButton
+		Protected WithEvents PlaceHolderNewsListPageIndex As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents LinkButtonNewsListPageDown As System.Web.UI.WebControls.LinkButton
+		Protected WithEvents LinkButtonNewsListTenPageDown As System.Web.UI.WebControls.LinkButton
+
+		'注意: 下列預留位置宣告是 Web Form 設計工具需要的項目。
+		'請勿刪除或移動它。
+		Private designerPlaceholderDeclaration As System.Object
+
+		Private Sub Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+			'CODEGEN: 此為 Web Form 設計工具所需的方法呼叫
+			'請勿使用程式碼編輯器進行修改。
+			InitializeComponent()
+		End Sub
+
+#End Region
+
+		Private Const DefaultPermission As String = "111100100"
+		Private Const DefaultPermissionGroup As String = ""
+		Private Const NewsReleaseAuthorityTarget As String = "NewsRelease"
+		Private Const CodeAuthorityTarget As String = "NormalCode"
+		Private UtilityObject As New AuditSystemUtility
+
+		Protected pageSize As Integer = 10
+		Protected totalNewsListPage As Integer = 0
+		Protected currentNewsListPage As Integer = 0
+		Private returnObjectID As String = ""
+
+		Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+			'在這裡放置使用者程式碼以初始化網頁
+			Dim rowCount As Integer = 0
+			Dim i As Integer = 0
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+
+			If Not (Request.Params("ReturnObjectID") Is Nothing) Then
+				returnObjectID = Request.Params("ReturnObjectID")
+			End If
+
+			If Not IsPostBack Then
+				'manage page
+				myNewsDataSet = myNewsDAO.GetEntitys()
+				myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name)
+				rowCount = myNewsDataSet.Tables(0).Rows.Count
+
+				If rowCount Mod pageSize = 0 Then
+					totalNewsListPage = CType(rowCount \ pageSize, Integer)
+				Else
+					totalNewsListPage = CType(rowCount \ pageSize + 1, Integer)
+				End If
+				If Not (Request.Params("CurrentNewsListPage") Is Nothing) Then
+					currentNewsListPage = CType(Request.Params("CurrentNewsListPage"), Integer)
+					ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+				Else
+					currentNewsListPage = 1
+				End If
+
+				ViewState("NewsListTotalNewsListPage") = totalNewsListPage
+				ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+
+				If Not (Request.UrlReferrer Is Nothing) Then
+					ViewState("UrlReferrer") = Request.UrlReferrer.ToString()
+				End If
+				PageLoad()
+			Else
+				totalNewsListPage = CType(ViewState("NewsListTotalNewsListPage"), Integer)
+				currentNewsListPage = CType(ViewState("NewsListCurrentNewsListPage"), Integer)
+			End If
+		End Sub
+		Private Sub PageLoad()
+			Dim myHyperLink As HyperLink
+			Dim myLabel As Label
+			Dim myHtmlTable As HtmlTable
+			Dim myHtmlTableRow As HtmlTableRow
+			Dim myHtmlTableCell As HtmlTableCell
+			Dim myDataColumn As DataColumn
+			Dim i As Integer = 0
+			Dim j As Integer = 0
+			Dim lowBound As Integer = 1
+			Dim highBound As Integer = totalNewsListPage
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim myCategorizationID As String = ""
+			Dim myCategorizationName As String = ""
+			Dim myNormalCodeDAO As New NormalCodeDAOExtand
+			Dim myNewsDate As Date = New Date(1900, 1, 1)
+			Dim myEmptyDate As Date = New Date(1900, 1, 1)
+
+			myNewsDataSet = myNewsDAO.GetEntitys()
+			myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name, pageSize * currentNewsListPage)
+
+			myDataColumn = New DataColumn("CategorizationName")
+			myNewsDataSet.Tables(0).Columns.Add(myDataColumn)
+			myDataColumn = New DataColumn("NewsDateString")
+			myNewsDataSet.Tables(0).Columns.Add(myDataColumn)
+
+			LinkButtonNewsListPageDown.Visible = False
+			LinkButtonNewsListTenPageDown.Visible = False
+			LinkButtonNewsListPageUp.Visible = False
+			LinkButtonNewsListTenPageUp.Visible = False
+
+			If myNewsDataSet.Tables(0).Rows.Count > 0 Then
+
+				'page
+				If currentNewsListPage > 1 Then
+					For i = 0 To currentNewsListPage - 2
+						For j = 0 To pageSize - 1
+							myNewsDataSet.Tables(0).Rows(i * pageSize + j).Delete()
+						Next
+					Next
+				End If
+
+				If currentNewsListPage < totalNewsListPage Then
+					LinkButtonNewsListPageDown.Visible = True
+				Else
+					LinkButtonNewsListPageDown.Visible = False
+				End If
+				If currentNewsListPage < totalNewsListPage - 9 Then
+					LinkButtonNewsListTenPageDown.Visible = True
+				Else
+					LinkButtonNewsListTenPageDown.Visible = False
+				End If
+				If currentNewsListPage > 1 Then
+					LinkButtonNewsListPageUp.Visible = True
+				Else
+					LinkButtonNewsListPageUp.Visible = False
+				End If
+				If currentNewsListPage > 10 Then
+					LinkButtonNewsListTenPageUp.Visible = True
+				Else
+					LinkButtonNewsListTenPageUp.Visible = False
+				End If
+				'prepare page index
+				lowBound = currentNewsListPage - 4
+				highBound = currentNewsListPage + 5
+				If lowBound < 1 Then
+					lowBound = 1
+					highBound = Min(10, totalNewsListPage)
+				Else
+					If highBound > totalNewsListPage Then
+						highBound = totalNewsListPage
+						lowBound = Max(totalNewsListPage - 9, 1)
+					End If
+				End If
+				myHtmlTable = New HtmlTable
+				myHtmlTableRow = New HtmlTableRow
+				For i = lowBound To highBound
+					myHtmlTableCell = New HtmlTableCell
+					myHtmlTableCell.Width = "10%"
+					If i = currentNewsListPage Then
+						myLabel = New Label
+						myLabel.Font.Size = System.Web.UI.WebControls.FontUnit.XSmall
+						myLabel.Text = CType(i, String)
+						myHtmlTableCell.Controls.Add(myLabel)
+					Else
+						myHyperLink = New HyperLink
+						myHyperLink.Font.Size = System.Web.UI.WebControls.FontUnit.XSmall
+						myHyperLink.Text = "[" & CType(i, String) & "]"
+						myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseList.aspx?ReturnObjectID=" & returnObjectID & "&CurrentNewsListPage=" & CType(i, String)
+						myHtmlTableCell.Controls.Add(myHyperLink)
+					End If
+					myHtmlTableRow.Controls.Add(myHtmlTableCell)
+				Next
+				myHtmlTable.Controls.Add(myHtmlTableRow)
+				PlaceHolderNewsListPageIndex.Controls.Add(myHtmlTable)
+
+				'prepare news data
+				If myNewsDataSet.Tables(0).Rows.Count > 0 Then
+					For i = (currentNewsListPage - 1) * pageSize To myNewsDataSet.Tables(0).Rows.Count - 1
+						'categorization name
+						myCategorizationID = CType(myNewsDataSet.Tables(0).Rows(i).Item("CategorizationID"), String).Trim
+						If myCategorizationID.Length > 0 Then
+							myCategorizationName = myNormalCodeDAO.GetNameByEntityID(myCategorizationID)
+							myNewsDataSet.Tables(0).Rows(i).Item("CategorizationName") = myCategorizationName
+						End If
+						'news date string
+						myNewsDate = CType(myNewsDataSet.Tables(0).Rows(i).Item("NewsDate"), Date)
+						If myNewsDate = myEmptyDate Then
+							myNewsDataSet.Tables(0).Rows(i).Item("NewsDateString") = ""
+						Else
+							myNewsDataSet.Tables(0).Rows(i).Item("NewsDateString") = myNewsDate.Year & "/" & myNewsDate.Month & "/" & myNewsDate.Day
+						End If
+					Next
+				End If
+			Else
+				'exception
+			End If
+			DataList1.DataSource = myNewsDataSet
+			DataList1.DataBind()
+		End Sub
+		Sub PageReload()
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim rowCount As Integer
+
+			'
+			myNewsDataSet = myNewsDAO.GetEntitys()
+			myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name)
+			rowCount = myNewsDataSet.Tables(0).Rows.Count
+
+			If rowCount Mod pageSize = 0 Then
+				totalNewsListPage = CType(rowCount \ pageSize, Integer)
+			Else
+				totalNewsListPage = CType(rowCount \ pageSize + 1, Integer)
+			End If
+			currentNewsListPage = 1
+
+			ViewState("NewsListTotalNewsListPage") = totalNewsListPage
+			ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+
+			PageLoad()
+		End Sub
+
+		Private Sub LinkButtonNewsListPageUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LinkButtonNewsListPageUp.Click
+			currentNewsListPage = currentNewsListPage - 1
+			If currentNewsListPage < 1 Then
+				currentNewsListPage = 1
+			End If
+			ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+			PageLoad()
+		End Sub
+
+		Private Sub LinkButtonNewsListPageDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LinkButtonNewsListPageDown.Click
+			currentNewsListPage = currentNewsListPage + 1
+			If currentNewsListPage > totalNewsListPage Then
+				currentNewsListPage = totalNewsListPage
+			End If
+			ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+			PageLoad()
+		End Sub
+
+		Private Sub LinkButtonNewsListTenPageUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LinkButtonNewsListTenPageUp.Click
+			currentNewsListPage = currentNewsListPage - 10
+			If currentNewsListPage < 1 Then
+				currentNewsListPage = 1
+			End If
+			ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+			PageLoad()
+		End Sub
+
+		Private Sub LinkButtonNewsListTenPageDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LinkButtonNewsListTenPageDown.Click
+			currentNewsListPage = currentNewsListPage + 10
+			If currentNewsListPage > totalNewsListPage Then
+				currentNewsListPage = totalNewsListPage
+			End If
+			ViewState("NewsListCurrentNewsListPage") = currentNewsListPage
+			PageLoad()
+		End Sub
+
+		Protected Sub DataList1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DataList1.SelectedIndexChanged
+			Dim isSelect As Boolean
+			Dim anItem As DataListItem
+			Dim dk As String
+			Dim script As String = ""
+			For Each anItem In DataList1.Items
+				isSelect = CType(anItem.FindControl("RadioButton1"), RadioButton).Checked
+				If isSelect Then
+					If returnObjectID.Trim.Length > 0 Then
+						dk = CType(DataList1.DataKeys(anItem.ItemIndex), String)
+						script = "<script>" & vbCrLf
+						script += "opener.Form1." & returnObjectID & ".value='" & dk & "';" & vbCrLf
+						script += "close();" & vbCrLf
+						script += "</script>" & vbCrLf
+						Response.Write(script)
+					End If
+					CType(anItem.FindControl("RadioButton1"), RadioButton).Checked = False
+				End If
+			Next
+			PageLoad()
+		End Sub
+	End Class
+End Namespace

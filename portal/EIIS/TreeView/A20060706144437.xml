@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" id="N_1">
+    <treenode text="18 訪客" id="N_18" />
+    <treenode text="69 管理中心" id="N_69">
+      <treenode text="70 管理者" id="N_70" />
+      <treenode text="191 網站管理者" id="N_191" />
+      <treenode text="192 網頁資料維者" id="N_192" />
+      <treenode text="194 操作員" id="N_194" />
+      <treenode text="196 翁惠芳" id="N_196" />
+      <treenode text="197 張模舜" id="N_197" />
+      <treenode text="199 李克曾" id="N_199" />
+      <treenode text="201 羅鼎富" id="N_201" />
+      <treenode text="202 葛建華" id="N_202" />
+      <treenode text="203 吳寶愛" id="N_203" />
+      <treenode text="204 陳建森" id="N_204" />
+      <treenode text="207 黃淳彥" id="N_207" />
+      <treenode text="208 駱夷生" id="N_208" />
+      <treenode text="209 陳見成" id="N_209" />
+      <treenode text="210 盧太平" id="N_210" />
+      <treenode text="211 陳泰崇" id="N_211" />
+      <treenode text="212 劉原良" id="N_212" />
+      <treenode text="213 董事會" id="N_213" />
+      <treenode text="216 總經理室" id="N_216" />
+      <treenode text="217 稽核室" id="N_217" />
+      <treenode text="218 人事室" id="N_218" />
+      <treenode text="219 勞工安全管理室" id="N_219" />
+      <treenode text="220 營業部" id="N_220" />
+      <treenode text="221 展業部" id="N_221" />
+      <treenode text="222 管理部" id="N_222" />
+      <treenode text="223 工務部" id="N_223" />
+      <treenode text="224 財務部" id="N_224" />
+      <treenode text="225 抄表科" id="N_225" />
+      <treenode text="226 營收科" id="N_226" />
+      <treenode text="227 表務科" id="N_227" />
+    </treenode>
+  </treenode>
+</TREENODES>

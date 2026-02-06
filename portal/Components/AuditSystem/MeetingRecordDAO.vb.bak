@@ -1,0 +1,148 @@
+Imports System
+Imports System.Configuration
+Imports System.Data
+Imports System.Data.SqlClient
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+
+Namespace ASPNET.StarterKit.Portal.AuditSystem.DAO
+	Public Class MeetingRecordDAO
+		Public Overridable Function GetEntity(ByVal typeID As String,ByVal itemID As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from MeetingRecord where TypeID=@TypeID and ItemID=@ItemID order by EntityID desc", myConnection)
+			myCommand.Parameters.Add("@TypeID", SqlDbType.NVarChar,24).Value=typeID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int,4).Value=itemID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetEntitys(ByVal typeID As String,ByVal itemID As Integer) As DataSet
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from MeetingRecord where TypeID=@TypeID and ItemID=@ItemID order by EntityID desc", myConnection)
+			myCommand.Parameters.Add("@TypeID", SqlDbType.NVarChar,24).Value=typeID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int,4).Value=itemID
+			Dim myAdapter As New SqlDataAdapter(myCommand)
+			Dim myDataSet As New DataSet
+			myAdapter.Fill(myDataSet)
+			Return myDataSet
+		End Function
+		Public Overridable Function GetSingleEntity(ByVal entityID As String) As SqlDataReader
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select * from MeetingRecord where EntityID=@EntityID",myConnection)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			Return myReader
+		End Function
+		Public Overridable Sub DeleteEntity(ByVal entityID As String)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("delete from MeetingRecord where EntityID=@EntityID",myConnection)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overridable Function InsertEntity(ByVal typeID As String, ByVal itemID As Integer, ByVal permission As String, ByVal permissionGroup As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal startTime As String, ByVal endTime As String, ByVal placeID As String, ByVal presentPerson As String, ByVal observer As String, ByVal chairPersonID As String, ByVal scribeID As String, ByVal title As String, ByVal placeName As String, ByVal creatorID As String, ByVal createdDate As Date, ByVal modifierID As String, ByVal modifiedDate As Date, ByVal state As Integer, ByVal deletedDate As Date) As String
+			Dim entityID As String
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("insert into MeetingRecord ( EntityID,TypeID,ItemID,Permission,PermissionGroup,MeetingNumber,MeetingDate,StartTime,EndTime,PlaceID,PresentPerson,Observer,ChairPersonID,ScribeID,Title,PlaceName,CreatorID,CreatedDate,ModifierID,ModifiedDate,State,DeletedDate ) values ( @EntityID,@TypeID,@ItemID,@Permission,@PermissionGroup,@MeetingNumber,@MeetingDate,@StartTime,@EndTime,@PlaceID,@PresentPerson,@Observer,@ChairPersonID,@ScribeID,@Title,@PlaceName,@CreatorID,@CreatedDate,@ModifierID,@ModifiedDate,@State,@DeletedDate )", myConnection)
+			entityID = Microsoft.VisualBasic.Right("000000000000000000000000" & typeID, 24) & Microsoft.VisualBasic.Right("00000000" & Hex(itemID), 8)
+			entityID = GetMaxEntityID(entityID)
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myCommand.Parameters.Add("@TypeID", SqlDbType.NVarChar, 24).Value = typeID
+			myCommand.Parameters.Add("@ItemID", SqlDbType.Int, 4).Value = CInt(Val("&H" & entityID.Substring(24, 8)))
+			myCommand.Parameters.Add("@Permission", SqlDbType.NVarChar, 16).Value = permission
+			myCommand.Parameters.Add("@PermissionGroup", SqlDbType.NVarChar, 16).Value = permissionGroup
+			myCommand.Parameters.Add("@MeetingNumber", SqlDbType.Int, 4).Value = meetingNumber
+			myCommand.Parameters.Add("@MeetingDate", SqlDbType.DateTime, 8).Value = meetingDate
+			myCommand.Parameters.Add("@StartTime", SqlDbType.NVarChar, 4).Value = startTime
+			myCommand.Parameters.Add("@EndTime", SqlDbType.NVarChar, 4).Value = endTime
+			myCommand.Parameters.Add("@PlaceID", SqlDbType.NVarChar, 24).Value = placeID
+			myCommand.Parameters.Add("@PresentPerson", SqlDbType.NVarChar, 1024).Value = presentPerson
+			myCommand.Parameters.Add("@Observer", SqlDbType.NVarChar, 1024).Value = observer
+			myCommand.Parameters.Add("@ChairPersonID", SqlDbType.NVarChar, 24).Value = chairPersonID
+			myCommand.Parameters.Add("@ScribeID", SqlDbType.NVarChar, 24).Value = scribeID
+			myCommand.Parameters.Add("@Title", SqlDbType.NVarChar, 256).Value = title
+			myCommand.Parameters.Add("@PlaceName", SqlDbType.NVarChar, 64).Value = placeName
+			myCommand.Parameters.Add("@CreatorID", SqlDbType.Int, 4).Value = creatorID
+			myCommand.Parameters.Add("@CreatedDate", SqlDbType.DateTime, 8).Value = createdDate
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.Int, 4).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@State", SqlDbType.Int, 4).Value = state
+			myCommand.Parameters.Add("@DeletedDate", SqlDbType.DateTime, 8).Value = deletedDate
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+			Return entityID
+		End Function
+		Public Overridable Sub UpdateEntity(ByVal entityID As String, ByVal typeID As String, ByVal permission As String, ByVal permissionGroup As String, ByVal meetingNumber As Integer, ByVal meetingDate As Date, ByVal startTime As String, ByVal endTime As String, ByVal placeID As String, ByVal presentPerson As String, ByVal observer As String, ByVal chairPersonID As String, ByVal scribeID As String, ByVal title As String, ByVal placeName As String, ByVal creatorID As String, ByVal createdDate As Date, ByVal modifierID As String, ByVal modifiedDate As Date, ByVal state As Integer, ByVal deletedDate As Date)
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("update MeetingRecord set TypeID=@TypeID , Permission=@Permission , PermissionGroup=@PermissionGroup , MeetingNumber=@MeetingNumber , MeetingDate=@MeetingDate , StartTime=@StartTime , EndTime=@EndTime , PlaceID=@PlaceID , PresentPerson=@PresentPerson , Observer=@Observer , ChairPersonID=@ChairPersonID , ScribeID=@ScribeID , Title=@Title , PlaceName=@PlaceName , CreatorID=@CreatorID , CreatedDate=@CreatedDate , ModifierID=@ModifierID , ModifiedDate=@ModifiedDate , State=@State , DeletedDate=@DeletedDate where EntityID=@EntityID", myConnection)
+			myCommand.Parameters.Add("@TypeID", SqlDbType.NVarChar, 24).Value = typeID
+			myCommand.Parameters.Add("@Permission", SqlDbType.NVarChar, 16).Value = permission
+			myCommand.Parameters.Add("@PermissionGroup", SqlDbType.NVarChar, 16).Value = permissionGroup
+			myCommand.Parameters.Add("@MeetingNumber", SqlDbType.Int, 4).Value = meetingNumber
+			myCommand.Parameters.Add("@MeetingDate", SqlDbType.DateTime, 8).Value = meetingDate
+			myCommand.Parameters.Add("@StartTime", SqlDbType.NVarChar, 4).Value = startTime
+			myCommand.Parameters.Add("@EndTime", SqlDbType.NVarChar, 4).Value = endTime
+			myCommand.Parameters.Add("@PlaceID", SqlDbType.NVarChar, 24).Value = placeID
+			myCommand.Parameters.Add("@PresentPerson", SqlDbType.NVarChar, 1024).Value = presentPerson
+			myCommand.Parameters.Add("@Observer", SqlDbType.NVarChar, 1024).Value = observer
+			myCommand.Parameters.Add("@ChairPersonID", SqlDbType.NVarChar, 24).Value = chairPersonID
+			myCommand.Parameters.Add("@ScribeID", SqlDbType.NVarChar, 24).Value = scribeID
+			myCommand.Parameters.Add("@Title", SqlDbType.NVarChar, 256).Value = title
+			myCommand.Parameters.Add("@PlaceName", SqlDbType.NVarChar, 64).Value = placeName
+			myCommand.Parameters.Add("@CreatorID", SqlDbType.Int, 4).Value = creatorID
+			myCommand.Parameters.Add("@CreatedDate", SqlDbType.DateTime, 8).Value = createdDate
+			myCommand.Parameters.Add("@ModifierID", SqlDbType.Int, 4).Value = modifierID
+			myCommand.Parameters.Add("@ModifiedDate", SqlDbType.DateTime, 8).Value = modifiedDate
+			myCommand.Parameters.Add("@State", SqlDbType.Int, 4).Value = state
+			myCommand.Parameters.Add("@DeletedDate", SqlDbType.DateTime, 8).Value = deletedDate
+			myCommand.Parameters.Add("@EntityID", SqlDbType.NVarChar, 32).Value = entityID
+			myConnection.Open()
+			myCommand.ExecuteNonQuery()
+			myConnection.Close()
+		End Sub
+		Public Overridable Function GetMaxEntityID(ByVal entityID As String) As String
+			Dim maxID As String
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim selectSQL As String
+			selectSQL = "select max(EntityID) from MeetingRecord where substring(EntityID,1,24)='" & entityID.Substring(0, 24) & "'"
+			Dim myCommand As New SqlCommand(selectSQL, myConnection)
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					maxID = CStr(myReader.GetValue(0))
+					maxID = maxID.Substring(24, 8)
+				Catch ex As System.InvalidCastException
+					maxID = "00000000"
+				End Try
+			End While
+			myReader.Close()
+			valResult = CInt(Val("&H" & maxID))
+			valResult = valResult + 1
+			Return entityID.Substring(0, 24) & Microsoft.VisualBasic.Right("00000000" & CStr(Hex(valResult)), 8)
+		End Function
+		Public Overridable Function GetTotalRow() As Integer
+			Dim valResult As Integer
+			Dim myConnection As New SqlConnection(ConfigurationSettings.AppSettings("AuditSystemConnectionString"))
+			Dim myCommand As New SqlCommand("select count(*) from MeetingRecord", myConnection)
+			myConnection.Open()
+			Dim myReader As SqlDataReader
+			myReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+			While myReader.Read()
+				Try
+					valResult = CInt(myReader.GetValue(0))
+				Catch ex As System.InvalidCastException
+					valResult = 0
+				End Try
+			End While
+			myReader.Close()
+			Return valResult
+		End Function
+	End Class
+End Namespace

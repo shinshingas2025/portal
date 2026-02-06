@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="big5"?>
+<ExportUser>
+  <LABOR LABOR_ID="7">
+    <APLTBL>
+      <NAME>一一一</NAME>
+      <IDNO>A123456789</IDNO>
+      <BIRTH>1951/4/4</BIRTH>
+      <SEX>1</SEX>
+      <MARRI>1</MARRI>
+      <ADDR_CITY>02</ADDR_CITY>
+      <ADDR_ZIP>800</ADDR_ZIP>
+      <ADDR>２２２２２</ADDR>
+      <TEL1>07-23232</TEL1>
+      <TEL2 />
+      <E_MAIL />
+      <PASSWD>1234</PASSWD>
+      <MOBILE />
+      <USER_IDENFITY />
+      <REVIEW_RGSTN>A10000</REVIEW_RGSTN>
+      <REVIEW_ID>A10000001</REVIEW_ID>
+      <REVIEW_DATE>2005/11/22</REVIEW_DATE>
+      <REVIEW_STATE>3</REVIEW_STATE>
+      <DEL_STATE>0</DEL_STATE>
+      <FAX />
+      <JOB_CENTER_ID>A10000</JOB_CENTER_ID>
+      <CONTACT>000001</CONTACT>
+      <FIRSTDATE>2005/11/22</FIRSTDATE>
+      <E_MAIL_FLAG />
+      <DATASOURCE>2</DATASOURCE>
+      <NOTE />
+      <IMPORT_DATE />
+      <CONTACT_OTHER>000001</CONTACT_OTHER>
+      <LAST_LOGIN />
+      <APPROVE>1</APPROVE>
+      <APPROVE_OTHER />
+      <SEND_ORG1 />
+      <SEND_ORG1_DATE />
+      <GOV_LOGIN />
+    </APLTBL>
+    <APSTBL>
+      <FA_FALG>1</FA_FALG>
+      <FA_DATE />
+      <BIRTHDAY>1951/4/4</BIRTHDAY>
+      <SEX>1</SEX>
+      <EDGR>3</EDGR>
+      <DEPTCD>1401</DEPTCD>
+      <OCCUCD1>241001</OCCUCD1>
+      <OCCUCD2 />
+      <OCCUCD3 />
+      <WKPLCD1>13</WKPLCD1>
+      <WKPLCD2 />
+      <WKPLCD3 />
+      <SALARY_M>4</SALARY_M>
+      <SALARY>0</SALARY>
+      <TRANDATE>2005/11/22 下午 05:03:14</TRANDATE>
+      <CLOSE_REASON />
+      <CLOSE_ROLE />
+      <CLOSE_USER_ID />
+      <WKPLZIP1>013</WKPLZIP1>
+      <WKPLZIP2 />
+      <WKPLZIP3 />
+      <CLOSE_RGSTN />
+      <DEPT_OTHER />
+      <DEPTCD2 />
+      <DEPT_OTHER2 />
+      <DEPTCD3 />
+      <DEPT_OTHER3 />
+      <EDGR_OTHER />
+      <OCCU_DESC1 />
+      <OCCU_DESC2 />
+      <OCCU_DESC3 />
+      <CJOB_NO1>0402</CJOB_NO1>
+      <CJOB_NO2 />
+      <CJOB_NO3 />
+      <BUSI_ID1 />
+      <BUSI_ID2 />
+      <BUSI_ID3 />
+      <CLOSE_REASON_OTHER />
+    </APSTBL>
+    <O_APSTBL>
+      <RGSTN>A10000</RGSTN>
+      <USER_ID>A10000001</USER_ID>
+      <RECNO>A10000200511000012</RECNO>
+      <FIRSTDATE>2005/11/22 下午 05:03:14</FIRSTDATE>
+      <RGDATE>2005/11/22 下午 05:03:14</RGDATE>
+      <LOOK_TYPE />
+      <NET>1</NET>
+      <SOLDER>1</SOLDER>
+      <GRADU>1</GRADU>
+      <SCHOOL />
+      <WORK_TIME>0000001</WORK_TIME>
+      <PART_TIME>00000000</PART_TIME>
+      <TRANNING />
+      <ABILITY1 />
+      <ABILITY2 />
+      <ABILITY3 />
+      <EXPCD1 />
+      <EXPYM1 />
+      <EXPCD2 />
+      <EXPYM2 />
+      <DRI>00</DRI>
+      <TECHCD1 />
+      <TECHLV1 />
+      <TECHCD2 />
+      <TECHLV2 />
+      <INDIVIDUAL />
+      <FORLNG>00000</FORLNG>
+      <FORLNG_OTH />
+      <RESOU />
+      <DISABLED_CD />
+      <DISABLED_LABEL>0</DISABLED_LABEL>
+      <IF_COMMUTE_TIME>5</IF_COMMUTE_TIME>
+      <JOIN_JOB />
+      <JOB_TYPE1 />
+      <JOB_TYPE2 />
+      <JOB_TYPE3 />
+      <JOB_CLASS1 />
+      <JOB_CLASS2 />
+      <JOB_CLASS3 />
+      <IF_USE_COMPUTER />
+      <USE_POWER>0000000</USE_POWER>
+      <USE_OTHER />
+      <IF_ECONOMY_STRESS />
+      <STRESS_TYPE>0000</STRESS_TYPE>
+      <STRESS_OTHER />
+      <JOB_LOCATION />
+      <LEAVE_DATE>2005/11/22</LEAVE_DATE>
+      <LEAVE_LONG>0</LEAVE_LONG>
+      <BEFORE_MONEY>0</BEFORE_MONEY>
+      <USER_IDENTITY />
+      <EXPWORK1 />
+      <EXPWORK2 />
+      <ONESELF />
+      <TECH_OTHER />
+      <SCHOOL_ID>3A01</SCHOOL_ID>
+      <SCHOOL_ID2 />
+      <SCHOOL2 />
+      <SCHOOL_ID3 />
+      <SCHOOL3 />
+      <GRADU2>1</GRADU2>
+      <GRADU_YEAR2 />
+      <GRADU3>1</GRADU3>
+      <GRADU_YEAR3 />
+      <GRADU_YEAR>198102</GRADU_YEAR>
+      <IN_JOB>0</IN_JOB>
+      <WISH_JOB_TYPE>1</WISH_JOB_TYPE>
+      <WISH_JOB_DATE />
+      <COLLEGE_GRADU_YEAR />
+      <HIGH_GRADU_YEAR />
+      <JOB_MONTHS />
+      <CASE_SOURCE />
+      <CASE_OTHER />
+      <OTHER_DETAIL />
+    </O_APSTBL>
+  </LABOR>
+</ExportUser>

@@ -1,0 +1,65 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			AddContact 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序針對入口中的特定模組，將新連絡人加入資料庫。輸入參數包括連絡人名稱、角色、組別、電子郵件地址及連絡人資訊。輸出參數則是新資料庫記錄的 ItemID。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_AddContact
+   (
+       @ModuleID int,
+       @UserName nvarchar(100),
+       @Name     nvarchar(50),
+       @Role     nvarchar(100),
+       @Email    nvarchar(100),
+       @Contact1 nvarchar(250),
+       @Contact2 nvarchar(250),
+       @ItemID   int OUTPUT
+   )
+   AS
+   
+   INSERT INTO Portal_Contacts
+   (
+       CreatedByUser,
+       CreatedDate,
+       ModuleID,
+       Name,
+       Role,
+       Email,
+       Contact1,
+       Contact2
+   )
+   
+   VALUES
+   (
+       @UserName,
+       GetDate(),
+       @ModuleID,
+       @Name,
+       @Role,
+       @Email,
+       @Contact1,
+       @Contact2
+   )
+   
+   SELECT
+       @ItemID = @@Identity
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Contacts：</i>
+如 Contacts Portal 模組所示，Contacts 資料表中的每筆記錄都是單一項目。由於所有的 Contacts 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關的項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/contacts.jpg">
+	</body>
+</html>

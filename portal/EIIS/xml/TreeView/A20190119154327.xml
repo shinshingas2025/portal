@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" id="N_1">
+    <treenode text="18 訪客" id="N_18" />
+    <treenode text="69 管理中心" id="N_69">
+      <treenode text="70 管理者" id="N_70" />
+      <treenode text="191 網站管理員" id="N_191" />
+      <treenode text="192 網頁資料維護員" id="N_192" />
+      <treenode text="213 董事會" id="N_213">
+        <treenode text="320 陳何家" id="N_320" />
+        <treenode text="502 陳柏蓉" id="N_502" />
+      </treenode>
+      <treenode text="216 總經理室" id="N_216">
+        <treenode text="238 總工程師室" id="N_238" />
+        <treenode text="316 廖江津" id="N_316" />
+      </treenode>
+      <treenode text="217 稽核室" id="N_217">
+        <treenode text="265 簡益信" id="N_265" />
+        <treenode text="337 吳昌源" id="N_337" />
+      </treenode>
+      <treenode text="218 人事室" id="N_218">
+        <treenode text="263 陳靜茹" id="N_263" />
+        <treenode text="298 孔龍" id="N_298" />
+      </treenode>
+      <treenode text="219 勞工安全管理室" id="N_219">
+        <treenode text="493 葉惠嫺" id="N_493" />
+      </treenode>
+      <treenode text="220 營業部" id="N_220">
+        <treenode text="232 抄表科" id="N_232">
+          <treenode text="274 羅鼎富" id="N_274" />
+          <treenode text="374 羅莉蘋" id="N_374" />
+          <treenode text="388 姜台生" id="N_388" />
+          <treenode text="389 翁康" id="N_389" />
+          <treenode text="390 陳民記" id="N_390" />
+          <treenode text="391 陳宥姍" id="N_391" />
+          <treenode text="392 曾綉英" id="N_392" />
+          <treenode text="393 吳春燕" id="N_393" />
+          <treenode text="394 姜麗珍" id="N_394" />
+          <treenode text="395 周雪鳳" id="N_395" />
+          <treenode text="398 吳莉莉" id="N_398" />
+          <treenode text="399 林芷因" id="N_399" />
+          <treenode text="400 劉文瑞" id="N_400" />
+          <treenode text="401 姚華英" id="N_401" />
+          <treenode text="403 林雲卿" id="N_403" />
+          <treenode text="404 郭淑妙" id="N_404" />
+          <treenode text="405 林玉金" id="N_405" />
+          <treenode text="407 丘俊明" id="N_407" />
+          <treenode text="408 陳鴻章" id="N_408" />
+          <treenode text="409 鄭翔方" id="N_409" />
+          <treenode text="410 羅淑玲" id="N_410" />
+          <treenode text="411 陳吳祐" id="N_411" />
+          <treenode text="432 蔡銘鴻" id="N_432" />
+          <treenode text="447 葉容均" id="N_447" />
+          <treenode text="460 金彥廷" id="N_460" />
+          <treenode text="462 林淑惠" id="N_462" />
+          <treenode text="463 鍾曉凡" id="N_463" />
+          <treenode text="465 高益裕" id="N_465" />
+          <treenode text="466 黃詩雅" id="N_466" />
+          <treenode text="468 姜秉志" id="N_468" />
+          <treenode text="469 趙少君" id="N_469" />
+          <treenode text="473 陳柏彰" id="N_473" />
+          <treenode text="478 黃紀堯" id="N_478" />
+          <treenode text="479 李育昇" id="N_479" />
+          <treenode text="480 楊永承" id="N_480" />
+          <treenode text="481 劉邦彥" id="N_481" />
+          <treenode text="482 陳坤漢" id="N_482" />
+          <treenode text="483 何宜峰" id="N_483" />
+          <treenode text="484 宋翰昇" id="N_484" />
+          <treenode text="485 黃詩雅" id="N_485" />
+          <treenode text="486 林芷因" id="N_486" />
+          <treenode text="488 許哲瑋" id="N_488" />
+          <treenode text="489 黃建豪" id="N_489" />
+          <treenode text="490 陳弘毅" id="N_490" />
+          <treenode text="503 陳顥軒" id="N_503" />
+          <treenode text="508 鍾曉凡" id="N_508" />
+          <treenode text="509 蘇鈺惠" id="N_509" />
+          <treenode text="517 劉軒廷" id="N_517" />
+        </treenode>
+        <treenode text="233 營收科" id="N_233">
+          <treenode text="250 何志倩" id="N_250" />
+          <treenode text="273 范元靜" id="N_273" />
+          <treenode text="324 胡惠美" id="N_324" />
+          <treenode text="331 周瀛慧" id="N_331" />
+          <treenode text="362 林正中" id="N_362" />
+          <treenode text="372 徐家欣" id="N_372" />
+          <treenode text="373 劉芬芳" id="N_373" />
+          <treenode text="376 連貴霖" id="N_376" />
+          <treenode text="378 馬端華" id="N_378" />
+          <treenode text="406 萬星延" id="N_406" />
+          <treenode text="476 潘嬡雲" id="N_476" />
+          <treenode text="477 李淑媛" id="N_477" />
+          <treenode text="487 張惠琳" id="N_487" />
+          <treenode text="496 張翌陵" id="N_496" />
+          <treenode text="505 張雅媛" id="N_505" />
+          <treenode text="511 孫雯文" id="N_511" />
+          <treenode text="514 彭湘勻" id="N_514" />
+          <treenode text="515 陳涵盈" id="N_515" />
+        </treenode>
+        <treenode text="234 表務科" id="N_234">
+          <treenode text="358 孫培修" id="N_358" />
+          <treenode text="371 賴湘媚" id="N_371" />
+          <treenode text="422 許月珠" id="N_422" />
+          <treenode text="423 羅勳嶽" id="N_423" />
+          <treenode text="424 張家玲" id="N_424" />
+          <treenode text="425 謝俊能" id="N_425" />
+          <treenode text="427 喻清傳" id="N_427" />
+          <treenode text="429 張志昌" id="N_429" />
+          <treenode text="431 李琨璋" id="N_431" />
+        </treenode>
+        <treenode text="286 黃玉翎" id="N_286" />
+      </treenode>
+      <treenode text="221 展業部" id="N_221">
+        <treenode text="235 推廣科" id="N_235">
+          <treenode text="260 陳金山" id="N_260" />
+          <treenode text="269 吳寶愛" id="N_269" />
+          <treenode text="350 馬桂英" id="N_350" />
+          <treenode text="352 王茉莉" id="N_352" />
+          <treenode text="353 張芝芬" id="N_353" />
+          <treenode text="355 許壽文" id="N_355" />
+          <treenode text="456 孫瑜璟" id="N_456" />
+        </treenode>
+        <treenode text="236 設計科" id="N_236">
+          <treenode text="295 方東明" id="N_295" />
+          <treenode text="296 謝政學" id="N_296" />
+          <treenode text="360 尹永輝" id="N_360" />
+          <treenode text="385 陳柏村" id="N_385" />
+          <treenode text="441 許宗閔" id="N_441" />
+          <treenode text="453 黃棟樑" id="N_453" />
+        </treenode>
+        <treenode text="237 施工科" id="N_237">
+          <treenode text="284 馬倜周" id="N_284" />
+          <treenode text="289 徐文煜" id="N_289" />
+          <treenode text="290 張志誠" id="N_290" />
+          <treenode text="293 連峻毅" id="N_293" />
+          <treenode text="294 張啟明" id="N_294" />
+          <treenode text="318 劉原良" id="N_318" />
+          <treenode text="356 張志翔" id="N_356" />
+          <treenode text="414 張大忠" id="N_414" />
+          <treenode text="454 張志誠" id="N_454" />
+          <treenode text="461 吳健裕" id="N_461" />
+          <treenode text="474 孫于婷" id="N_474" />
+        </treenode>
+      </treenode>
+      <treenode text="222 管理部" id="N_222">
+        <treenode text="239 總務科" id="N_239">
+          <treenode text="253 陳安儀" id="N_253" />
+          <treenode text="266 翁惠芳" id="N_266" />
+          <treenode text="299 陳樹長" id="N_299" />
+          <treenode text="363 張真真" id="N_363" />
+          <treenode text="365 劉志義" id="N_365" />
+          <treenode text="368 陳信佑" id="N_368" />
+          <treenode text="417 陳樹長" id="N_417" />
+        </treenode>
+        <treenode text="240 物料科" id="N_240">
+          <treenode text="309 萬德音" id="N_309" />
+        </treenode>
+        <treenode text="241 資訊科" id="N_241">
+          <treenode text="307 紀美暖" id="N_307" />
+          <treenode text="332 劉國蘭" id="N_332" />
+          <treenode text="334 李弘文" id="N_334" />
+          <treenode text="336 洪培根" id="N_336" />
+          <treenode text="339 網站測試員" id="N_339" />
+          <treenode text="375 洪月桂" id="N_375" />
+          <treenode text="448 陳瑜珍" id="N_448" />
+          <treenode text="491 鄭君任" id="N_491" />
+        </treenode>
+        <treenode text="310 吳健仲" id="N_310" />
+      </treenode>
+      <treenode text="223 工務部" id="N_223">
+        <treenode text="242 養護科" id="N_242">
+          <treenode text="255 舒志雄" id="N_255" />
+          <treenode text="387 范菊苓" id="N_387" />
+          <treenode text="415 黃強生" id="N_415" />
+          <treenode text="471 馮國強" id="N_471" />
+          <treenode text="472 黃鼎為" id="N_472" />
+          <treenode text="475 張晉熒" id="N_475" />
+          <treenode text="492 張羽承" id="N_492" />
+          <treenode text="497 林洺全" id="N_497" />
+          <treenode text="501 楊立中" id="N_501" />
+          <treenode text="507 陳坤漢" id="N_507" />
+          <treenode text="512 陳昱豪" id="N_512" />
+          <treenode text="513 丁奎鑫" id="N_513" />
+        </treenode>
+        <treenode text="243 供氣科" id="N_243">
+          <treenode text="264 張春富" id="N_264" />
+          <treenode text="338 洪朝榮" id="N_338" />
+          <treenode text="420 彭平得" id="N_420" />
+          <treenode text="438 林欽財" id="N_438" />
+          <treenode text="467 彭新彰" id="N_467" />
+        </treenode>
+        <treenode text="244 管一科" id="N_244">
+          <treenode text="379 鄭瑤" id="N_379" />
+          <treenode text="380 曾盈璋" id="N_380" />
+          <treenode text="416 劉果" id="N_416" />
+          <treenode text="418 許勝章" id="N_418" />
+          <treenode text="419 孫多元" id="N_419" />
+          <treenode text="421 吳在川" id="N_421" />
+          <treenode text="464 蔡輯銳" id="N_464" />
+          <treenode text="499 陳啟興" id="N_499" />
+          <treenode text="500 鄭冠宇" id="N_500" />
+        </treenode>
+        <treenode text="245 管二科" id="N_245">
+          <treenode text="304 陳哲人" id="N_304" />
+          <treenode text="345 徐世昭" id="N_345" />
+          <treenode text="384 張少波" id="N_384" />
+          <treenode text="434 林詩堅" id="N_434" />
+          <treenode text="435 張志華" id="N_435" />
+          <treenode text="436 游本盛" id="N_436" />
+          <treenode text="437 葉峰山" id="N_437" />
+          <treenode text="439 陳文興" id="N_439" />
+          <treenode text="440 林燕清" id="N_440" />
+          <treenode text="506 卓俊廷" id="N_506" />
+        </treenode>
+        <treenode text="449 曾玉生" id="N_449" />
+      </treenode>
+      <treenode text="224 財務部" id="N_224">
+        <treenode text="246 股務科" id="N_246">
+          <treenode text="342 施宜君" id="N_342" />
+          <treenode text="349 黃玉霞" id="N_349" />
+          <treenode text="516 黃逸揚" id="N_516" />
+        </treenode>
+        <treenode text="247 會計科" id="N_247">
+          <treenode text="288 劉洪治" id="N_288" />
+          <treenode text="340 黃玉芬" id="N_340" />
+          <treenode text="344 劉豫霞" id="N_344" />
+          <treenode text="498 廖柏凱" id="N_498" />
+          <treenode text="504 莊雅婷" id="N_504" />
+        </treenode>
+        <treenode text="248 出納科" id="N_248">
+          <treenode text="271 葉玲君" id="N_271" />
+          <treenode text="343 陳靜玲" id="N_343" />
+        </treenode>
+        <treenode text="306 黃英彥" id="N_306" />
+      </treenode>
+      <treenode text="249 孫振煌" id="N_249" />
+      <treenode text="256 陳崑山" id="N_256" />
+      <treenode text="257 劉大安" id="N_257" />
+      <treenode text="259 黃能鋒" id="N_259" />
+      <treenode text="275 張模舜" id="N_275" />
+      <treenode text="276 李克曾" id="N_276" />
+      <treenode text="278 陳建森" id="N_278" />
+      <treenode text="279 陳泰崇" id="N_279" />
+      <treenode text="281 永發公司" id="N_281">
+        <treenode text="348 吳珮琪" id="N_348" />
+      </treenode>
+      <treenode text="297 洪泰昌" id="N_297" />
+      <treenode text="303 周錦" id="N_303" />
+      <treenode text="313 張國泰" id="N_313" />
+      <treenode text="321 邱永鎮" id="N_321" />
+      <treenode text="333 孫華生" id="N_333" />
+      <treenode text="351 吳美珍" id="N_351" />
+      <treenode text="359 王瑞修" id="N_359" />
+      <treenode text="430 劉政文" id="N_430" />
+      <treenode text="443 super" id="N_443" />
+      <treenode text="444 王立雄" id="N_444" />
+      <treenode text="445 陳書怡" id="N_445" />
+      <treenode text="452 搶修公用帳號" id="N_452" />
+      <treenode text="455 陳柏蓉" id="N_455" />
+      <treenode text="458 緊急搶修公用帳號(日)" id="N_458" />
+      <treenode text="459 緊急搶修公用帳號(夜)" id="N_459" />
+      <treenode text="470 鄭君任" id="N_470" />
+      <treenode text="494 楊立中" id="N_494" />
+      <treenode text="495 張雅媛" id="N_495" />
+      <treenode text="510 彭湘勻" id="N_510" />
+      <treenode text="518 退休及離職人員" id="N_518" />
+    </treenode>
+  </treenode>
+</TREENODES>

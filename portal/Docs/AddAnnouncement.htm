@@ -1,0 +1,64 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			AddAnnouncement 預存程序
+		</h1>
+		<b>說明</b>
+		<P>
+			此預存程序針對入口中的特定模組，將新宣告加入資料庫。輸入參數包括宣告的「標題」、「到期日期」及「說明」。輸出參數則是新資料庫記錄的 ItemId。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_AddAnnouncement
+   (
+       @ModuleID       int,
+       @UserName       nvarchar(100),
+       @Title          nvarchar(150),
+       @MoreLink       nvarchar(150),
+       @MobileMoreLink nvarchar(150),
+       @ExpireDate     DateTime,
+       @Description    nvarchar(2000),
+       @ItemID         int OUTPUT
+   )
+   AS
+   
+   INSERT INTO Portal_Announcements
+   (
+       ModuleID,
+       CreatedByUser,
+       CreatedDate,
+       Title,
+       MoreLink,
+       MobileMoreLink,
+       ExpireDate,
+       Description
+   )
+   
+   VALUES
+   (
+       @ModuleID,
+       @UserName,
+       GetDate(),
+       @Title,
+       @MoreLink,
+       @MobileMoreLink,
+       @ExpireDate,
+       @Description
+   )
+   
+   SELECT
+       @ItemID = @@Identity
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Announcements：</i>如 Announcements Portal 模組所示，Announcements 資料表中的每筆記錄都是單一項目。由於所有的 Announcements 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意，宣告說明不得超過 2000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/announcements.jpg">
+	</body>
+</html>

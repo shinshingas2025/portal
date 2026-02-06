@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 EIIS" id="N_1" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="2 欣欣天然氣股份有限公司網站" id="N_2" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="238 網站後檯首頁" id="N_238" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="342 最新消息" id="N_342" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="614 公佈欄" id="N_614" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="654 文件" id="N_654" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="239 網站權限管理" id="N_239" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="320 網站管理(全)" id="N_320" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="613 單位管理模組" id="N_613" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="653 網站權限維護" id="N_653" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="606 網站資料維護" id="N_606" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="622 工作區" id="N_622" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif">
+          <treenode text="626 前台首頁資料管理" id="N_626" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="634 最新消息管理" id="N_634" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="636 公司訊息管理" id="N_636" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="637 施工通告管理" id="N_637" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="638 停氣公告管理" id="N_638" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="639 跑馬燈管理" id="N_639" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="628 下載專區管理" id="N_628" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="640 下載群組管理" id="N_640" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="641 下載資料管理" id="N_641" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="629 產品管理" id="N_629" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="642 產品群組管理" id="N_642" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="643 產品資料管理" id="N_643" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="630 常見問題(FAQ)管理" id="N_630" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="644 問題群組管理" id="N_644" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="645 問題資料管理" id="N_645" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="631 意見反映查詢" id="N_631" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          <treenode text="632 投資人訊息管理" id="N_632" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="646 財務資訊管理" id="N_646" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="647 股利發放情形管理" id="N_647" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="648 除權(息)資訊管理" id="N_648" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="649 重要決議事項管理" id="N_649" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="633 用戶服務管理" id="N_633" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+            <treenode text="650 新用戶申請查詢" id="N_650" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+            <treenode text="651 自報度數查詢" id="N_651" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+          </treenode>
+          <treenode text="655 意見反映管理" id="N_655" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        </treenode>
+      </treenode>
+    </treenode>
+  </treenode>
+</TREENODES>

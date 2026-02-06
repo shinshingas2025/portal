@@ -1,0 +1,57 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			AddUserRole 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序會將使用者加入指定的安全性角色。Roles 資料表中的角色會根據入口來定義。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_AddUserRole
+   (
+       @UserID int,
+       @RoleID int
+   )
+   AS
+   
+   SELECT 
+       *
+   FROM Portal_UserRoles
+   
+   WHERE
+       UserID=@UserID
+       AND
+       RoleID=@RoleID
+   
+   /* only insert if the record doesn't yet exist */
+   IF @@Rowcount < 1
+   
+       INSERT INTO Portal_UserRoles
+       (
+           UserID,
+           RoleID
+       )
+   
+       VALUES
+       (
+           @UserID,
+           @RoleID
+       )
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>UserRoles：</i>
+UserRoles 資料表提供入口網站安全性角色 (定義於 Roles 資料表) 與使用者 (定義於 Users 資料表) 之間的多對多連接。使用 UserRoles 資料表時，每個使用者可以屬於多種角色，而且每項角色的成員也可以是多個使用者。
+		<p>
+		UserRoles 資料表沒有主索引鍵。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+		</p>
+	</body>
+</html>

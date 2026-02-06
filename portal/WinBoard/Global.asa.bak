@@ -1,0 +1,158 @@
+<SCRIPT LANGUAGE='VBScript' RUNAT='Server'>
+
+Sub Application_OnStart
+	Application("ConnectionString") = "Provider=sqloledb;Data Source=(local);Initial Catalog=WinBoard;User Id=sa;"
+  Application("WINBOARD_BASE") = "http://www.drumk.com/WinBoard"
+  Application("WINBOARD_PHYSICAL_PATH") = "C:/INETPUB/WWWROOT/WinBoard"
+  Application("CONTACT_EMAIL") = "contact@mail.com"
+  Application("ADMIN_EMAIL")= "admin@email.com"
+  Application("SITE_TITLE") = "Title of your site"
+  Application("SITE_URL") = "URL of your site"
+  Application("WINBOARD_TITLE") = "Title of your board"
+  Application("WINBOARD_DESCRIPTION") = "Description of your board"
+  Application("WORD_FILTER") = ""
+  Application("LEVEL_30") = "Nickname of normal members"
+  Application("LEVEL_50") = "Nickname of power members"
+  Application("LEVEL_70") = ""
+  Application("LEVEL_100") = "Nickname of administrators"
+  Application("HEADLINES_PER_PAGE") = 40
+  Application("POST_PER_PAGE") = 50
+
+  Application("30_TO_50_LEVEL") = 50
+  Application("PRINT") = 0
+  Application("FORWARD") = 0
+  Application("ONLINE") = 0
+  Application("LOGIN") = 0
+  Application("CATEGORY_ONLY") = 0
+  Application("INDEX") = 1
+  Application("INDEX_URL") = "http://WinBoard.SourceForge.net/"
+  Application("DAY_PRUNE") = 30
+  Application("HOT") = 10
+  Application("POP") = 0
+  Application("NOTIFY_REGISTER") = ""
+  Application("DEFAULT_GROUP") = 1
+  Application("GROUPS") = 1
+  Application("VERIFY_EMAIL") = 0
+  Application("REVIEW_ACCOUNT") = 0
+  Application("USERNAME_FILTER") = ""
+  Application("NICKNAME_FILTER") = ""
+  Application("EMAIL_FILTER") = ""
+  Application("NICKNAME_DUPLICATE") = 1
+  Application("EMAIL_DUPLICATE") = 1
+  Application("MAX_COMMENTS_LENGTH") = 256
+  Application("MAX_SIGNATURE_LENGTH") = 256
+  Application("MAX_PHOTO_LENGTH") = 0
+  Application("MAX_PHOTO_X") = 0
+  Application("MAX_PHOTO_Y") = 0
+  Application("NOTIFY_POST") = 0
+  Application("NOTIFY_MEMBER_POST") = 0
+  Application("MAX_SUBJECT_LENGTH") = 128
+  Application("MAX_MESSAGE_LENGTH") = 4098
+  Application("COPPA") = 0
+  Application("DISPLAY_AGREEMENT") = 0
+  Application("AGREEMENT") = ""
+  Application("COPPA_AGREEMENT") = ""
+  Application("SHOW_IP_HOST") = 0
+  Application("SHOW_TOTAL_MEMBERS") = 0
+  Application("ATTACH_TYPE") = ""
+  Application("TX_Timeout") = 5
+
+  Application("COOKIES") = "WB"
+  Application("WB_URL") = Application("WINBOARD_BASE")
+  Application("IMAGE_URL") = Application("WINBOARD_BASE") & "/Public/Images"
+  Application("UPLOAD_URL") = Application("WINBOARD_BASE") & "/Public/Uploads"
+  Application("HTML_URL") = Application("WINBOARD_BASE") & "/Public/HTML"
+  Application("BACKUP") = Application("WINBOARD_PHYSICAL_PATH") & "/Private/Backups"
+  Application("DB_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Private/Database"
+  Application("LOGS_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Private/Database/Logs"
+  Application("TEMP_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Private/Database/Temp"
+  Application("SKINS_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Private/Skins"
+  Application("IMAGES_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Public/Images"
+  Application("UPLOAD_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Public/Uploads"
+  Application("HTML_PATH") = Application("WINBOARD_PHYSICAL_PATH") & "/Public/HTML"
+  Application("COOKIE_PATH") = ""
+  Application("DB_TYPE") = "dbm"
+  Application("DB_HOST") = ""
+  Application("DB_NAME") = ""
+  Application("DB_USERNAME")= ""
+  Application("DB_PASSWORD")= ""
+  Application("FLOCK") = "0"
+  Application("EXTENSTION") = "PL"
+  Application("SSI") = "0"
+  Application("TOPIC_EXTENSTION") = "cgi"
+  Application("TIMEZONE") = "GMT +8"
+  Application("LOCALTIME_OFFSET") = 0
+  Application("DATE_FORMAT") = "EU"
+  Application("TIME_FORMAT") = 24
+  Application("SENDMAIL") = ""
+  Application("MAIL_SYSTEM") = ""
+  Application("SMTP_PATH") = ""
+  Application("SENDMAIL_PATH") = ""
+  Application("SKIN") = "Default"
+  Application("STATS") = ""
+  Application("LOGS") = ""
+  Application("ONLINE") = 1
+  Application("SESSIONS_EXPIRE") = 86400
+  Application("OFFLINE_MESSAGE") = "對示起，站長正在修理討論版，請遲一點再上來看看，多謝合作！"
+  Application("IP_FILTER") = ""
+  Application("HOST_FILTER") = ""
+  Application("SPELL_CHECK_ID") = 0699209811
+
+  Dim objConn, rst
+
+  Set objConn = Server.CreateObject("ADODB.Connection")
+  objConn.ConnectionTimeout = Application("TX_Timeout")
+  objConn.Open Application("ConnectionString")
+
+  Set rst = Server.CreateObject("ADODB.RecordSet")
+  rst.CursorLocation = 3
+  rst.CursorType = 0
+  rst.LockType = 1
+  rst.Open "SELECT [CID], [Title] FROM [Categories]", objConn
+  Application("Categories") = rst.GetRows()
+  rst.Close
+  rst.Open "SELECT [BID], [Title], [Category] FROM [Boards]", objConn
+  Application("Boards") = rst.GetRows()
+  rst.Close
+  Set rst = Nothing
+  objConn.Close
+  Set objConn = Nothing
+End Sub
+
+Sub Application_OnEnd
+End Sub
+
+Sub Session_OnStart
+  Dim s
+
+  Session("Rst_Topic") = 0
+  Session("LastTopic") = -1
+  Session("Usr_Logon") = False
+  s = Split(Request.Cookies(Application("COOKIES") & "SESSION"), "A", 2)
+  If UBound(s) = 1 Then
+    If IsNumeric(s(0)) Then
+      Dim objConn, rst
+
+      Set objConn = Server.CreateObject("ADODB.Connection")
+      objConn.ConnectionTimeout = Application("TX_Timeout")
+      objConn.Open Application("ConnectionString")
+      Set rst = Server.CreateObject("ADODB.RecordSet")
+      rst.CursorLocation = 3
+      rst.Open "SELECT * FROM [Session] WHERE [SID] = " & s(0) & " AND [Hash] = '" & s(1) & "'", objConn, 0, 1, &H0001
+      If Not rst.EOF THen
+        Session("Usr_Logon") = True
+        Session("Usr_Username") = rst("Username").Value
+      End If
+      rst.Close
+      Set rst = Nothing
+      objConn.Close
+      Set objConn = Nothing
+    End If
+  End If
+End Sub
+
+Sub Session_OnEnd
+  If IsObject(Session("Rst_Topic")) Then Set Session("Rst_Topic") = Nothing
+End Sub
+
+</SCRIPT>

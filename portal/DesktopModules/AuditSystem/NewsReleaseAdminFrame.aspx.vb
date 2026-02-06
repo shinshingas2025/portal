@@ -1,0 +1,1108 @@
+Imports System
+Imports System.IO
+Imports System.Configuration
+Imports System.Data
+Imports System.Data.SqlClient
+Imports ASPNET.StarterKit.Portal
+Imports ASPNET.StarterKit.Portal.AuditSystem.DAO
+
+Namespace ASPNET.StarterKit.Portal.AuditSystem.Module
+
+	Public Class NewsReleaseAdminFrame
+		Inherits System.Web.UI.Page
+
+#Region " Web Form 設計工具產生的程式碼 "
+
+		'此為 Web Form 設計工具所需的呼叫。
+		<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+
+		End Sub
+		Protected WithEvents Label7 As System.Web.UI.WebControls.Label
+		Protected WithEvents TextBoxContent As System.Web.UI.WebControls.TextBox
+		Protected WithEvents ButtonPrevious As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonNext As System.Web.UI.WebControls.Button
+		Protected WithEvents DropDownListCategorization As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents ButtonNewsInsert As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonNewsUpdate As System.Web.UI.WebControls.Button
+		Protected WithEvents ButtonNewsDelete As System.Web.UI.WebControls.Button
+		Protected WithEvents PlaceHolderContent As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents ButtonContentAction As System.Web.UI.WebControls.Button
+		Protected WithEvents TextBoxContentNumber As System.Web.UI.WebControls.TextBox
+		Protected WithEvents PlaceholderAppend As System.Web.UI.WebControls.PlaceHolder
+		Protected WithEvents TextBoxContentOrder As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextboxAppendName As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextboxAppendDescription As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxAppendOrder As System.Web.UI.WebControls.TextBox
+		Protected WithEvents AppendFile As System.Web.UI.HtmlControls.HtmlInputFile
+		Protected WithEvents ButtonAppendAction As System.Web.UI.WebControls.Button
+		Protected WithEvents TextBoxTitle As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxDescription As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxOpening As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxEnding As System.Web.UI.WebControls.TextBox
+		Protected WithEvents DropDownListReleaseUnit As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents DropDownListLiaisoner As System.Web.UI.WebControls.DropDownList
+		Protected WithEvents TextboxRelationURL As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxStartDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextBoxEndDate As System.Web.UI.WebControls.TextBox
+		Protected WithEvents TextboxNewsDate As System.Web.UI.WebControls.TextBox
+
+		'注意: 下列預留位置宣告是 Web Form 設計工具需要的項目。
+		'請勿刪除或移動它。
+		Private designerPlaceholderDeclaration As System.Object
+
+		Private Sub Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+			'CODEGEN: 此為 Web Form 設計工具所需的方法呼叫
+			'請勿使用程式碼編輯器進行修改。
+			InitializeComponent()
+		End Sub
+
+#End Region
+
+		Private Const DefaultPermission As String = "111100100"
+		Private Const DefaultPermissionGroup As String = "000000000"
+		Private Const NewsReleaseAuthorityTarget As String = "NewsRelease"
+		Private Const NewsReleaseContentAuthorityTarget As String = "NewsReleaseContent"
+		Private Const NewsReleaseAppendAuthorityTarget As String = "NewsReleaseAppend"
+		Private Const CodeAuthorityTarget As String = "NormalCode"
+		Private UtilityObject As New AuditSystemUtility
+
+		Private tabIndex As Integer = 0
+		Private sid As String = ""
+		Private moduleId As Integer = 0
+		Private tabId As Integer = 0
+		Private categorizationID As String = ""
+		Private newsID As String = ""
+		Private contentID As String = ""
+		Private appendID As String = ""
+		Private action As String = ""
+		Private Const ReleaseUnitCodeGroupID As String = "2006010100000003"
+		Private Const CategorizationCodeGroupID As String = "200601010000000D"
+		Private Const LiaisonerCodeGroupID As String = "200601010000000C"
+		Private Const ActionColumnWidth As String = "40"
+		Private Const ContentNumberColumnWidth As String = "48"
+		Private Const ContentColumnWidth As String = "480"
+		Private Const ContentOrderColumnWidth As String = "40"
+		Private Const AppendNameColumnWidth As String = "160"
+		Private Const AppendDescriptionColumnWidth As String = "240"
+		Private Const AppendFileColumnWidth As String = "120"
+		Private Const AppendOrderColumnWidth As String = "40"
+		Protected Const NormalCodeBGColor As String = "#DEDECA"
+		Protected Const FocusCodeBGColor As String = "#FFFF99"
+
+		Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+			'在這裡放置使用者程式碼以初始化網頁()
+			'Session("sid") = "9999"
+			'If PortalSecurity.IsInRoles("Admins") = False Then
+			'    Response.Redirect("~/Admin/EditAccessDenied.aspx")
+			'End If
+			' Calculate userid
+			If Not (Request.Params("sid") Is Nothing) Then
+				sid = Request.Params("sid")
+			End If
+
+			If Not (Request.Params("tabid") Is Nothing) Then
+				tabId = Int32.Parse(Request.Params("tabid"))
+			End If
+
+			If Not (Request.Params("tabindex") Is Nothing) Then
+				tabIndex = Int32.Parse(Request.Params("tabindex"))
+			End If
+
+			If Not (Request.Params("mid") Is Nothing) Then
+				moduleId = Int32.Parse(Request.Params("mid"))
+			End If
+
+			If Not (Request.Params("categorizationID") Is Nothing) Then
+				categorizationID = Request.Params("categorizationID")
+				'Else
+				'categorizationID = "200601010000000D00000004"
+			End If
+
+			If Not (Request.Params("newsID") Is Nothing) Then
+				newsID = Request.Params("newsID")
+			End If
+
+			If Not (Request.Params("contentID") Is Nothing) Then
+				contentID = Request.Params("contentID")
+			End If
+
+			If Not (Request.Params("appendID") Is Nothing) Then
+				appendID = Request.Params("appendID")
+			End If
+
+			If Not (Request.Params("action") Is Nothing) Then
+				action = Request.Params("action")
+			End If
+
+			If Not IsPostBack Then
+				If Not (Request.UrlReferrer Is Nothing) Then
+					ViewState("UrlReferrer") = Request.UrlReferrer.ToString()
+				End If
+				InitialWebControl()
+				PageLoad()
+			End If
+		End Sub
+		Private Sub PageLoad()
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim myNewsID As String = ""
+
+			If newsID.Trim.Length > 0 Then
+				myNewsDataSet = myNewsDAO.GetEntitysByEntityID(newsID)
+			Else
+				If categorizationID.Trim.Length > 0 Then
+					myNewsDataSet = myNewsDAO.GetEntitysByCategorizationID(categorizationID)
+					myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name)
+
+					If myNewsDataSet.Tables(0).Rows.Count > 0 Then
+						myNewsID = CType(myNewsDataSet.Tables(0).Rows(0).Item("EntityID"), String)
+						Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID)
+					End If
+				Else
+					'exception:categorization id is empty
+				End If
+			End If
+			FillNewsData(myNewsDataSet)
+		End Sub
+
+		Private Sub FillNewsData(ByVal myNewsDataSet As DataSet)
+			Dim myNewsID As String = ""
+			Dim myCategorizationID As String = ""
+			Dim myTitle As String = ""
+			Dim myDescription As String = ""
+			Dim myOpening As String = ""
+			Dim myEnding As String = ""
+			Dim myRelationURL As String = ""
+			Dim myReleaseUnitID As String = ""
+			Dim myLiaisonerID As String = ""
+			Dim myNewsDate As Date = New Date(1900, 1, 1)
+			Dim myStartDate As Date = New Date(1900, 1, 1)
+			Dim myEnddate As Date = New Date(1900, 1, 1)
+
+			If Not (myNewsDataSet Is Nothing) Then
+				If myNewsDataSet.Tables(0).Rows.Count = 1 Then
+					myNewsID = CType(myNewsDataSet.Tables(0).Rows(0).Item("EntityID"), String)
+					myCategorizationID = CType(myNewsDataSet.Tables(0).Rows(0).Item("CategorizationID"), String)
+					myTitle = CType(myNewsDataSet.Tables(0).Rows(0).Item("Title"), String)
+					myDescription = CType(myNewsDataSet.Tables(0).Rows(0).Item("Description"), String)
+					myOpening = CType(myNewsDataSet.Tables(0).Rows(0).Item("Opening"), String)
+					myEnding = CType(myNewsDataSet.Tables(0).Rows(0).Item("Ending"), String)
+					myRelationURL = CType(myNewsDataSet.Tables(0).Rows(0).Item("RelationURL"), String)
+					myReleaseUnitID = CType(myNewsDataSet.Tables(0).Rows(0).Item("ReleaseUnitID"), String)
+					myLiaisonerID = CType(myNewsDataSet.Tables(0).Rows(0).Item("LiaisonerID"), String)
+					myNewsDate = CType(myNewsDataSet.Tables(0).Rows(0).Item("NewsDate"), Date)
+					myStartDate = CType(myNewsDataSet.Tables(0).Rows(0).Item("StartDate"), Date)
+					myEnddate = CType(myNewsDataSet.Tables(0).Rows(0).Item("Enddate"), Date)
+
+					Try
+						DropDownListCategorization.SelectedValue = myCategorizationID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					TextBoxTitle.Text = myTitle
+					TextBoxDescription.Text = myDescription
+					TextBoxOpening.Text = myOpening
+					TextBoxEnding.Text = myEnding
+					Try
+						DropDownListReleaseUnit.SelectedValue = myReleaseUnitID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					Try
+						DropDownListLiaisoner.SelectedValue = myLiaisonerID
+					Catch ex As Exception
+						'exception:no match
+					End Try
+					TextboxNewsDate.Text = myNewsDate.Year & "/" & myNewsDate.Month & "/" & myNewsDate.Day
+					If TextboxNewsDate.Text = "1900/1/1" Then
+						TextboxNewsDate.Text = ""
+					End If
+					TextBoxStartDate.Text = myStartDate.Year & "/" & myStartDate.Month & "/" & myStartDate.Day
+					If TextBoxStartDate.Text = "1900/1/1" Then
+						TextBoxStartDate.Text = ""
+					End If
+					TextBoxEndDate.Text = myEnddate.Year & "/" & myEnddate.Month & "/" & myEnddate.Day
+					If TextBoxEndDate.Text = "1900/1/1" Then
+						TextBoxEndDate.Text = ""
+					End If
+					TextboxRelationURL.Text = ""
+					'content and append
+					If myNewsID.Trim.Length > 0 Then
+						FillContentData(myNewsID)
+						FillAppendData(myNewsID)
+					Else
+						'exception:news id is empty
+					End If
+				Else
+					'exception:news dataset is empty or duplicated
+				End If
+			End If
+		End Sub
+
+		Private Sub FillContentData(ByVal myNewsID As String)
+			Dim myContentDAO As New NewsReleaseContentDAOExtand
+			Dim myContentDataSet As DataSet
+			Dim myContentCount As Integer = 0
+			Dim myTable As HtmlTable
+			Dim myTableRow As HtmlTableRow
+			Dim myTableCell As HtmlTableCell
+			Dim myHyperLink As HyperLink
+			Dim myLiterial As LiteralControl
+			Dim myImage As HtmlImage
+			Dim myContentID As String = ""
+			Dim myContentNumber As String = ""
+			Dim myContent As String = ""
+			Dim myContentOrder As Integer = 0
+			Dim i As Integer = 0
+
+			If myNewsID.Trim.Length > 0 Then
+
+				PlaceHolderContent.Controls.Clear()
+
+				myTable = New HtmlTable
+				myTable.CellPadding = 0
+				myTable.CellSpacing = 0
+				myTable.Border = 1
+				'prepare content header
+				myTableRow = New HtmlTableRow
+				myTableRow.BgColor = NormalCodeBGColor
+				'action column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ActionColumnWidth
+				myTableRow.Cells.Add(myTableCell)
+				'content number column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ContentNumberColumnWidth
+				myTableCell.InnerText = "段落"
+				myTableRow.Cells.Add(myTableCell)
+				'content column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ContentColumnWidth
+				myTableCell.InnerText = "內文"
+				myTableRow.Cells.Add(myTableCell)
+				'content display order column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ContentOrderColumnWidth
+				myTableCell.InnerText = "順序"
+				myTableRow.Cells.Add(myTableCell)
+
+				myTable.Rows.Add(myTableRow)
+
+				myContentCount = myContentDAO.GetTotalRowByNewsReleaseID(myNewsID)
+				If myContentCount > 0 Then
+					myContentDataSet = myContentDAO.GetEntitysByNewsReleaseID(myNewsID)
+					myContentDataSet = UtilityObject.QueryPermissionFilter(myContentDataSet, NewsReleaseContentAuthorityTarget, Context.User.Identity.Name)
+
+					If myContentDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myContentDataSet.Tables(0).Rows.Count - 1
+							myContentID = CType(myContentDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+							myTableRow = New HtmlTableRow
+							If myContentID = contentID Then
+								myTableRow.BgColor = FocusCodeBGColor
+							Else
+								myTableRow.BgColor = NormalCodeBGColor
+							End If
+
+							'insert icon
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = ActionColumnWidth
+							'insert link
+							myHyperLink = New HyperLink
+							myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID & "&contentID=" & myContentID & "&action=update"
+							myHyperLink.ImageUrl = "~/images/edit.gif"
+							myHyperLink.Text = "修改"
+							myTableCell.Controls.Add(myHyperLink)
+							'br
+							myLiterial = New LiteralControl
+							myLiterial.Text = "<BR>"
+							myTableCell.Controls.Add(myLiterial)
+							'insert link
+							myHyperLink = New HyperLink
+							myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID & "&contentID=" & myContentID & "&action=delete"
+							myHyperLink.ImageUrl = "~/images/delete.gif"
+							myHyperLink.Text = "刪除"
+							myTableCell.Controls.Add(myHyperLink)
+
+							myTableRow.Cells.Add(myTableCell)
+
+							'content number
+							myContentNumber = CType(myContentDataSet.Tables(0).Rows(i).Item("ContentNumber"), String)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = ContentNumberColumnWidth
+							myTableCell.InnerHtml = myContentNumber
+							myTableRow.Cells.Add(myTableCell)
+
+							'content
+							myContent = CType(myContentDataSet.Tables(0).Rows(i).Item("Content"), String)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = ContentColumnWidth
+							myTableCell.InnerHtml = myContent
+							myTableRow.Cells.Add(myTableCell)
+
+							'content order
+							myContentOrder = CType(myContentDataSet.Tables(0).Rows(i).Item("DisplayOrder"), Integer)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = ContentOrderColumnWidth
+							myTableCell.InnerHtml = CType(myContentOrder, String)
+							myTableRow.Cells.Add(myTableCell)
+
+							myTable.Rows.Add(myTableRow)
+						Next
+					End If
+				Else
+					'new content
+				End If
+				PlaceHolderContent.Controls.Add(myTable)
+
+				'update content
+				If contentID.Trim.Length > 0 Then
+					myContentDataSet = myContentDAO.GetEntitysByEntityID(contentID)
+					If myContentDataSet.Tables(0).Rows.Count = 1 Then
+						myContentNumber = CType(myContentDataSet.Tables(0).Rows(0).Item("ContentNumber"), String)
+						myContent = CType(myContentDataSet.Tables(0).Rows(0).Item("Content"), String)
+						myContentOrder = CType(myContentDataSet.Tables(0).Rows(0).Item("DisplayOrder"), Integer)
+					Else
+						'exception:content record is empty or duplicated
+					End If
+
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							ButtonContentAction.Text = "修改"
+							TextBoxContentNumber.Text = myContentNumber
+							TextBoxContent.Text = myContent
+							TextBoxContentOrder.Text = CType(myContentOrder, String)
+						Else
+							If action.Trim = "delete" Then
+								ButtonContentAction.Text = "刪除"
+								TextBoxContentNumber.Text = myContentNumber
+								TextBoxContent.Text = myContent
+								TextBoxContentOrder.Text = CType(myContentOrder, String)
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				End If
+				ButtonContentAction.Visible = True
+				TextBoxContentNumber.Visible = True
+				TextBoxContent.Visible = True
+				TextBoxContentOrder.Visible = True
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+
+		Private Sub FillAppendData(ByVal myNewsID As String)
+			Dim myAppendDAO As New NewsReleaseAppendDAOExtand
+			Dim myAppendDataSet As DataSet
+			Dim myAppendCount As Integer = 0
+			Dim myTable As HtmlTable
+			Dim myTableRow As HtmlTableRow
+			Dim myTableCell As HtmlTableCell
+			Dim myHyperLink As HyperLink
+			Dim myLiterial As LiteralControl
+			Dim myImage As HtmlImage
+			Dim myAppendID As String = ""
+			Dim myAppendName As String = ""
+			Dim myAppendDescription As String = ""
+			Dim myAppendFile As String = ""
+			Dim myAppendOrder As Integer = 0
+			Dim i As Integer = 0
+
+			If myNewsID.Trim.Length > 0 Then
+
+				PlaceholderAppend.Controls.Clear()
+
+				myTable = New HtmlTable
+				myTable.CellPadding = 0
+				myTable.CellSpacing = 0
+				myTable.Border = 1
+				'prepare append header
+				myTableRow = New HtmlTableRow
+				myTableRow.BgColor = NormalCodeBGColor
+				'action column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = ActionColumnWidth
+				myTableRow.Cells.Add(myTableCell)
+				'append name column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = AppendNameColumnWidth
+				myTableCell.InnerText = "名稱"
+				myTableRow.Cells.Add(myTableCell)
+				'append description column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = AppendDescriptionColumnWidth
+				myTableCell.InnerText = "描述"
+				myTableRow.Cells.Add(myTableCell)
+				'append file column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = AppendFileColumnWidth
+				myTableCell.InnerText = "檔名"
+				myTableRow.Cells.Add(myTableCell)
+				'append display order column header
+				myTableCell = New HtmlTableCell
+				myTableCell.Width = AppendOrderColumnWidth
+				myTableCell.InnerText = "順序"
+				myTableRow.Cells.Add(myTableCell)
+
+				myTable.Rows.Add(myTableRow)
+
+				myAppendCount = myAppendDAO.GetTotalRowByNewsReleaseID(myNewsID)
+				If myAppendCount > 0 Then
+					myAppendDataSet = myAppendDAO.GetEntitysByNewsReleaseID(myNewsID)
+					myAppendDataSet = UtilityObject.QueryPermissionFilter(myAppendDataSet, NewsReleaseAppendAuthorityTarget, Context.User.Identity.Name)
+
+					If myAppendDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myAppendDataSet.Tables(0).Rows.Count - 1
+							myAppendID = CType(myAppendDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+							myTableRow = New HtmlTableRow
+							If myAppendID = appendID Then
+								myTableRow.BgColor = FocusCodeBGColor
+							Else
+								myTableRow.BgColor = NormalCodeBGColor
+							End If
+
+							'insert icon
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = ActionColumnWidth
+							'insert link
+							myHyperLink = New HyperLink
+							myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID & "&appendID=" & myAppendID & "&action=update"
+							myHyperLink.ImageUrl = "~/images/edit.gif"
+							myHyperLink.Text = "修改"
+							myTableCell.Controls.Add(myHyperLink)
+							'br
+							myLiterial = New LiteralControl
+							myLiterial.Text = "<BR>"
+							myTableCell.Controls.Add(myLiterial)
+							'insert link
+							myHyperLink = New HyperLink
+							myHyperLink.NavigateUrl = "~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID & "&appendID=" & myAppendID & "&action=delete"
+							myHyperLink.ImageUrl = "~/images/delete.gif"
+							myHyperLink.Text = "刪除"
+							myTableCell.Controls.Add(myHyperLink)
+
+							myTableRow.Cells.Add(myTableCell)
+
+							'append name
+							myAppendName = CType(myAppendDataSet.Tables(0).Rows(i).Item("Name"), String)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = AppendNameColumnWidth
+							myTableCell.InnerHtml = myAppendName
+							myTableRow.Cells.Add(myTableCell)
+
+							'append description
+							myAppendDescription = CType(myAppendDataSet.Tables(0).Rows(i).Item("Description"), String)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = AppendDescriptionColumnWidth
+							myTableCell.InnerHtml = myAppendDescription
+							myTableRow.Cells.Add(myTableCell)
+
+							'append file
+							myAppendFile = CType(myAppendDataSet.Tables(0).Rows(i).Item("FileName"), String)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = AppendFileColumnWidth
+							myTableCell.InnerHtml = Path.GetFileName(myAppendFile).Substring(17)
+							myTableRow.Cells.Add(myTableCell)
+
+							'append order
+							myAppendOrder = CType(myAppendDataSet.Tables(0).Rows(i).Item("DisplayOrder"), Integer)
+							myTableCell = New HtmlTableCell
+							myTableCell.Width = AppendOrderColumnWidth
+							myTableCell.InnerHtml = CType(myAppendOrder, String)
+							myTableRow.Cells.Add(myTableCell)
+
+							myTable.Rows.Add(myTableRow)
+						Next
+					End If
+				Else
+					'new content
+				End If
+				PlaceholderAppend.Controls.Add(myTable)
+
+				'update content
+				If appendID.Trim.Length > 0 Then
+					myAppendDataSet = myAppendDAO.GetEntitysByEntityID(appendID)
+					If myAppendDataSet.Tables(0).Rows.Count = 1 Then
+						myAppendName = CType(myAppendDataSet.Tables(0).Rows(0).Item("Name"), String)
+						myAppendDescription = CType(myAppendDataSet.Tables(0).Rows(0).Item("Description"), String)
+						myAppendFile = CType(myAppendDataSet.Tables(0).Rows(0).Item("FileName"), String)
+						myAppendOrder = CType(myAppendDataSet.Tables(0).Rows(0).Item("DisplayOrder"), Integer)
+					Else
+						'exception:content record is empty or duplicated
+					End If
+
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							ButtonAppendAction.Text = "修改"
+							TextboxAppendName.Text = myAppendName
+							TextboxAppendDescription.Text = myAppendDescription
+							TextBoxAppendOrder.Text = CType(myAppendOrder, String)
+						Else
+							If action.Trim = "delete" Then
+								ButtonAppendAction.Text = "刪除"
+								TextboxAppendName.Text = myAppendName
+								TextboxAppendDescription.Text = myAppendDescription
+								TextBoxAppendOrder.Text = CType(myAppendOrder, String)
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				End If
+				ButtonAppendAction.Visible = True
+				TextboxAppendName.Visible = True
+				TextboxAppendDescription.Visible = True
+				AppendFile.Visible = True
+				TextBoxAppendOrder.Visible = True
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+		Private Sub InitialWebControl()
+			Dim myNormalCodeDAO As New NormalCodeDAOExtand
+			Dim myNormalCodeDataSet As DataSet
+			Dim myNormalCodeCount As Integer = 0
+			Dim i As Integer = 0
+			Dim myListItem As ListItem
+			Dim myCodeName As String = ""
+			Dim myCodeID As String = ""
+
+			DropDownListCategorization.Items.Clear()
+			myNormalCodeCount = myNormalCodeDAO.GetTotalRowByGroupID(CategorizationCodeGroupID)
+			If myNormalCodeCount > 0 Then
+				myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(CategorizationCodeGroupID)
+				myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+
+				If myNormalCodeDataSet.Tables(0).Rows.Count > 0 Then
+					For i = 0 To myNormalCodeDataSet.Tables(0).Rows.Count - 1
+						myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+						myListItem = New ListItem
+						myListItem.Value = myCodeID
+						myListItem.Text = myCodeName
+
+						DropDownListCategorization.Items.Add(myListItem)
+					Next
+				End If
+			End If
+
+			Try
+				DropDownListCategorization.SelectedValue = categorizationID
+			Catch ex As Exception
+				'exception:no match
+			End Try
+
+			TextBoxTitle.Text = ""
+			TextBoxDescription.Text = ""
+			TextBoxOpening.Text = ""
+			TextBoxEnding.Text = ""
+
+			DropDownListReleaseUnit.Items.Clear()
+			myNormalCodeCount = myNormalCodeDAO.GetTotalRowByGroupID(ReleaseUnitCodeGroupID)
+
+			If myNormalCodeCount > 0 Then
+				myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(ReleaseUnitCodeGroupID)
+				myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+
+				If myNormalCodeDataSet.Tables(0).Rows.Count > 0 Then
+					For i = 0 To myNormalCodeDataSet.Tables(0).Rows.Count - 1
+						myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+						myListItem = New ListItem
+						myListItem.Value = myCodeID
+						myListItem.Text = myCodeName
+
+						DropDownListReleaseUnit.Items.Add(myListItem)
+					Next
+				End If
+			End If
+
+			DropDownListLiaisoner.Items.Clear()
+			myNormalCodeCount = myNormalCodeDAO.GetTotalRowByGroupID(LiaisonerCodeGroupID)
+			If myNormalCodeCount > 0 Then
+				myNormalCodeDataSet = myNormalCodeDAO.GetEntitysByGroupID(LiaisonerCodeGroupID)
+				myNormalCodeDataSet = UtilityObject.QueryPermissionFilter(myNormalCodeDataSet, CodeAuthorityTarget, Context.User.Identity.Name)
+
+				If myNormalCodeDataSet.Tables(0).Rows.Count > 0 Then
+					For i = 0 To myNormalCodeDataSet.Tables(0).Rows.Count - 1
+						myCodeID = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myCodeName = CType(myNormalCodeDataSet.Tables(0).Rows(i).Item("Name"), String)
+
+						myListItem = New ListItem
+						myListItem.Value = myCodeID
+						myListItem.Text = myCodeName
+
+						DropDownListLiaisoner.Items.Add(myListItem)
+					Next
+				End If
+			End If
+
+			TextboxNewsDate.Text = ""
+			TextBoxStartDate.Text = ""
+			TextBoxEndDate.Text = ""
+			TextboxRelationURL.Text = ""
+
+			ButtonContentAction.Text = "新增"
+			ButtonContentAction.Visible = False
+
+			TextBoxContentNumber.Text = ""
+			TextBoxContentNumber.Visible = False
+
+			TextBoxContent.Text = ""
+			TextBoxContent.Visible = False
+
+			TextBoxContentOrder.Text = ""
+			TextBoxContentOrder.Visible = False
+
+			ButtonAppendAction.Text = "新增"
+			ButtonAppendAction.Visible = False
+
+			TextboxAppendName.Text = ""
+			TextboxAppendName.Visible = False
+
+			TextboxAppendDescription.Text = ""
+			TextboxAppendDescription.Visible = False
+
+			AppendFile.Visible = False
+
+			TextBoxAppendOrder.Text = ""
+			TextBoxAppendOrder.Visible = False
+		End Sub
+		Private Function SaveNewsData(ByVal myNewsID As String) As String
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim delimStr As String = "/-:. "
+			Dim delimiter As Char() = delimStr.ToCharArray()
+			Dim tempString As String = ""
+			Dim tempArray As String() = Nothing
+			Dim myCategorizationID As String = ""
+			Dim myTitle As String = ""
+			Dim myDescription As String = ""
+			Dim myOpening As String = ""
+			Dim myEnding As String = ""
+			Dim myRelationURL As String = ""
+			Dim myReleaseUnitID As String = ""
+			Dim myLiaisonerID As String = ""
+			Dim myNewsDate As Date = New Date(1900, 1, 1)
+			Dim myStartDate As Date = New Date(1900, 1, 1)
+			Dim myEndDate As Date = New Date(1900, 1, 1)
+			Dim myAuthorityBO As New ContextAuthBO
+
+			myCategorizationID = DropDownListCategorization.SelectedValue
+			myTitle = TextBoxTitle.Text.Trim
+			myDescription = TextBoxDescription.Text.Trim
+			myOpening = TextBoxOpening.Text.Trim
+			myEnding = TextBoxEnding.Text.Trim
+			myRelationURL = TextboxRelationURL.Text.Trim
+			myReleaseUnitID = DropDownListReleaseUnit.SelectedValue
+			myLiaisonerID = DropDownListLiaisoner.SelectedValue
+			If TextboxNewsDate.Text.Trim <> "" Then
+				tempString = TextboxNewsDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myNewsDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxStartDate.Text.Trim <> "" Then
+				tempString = TextBoxStartDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myStartDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+			If TextBoxEndDate.Text.Trim <> "" Then
+				tempString = TextBoxEndDate.Text.Trim
+				tempArray = tempString.Split(delimiter)
+				If tempArray.Length = 3 Then
+					myEndDate = New Date(CType(tempArray(0), Integer), CType(tempArray(1), Integer), CType(tempArray(2), Integer))
+				End If
+			End If
+
+			If myNewsID.Trim.Length > 0 Then
+				myNewsDataSet = myNewsDAO.GetEntitysByEntityID(myNewsID)
+				If myNewsDataSet.Tables(0).Rows.Count = 1 Then
+					'get authority
+					If myAuthorityBO.CheckPurview(NewsReleaseAuthorityTarget, myNewsID, Context.User.Identity.Name, "U") Then
+						'update news record
+						myNewsDAO.UpdateEntity(myNewsID, myCategorizationID, myTitle, myDescription, myOpening, myEnding, myRelationURL, myReleaseUnitID, myLiaisonerID, myNewsDate, myStartDate, myEndDate, Context.User.Identity.Name, Now)
+					End If
+				Else
+					'exception:news record is empty or duplicated
+				End If
+			Else
+				'insert new data
+				myNewsID = myNewsDAO.InsertEntity(myCategorizationID, 0, myTitle, myDescription, myOpening, myEnding, myRelationURL, myReleaseUnitID, myLiaisonerID, myNewsDate, myStartDate, myEndDate, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, DefaultPermission, DefaultPermissionGroup, 1, New Date(1900, 1, 1))
+			End If
+			Return myNewsID
+		End Function
+		Private Sub ButtonPrevious_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPrevious.Click
+			Dim myNewsDataSet As DataSet
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim i As Integer = 0
+			Dim myCategorizationID As String = ""
+			Dim myItemID As Integer = 0
+			Dim myPreviousID As String = ""
+			Dim bFound As Boolean = False
+
+			If newsID.Trim.Length > 0 Then
+				myPreviousID = newsID
+				myNewsDataSet = myNewsDAO.GetEntitysByEntityID(newsID)
+				If myNewsDataSet.Tables(0).Rows.Count = 1 Then
+					myCategorizationID = CType(myNewsDataSet.Tables(0).Rows(0).Item("CategorizationID"), String)
+					myItemID = CType(myNewsDataSet.Tables(0).Rows(0).Item("ItemID"), Integer)
+					'read total entityid and itemid in group
+					myNewsDataSet = myNewsDAO.GetItemIDByCategorizationID(myCategorizationID)
+					myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name)
+
+					If myNewsDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myNewsDataSet.Tables(0).Rows.Count - 1
+							If myItemID = CType(myNewsDataSet.Tables(0).Rows(i).Item("ItemID"), Integer) Then
+								bFound = True
+								Exit For
+							Else
+								'save previous id
+								myPreviousID = CType(myNewsDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+							End If
+						Next
+						If bFound = True Then
+							Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myPreviousID)
+						End If
+					End If
+				Else
+					'exception:record is empty or duplicated
+				End If
+			Else
+				'exception:id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNext.Click
+			Dim myNewsDataSet As DataSet
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim i As Integer = 0
+			Dim myCategorizationID As String = ""
+			Dim myItemID As Integer = 0
+			Dim myNextID As String = ""
+			Dim bFound As Boolean = False
+
+			If newsID.Trim.Length > 0 Then
+				myNextID = newsID
+				myNewsDataSet = myNewsDAO.GetEntitysByEntityID(newsID)
+				If myNewsDataSet.Tables(0).Rows.Count = 1 Then
+					myCategorizationID = CType(myNewsDataSet.Tables(0).Rows(0).Item("CategorizationID"), String)
+					myItemID = CType(myNewsDataSet.Tables(0).Rows(0).Item("ItemID"), Integer)
+					'read total entityid and itemid in group
+					myNewsDataSet = myNewsDAO.GetItemIDByCategorizationID(myCategorizationID)
+					myNewsDataSet = UtilityObject.QueryPermissionFilter(myNewsDataSet, NewsReleaseAuthorityTarget, Context.User.Identity.Name)
+
+					If myNewsDataSet.Tables(0).Rows.Count > 0 Then
+						For i = 0 To myNewsDataSet.Tables(0).Rows.Count - 1
+							If myItemID = CType(myNewsDataSet.Tables(0).Rows(i).Item("ItemID"), Integer) Then
+								bFound = True
+								Exit For
+							End If
+						Next
+						If bFound = True Then
+							'save next id
+							If i + 1 < myNewsDataSet.Tables(0).Rows.Count Then
+								myNextID = CType(myNewsDataSet.Tables(0).Rows(i + 1).Item("EntityID"), String)
+							Else
+								myNextID = CType(myNewsDataSet.Tables(0).Rows(myNewsDataSet.Tables(0).Rows.Count - 1).Item("EntityID"), String)
+							End If
+							Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNextID)
+						End If
+					End If
+				Else
+					'exception:record is empty or duplicated
+				End If
+			Else
+				'exception:id is empty
+			End If
+		End Sub
+
+		Private Sub ButtonNewsInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNewsInsert.Click
+			Dim myNewsID As String = ""
+			myNewsID = SaveNewsData("")
+			If myNewsID.Trim.Length > 0 Then
+				Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & myNewsID)
+			Else
+				'exception:insert failure
+				PageLoad()
+			End If
+		End Sub
+
+		Private Sub ButtonNewsUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNewsUpdate.Click
+			If newsID.Trim.Length > 0 Then
+				SaveNewsData(newsID)
+				Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+		Private Sub DeleteContent(ByVal myNewsID As String)
+			Dim myContentDAO As New NewsReleaseContentDAOExtand
+			Dim myContentDataSet As DataSet
+			Dim myContentCount As Integer = 0
+			Dim myContentID As String = ""
+			Dim i As Integer = 0
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myNewsID.Trim.Length > 0 Then
+				myContentCount = myContentDAO.GetTotalRowByNewsReleaseID(myNewsID)
+				If myContentCount > 0 Then
+					myContentDataSet = myContentDAO.GetEntitysByNewsReleaseID(myNewsID)
+					For i = 0 To myContentCount - 1
+						myContentID = CType(myContentDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						'get authority
+						If myAuthorityBO.CheckPurview(NewsReleaseContentAuthorityTarget, myContentID, Context.User.Identity.Name, "D") Then
+							myContentDAO.DeleteEntity(myContentID)
+						End If
+					Next
+				End If
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+		Private Sub DeleteAppend(ByVal myNewsID As String)
+			Dim myAppendDAO As New NewsReleaseAppendDAOExtand
+			Dim myAppendDataSet As DataSet
+			Dim myAppendCount As Integer = 0
+			Dim myAppendID As String = ""
+			Dim myAppendFile As String = ""
+			Dim i As Integer = 0
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myNewsID.Trim.Length > 0 Then
+				myAppendCount = myAppendDAO.GetTotalRowByNewsReleaseID(myNewsID)
+				If myAppendCount > 0 Then
+					myAppendDataSet = myAppendDAO.GetEntitysByNewsReleaseID(myNewsID)
+					For i = 0 To myAppendCount - 1
+						myAppendID = CType(myAppendDataSet.Tables(0).Rows(i).Item("EntityID"), String)
+						myAppendFile = CType(myAppendDataSet.Tables(0).Rows(i).Item("FileName"), String)
+						'get authority
+						If myAuthorityBO.CheckPurview(NewsReleaseAppendAuthorityTarget, myAppendID, Context.User.Identity.Name, "D") Then
+							'delete append file
+							If File.Exists(myAppendFile) Then
+								File.Delete(myAppendFile)
+							Else
+								'exception:append file is not exist
+							End If
+							myAppendDAO.DeleteEntity(myAppendID)
+						End If
+					Next
+				End If
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+		Private Sub DeleteNewsData(ByVal myNewsID As String)
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If myNewsID.Trim.Length > 0 Then
+				myNewsDataSet = myNewsDAO.GetEntitysByEntityID(myNewsID)
+				If myNewsDataSet.Tables(0).Rows.Count = 1 Then
+					'delete content
+					DeleteContent(myNewsID)
+					'delete append
+					DeleteAppend(myNewsID)
+					'get authority
+					If myAuthorityBO.CheckPurview(NewsReleaseAuthorityTarget, myNewsID, Context.User.Identity.Name, "D") Then
+						'delete news
+						myNewsDAO.DeleteEntity(myNewsID)
+					End If
+				Else
+					'exception:news record is empty or duplicated
+				End If
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+		Private Sub ButtonNewsDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNewsDelete.Click
+			If newsID.Trim.Length > 0 Then
+				DeleteNewsData(newsID)
+
+				newsID = ""
+				Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID)
+			Else
+				'exception:form id is empty
+			End If
+		End Sub
+
+		Private Sub DropDownListCategorization_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DropDownListCategorization.SelectedIndexChanged
+			Dim myCategorizationID As String = ""
+			myCategorizationID = DropDownListCategorization.SelectedValue
+			Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & myCategorizationID)
+		End Sub
+		Private Sub ButtonContentAction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonContentAction.Click
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim myContentDAO As New NewsReleaseContentDAOExtand
+			Dim myContentDataSet As DataSet
+			Dim myContentID As String = ""
+			Dim myContentNumber As String = ""
+			Dim myContent As String = ""
+			Dim myContentOrder As Integer = 1
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If newsID.Trim.Length > 0 Then
+				myContentNumber = TextBoxContentNumber.Text.Trim
+				myContent = TextBoxContent.Text.Trim
+				myContentOrder = CType(TextBoxContentOrder.Text.Trim, Integer)
+
+				If contentID.Trim.Length > 0 Then
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							'update content
+							myContentDataSet = myContentDAO.GetEntitysByEntityID(contentID)
+							If myContentDataSet.Tables(0).Rows.Count = 1 Then
+								'get authority
+								If myAuthorityBO.CheckPurview(NewsReleaseContentAuthorityTarget, contentID, Context.User.Identity.Name, "U") Then
+									'actual action
+									myContentDAO.UpdateEntity(contentID, newsID, myContentNumber, myContent, myContentOrder, Context.User.Identity.Name, Now)
+									Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+								Else
+									PageLoad()
+								End If
+							Else
+								'exception:content record is empty or duplicated
+							End If
+						Else
+							If action.Trim = "delete" Then
+								'delete content
+								myContentDataSet = myContentDAO.GetEntitysByEntityID(contentID)
+								If myContentDataSet.Tables(0).Rows.Count = 1 Then
+									'get authority
+									If myAuthorityBO.CheckPurview(NewsReleaseContentAuthorityTarget, contentID, Context.User.Identity.Name, "D") Then
+										'actual action
+										myContentDAO.DeleteEntity(contentID)
+										Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+									Else
+										PageLoad()
+									End If
+								Else
+									'exception:content record is empty or duplicated
+								End If
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				Else
+					'insert new content
+					myContentDAO.InsertEntity(newsID, 0, myContentNumber, myContent, myContentOrder, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, DefaultPermission, DefaultPermissionGroup, 1, New Date(1900, 1, 1))
+					Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+				End If
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+		Private Sub ButtonAppendAction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAppendAction.Click
+			Dim myNewsDAO As New NewsReleaseDAOExtand
+			Dim myNewsDataSet As DataSet
+			Dim myAppendDAO As New NewsReleaseAppendDAOExtand
+			Dim myAppendDataSet As DataSet
+			Dim myAppendID As String = ""
+			Dim myAppendName As String = ""
+			Dim myAppendDescription As String = ""
+			Dim myAppendFile As HttpPostedFile = AppendFile.PostedFile
+			Dim myAppendOrder As Integer = 1
+			Dim myPhysicalFileName As String = ""
+			Dim myOldFileName As String = ""
+			Dim identityKey As String = Now.Year & Microsoft.VisualBasic.Right("00" & Now.Month, 2) & Microsoft.VisualBasic.Right("00" & Now.Day, 2) & Microsoft.VisualBasic.Right("00" & Now.Hour, 2) & Microsoft.VisualBasic.Right("00" & Now.Minute, 2) & Microsoft.VisualBasic.Right("00" & Now.Second, 2) & Microsoft.VisualBasic.Right("000" & Now.Millisecond, 3)
+			Dim myFileSize As Integer = 0
+			Dim myAuthorityBO As New ContextAuthBO
+
+			If newsID.Trim.Length > 0 Then
+				myAppendName = TextboxAppendName.Text.Trim
+				myAppendDescription = TextboxAppendDescription.Text.Trim
+				myAppendOrder = CType(TextBoxAppendOrder.Text.Trim, Integer)
+				If Not (myAppendFile Is Nothing) Then
+					myPhysicalFileName = Server.MapPath("/PortalFiles/UpLoadFiles/AuditSystem/NewsReleaseAppend") & "/" & identityKey & Path.GetFileName(myAppendFile.FileName)
+				End If
+
+				If appendID.Trim.Length > 0 Then
+					If action.Trim.Length > 0 Then
+						If action.Trim = "update" Then
+							'update append
+							myAppendDataSet = myAppendDAO.GetEntitysByEntityID(appendID)
+							If myAppendDataSet.Tables(0).Rows.Count = 1 Then
+								'get authority
+								If myAuthorityBO.CheckPurview(NewsReleaseAppendAuthorityTarget, appendID, Context.User.Identity.Name, "U") Then
+									'update append file
+									myOldFileName = CType(myAppendDataSet.Tables(0).Rows(0).Item("FileName"), String)
+									If File.Exists(myOldFileName) Then
+										File.Delete(myOldFileName)
+									End If
+									If File.Exists(myPhysicalFileName) Then
+										File.Delete(myPhysicalFileName)
+									End If
+									If Not (myAppendFile Is Nothing) Then
+										myAppendFile.SaveAs(myPhysicalFileName)
+										myFileSize = myAppendFile.ContentLength
+									End If
+									'actual action
+									myAppendDAO.UpdateEntity(appendID, newsID, myAppendName, myAppendDescription, myPhysicalFileName, myFileSize, myAppendOrder, Context.User.Identity.Name, Now)
+									Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+								Else
+									PageLoad()
+								End If
+							Else
+								'exception:append record is empty or duplicated
+							End If
+						Else
+							If action.Trim = "delete" Then
+								'delete append
+								If myAppendDataSet.Tables(0).Rows.Count = 1 Then
+									'get authority
+									If myAuthorityBO.CheckPurview(NewsReleaseAppendAuthorityTarget, appendID, Context.User.Identity.Name, "D") Then
+										'delete append file
+										myOldFileName = CType(myAppendDataSet.Tables(0).Rows(0).Item("FileName"), String)
+										If File.Exists(myOldFileName) Then
+											File.Delete(myOldFileName)
+										End If
+										'actual action
+										myAppendDAO.DeleteEntity(appendID)
+										Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+									Else
+										PageLoad()
+									End If
+								Else
+									'exception:append record is empty or duplicated
+								End If
+							Else
+								'exception:unknown action
+							End If
+						End If
+					Else
+						'exception:no action
+					End If
+				Else
+					'insert new append
+					If File.Exists(myPhysicalFileName) Then
+						File.Delete(myPhysicalFileName)
+					End If
+					If Not (myAppendFile Is Nothing) Then
+						myAppendFile.SaveAs(myPhysicalFileName)
+						myFileSize = myAppendFile.ContentLength
+					End If
+					'actual action
+					myAppendDAO.InsertEntity(newsID, 0, myAppendName, myAppendDescription, myPhysicalFileName, myFileSize, myAppendOrder, Context.User.Identity.Name, Now, Context.User.Identity.Name, Now, DefaultPermission, DefaultPermissionGroup, 1, New Date(1900, 1, 1))
+					Response.Redirect("~/DesktopModules/AuditSystem/NewsReleaseAdminFrame.aspx?sid=" & sid & "&mid=" & moduleId & "&tabid=" & tabId & "&tabindex=" & tabIndex & "&categorizationID=" & categorizationID & "&newsID=" & newsID)
+				End If
+			Else
+				'exception:news id is empty
+			End If
+		End Sub
+	End Class
+End Namespace

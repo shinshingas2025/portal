@@ -1,0 +1,74 @@
+<?xml version="1.0" standalone="yes"?>
+<SiteConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/PortalCfg.xsd">
+  <Global PortalId="9999" PortalName="" AlwaysShowEditButton="false" />
+  <Tab TabId="1" TabName="首頁" AccessRoles="All Users;" TabOrder="1" ShowMobile="true" MobileTabName="Home">
+    <Module ModuleId="43" ModuleTitle="公佈欄" EditRoles="Admins;" ModuleDefId="18" PaneName="contentPane" CacheTimeout="0" ModuleOrder="998" ShowMobile="false" />
+    <Module ModuleId="50" ModuleTitle="全民大普查" EditRoles="Admins;" ModuleDefId="20" PaneName="rightPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="false" />
+    <Module ModuleId="51" ModuleTitle="廣告看板" EditRoles="Admins;" ModuleDefId="22" PaneName="leftPane" CacheTimeout="0" ModuleOrder="5" ShowMobile="false" />
+    <Module ModuleId="52" ModuleTitle="本日專題" EditRoles="Admins;" ModuleDefId="17" PaneName="contentPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="false" />
+    <Module ModuleId="57" ModuleTitle="各大專院校" EditRoles="Admins;" ModuleDefId="7" PaneName="leftPane" CacheTimeout="0" ModuleOrder="3" ShowMobile="false" />
+    <Module ModuleId="60" ModuleTitle="身心障礙就業專區" EditRoles="Admins;" ModuleDefId="17" PaneName="contentPane" CacheTimeout="0" ModuleOrder="3" ShowMobile="false" />
+    <Module ModuleId="61" ModuleTitle="更生就業專區" EditRoles="Admins;" ModuleDefId="17" PaneName="contentPane" CacheTimeout="0" ModuleOrder="5" ShowMobile="false" />
+    <Module ModuleId="62" ModuleTitle="流行看板" EditRoles="Admins;" ModuleDefId="22" PaneName="rightPane" CacheTimeout="0" ModuleOrder="3" ShowMobile="false" />
+    <Module ModuleId="63" ModuleTitle="訪客人數" EditRoles="Admins;" ModuleDefId="24" PaneName="leftPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="false" />
+    <Module ModuleId="65" ModuleTitle="最新消息" EditRoles="Admins;" ModuleDefId="4" PaneName="contentPane" CacheTimeout="0" ModuleOrder="3" ShowMobile="false" />
+    <Module ModuleId="66" ModuleTitle="測試留言版1" EditRoles="Admins;" ModuleDefId="26" PaneName="rightPane" CacheTimeout="0" ModuleOrder="5" ShowMobile="false" />
+  </Tab>
+  <Tab TabId="6" TabName="管理" AccessRoles="Admins;" TabOrder="999" ShowMobile="false" MobileTabName="Admin">
+    <Module ModuleId="28" ModuleTitle="模組定義" EditRoles="Admins;" ModuleDefId="11" PaneName="RightPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="false" />
+    <Module ModuleId="29" ModuleTitle="網站設定" EditRoles="Admins;" ModuleDefId="14" PaneName="contentPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="false" />
+    <Module ModuleId="30" ModuleTitle="索引標籤" EditRoles="Admins;" ModuleDefId="13" PaneName="contentPane" CacheTimeout="0" ModuleOrder="5" ShowMobile="false" />
+    <Module ModuleId="31" ModuleTitle="安全性角色" EditRoles="Admins;" ModuleDefId="12" PaneName="contentPane" CacheTimeout="0" ModuleOrder="7" ShowMobile="false" />
+    <Module ModuleId="32" ModuleTitle="管理使用者" EditRoles="Admins;" ModuleDefId="15" PaneName="contentPane" CacheTimeout="0" ModuleOrder="9" ShowMobile="false" />
+    <Module ModuleId="44" ModuleTitle="選擇網站樣式" EditRoles="Admins;" ModuleDefId="19" PaneName="contentPane" CacheTimeout="0" ModuleOrder="3" ShowMobile="false" />
+    <Module ModuleId="55" ModuleTitle="網站發行" EditRoles="Admins;" ModuleDefId="21" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false" />
+  </Tab>
+  <Tab TabId="8" TabName="全國就業E網" AccessRoles="All Users;" TabOrder="5" ShowMobile="true" MobileTabName="">
+    <Module ModuleId="59" ModuleTitle="全國就業E網" EditRoles="Admins;" ModuleDefId="23" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false">
+      <Settings>
+        <Setting Name="src">/PortalVBVS/OtherPage/全國就業e網.htm</Setting>
+        <Setting Name="height">600</Setting>
+        <Setting Name="width">95%</Setting>
+      </Settings>
+    </Module>
+  </Tab>
+  <Tab TabId="9" TabName="網站流量統計" AccessRoles="Admins;" TabOrder="3" ShowMobile="true" MobileTabName="">
+    <Module ModuleId="64" ModuleTitle="網站流量統計" EditRoles="Admins;" ModuleDefId="25" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false" />
+  </Tab>
+  <Tab TabId="10" TabName="測試頁" AccessRoles="All Users;" TabOrder="999" ShowMobile="true" MobileTabName="">
+    <Module ModuleId="70" ModuleTitle="全民工頭" EditRoles="Admins;" ModuleDefId="20" PaneName="leftPane" CacheTimeout="0" ModuleOrder="998" ShowMobile="false" />
+    <Module ModuleId="71" ModuleTitle="投票測試" EditRoles="Admins;" ModuleDefId="28" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false" />
+    <Module ModuleId="72" ModuleTitle="流言測試" EditRoles="Admins;" ModuleDefId="26" PaneName="rightPane" CacheTimeout="0" ModuleOrder="998" ShowMobile="false" />
+    <Module ModuleId="73" ModuleTitle="測試電子報" EditRoles="Admins;" ModuleDefId="29" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false" />
+    <Module ModuleId="74" ModuleTitle="新訊息模組" EditRoles="Admins;" ModuleDefId="30" PaneName="ContentPane" CacheTimeout="0" ModuleOrder="999" ShowMobile="false" />
+  </Tab>
+  <ModuleDefinition FriendlyName="宣告" MobileSourceFile="MobileModules/Announcements.ascx" DesktopSourceFile="DesktopModules/Announcements.ascx" ModuleDefId="1" />
+  <ModuleDefinition FriendlyName="連絡人" MobileSourceFile="MobileModules/Contacts.ascx" DesktopSourceFile="DesktopModules/Contacts.ascx" ModuleDefId="2" />
+  <ModuleDefinition FriendlyName="討論" MobileSourceFile="" DesktopSourceFile="DesktopModules/Discussion.ascx" ModuleDefId="3" />
+  <ModuleDefinition FriendlyName="事件" MobileSourceFile="MobileModules/Events.ascx" DesktopSourceFile="DesktopModules/Events.ascx" ModuleDefId="4" />
+  <ModuleDefinition FriendlyName="HTML 文件" MobileSourceFile="MobileModules/text.ascx" DesktopSourceFile="DesktopModules/HtmlModule.ascx" ModuleDefId="5" />
+  <ModuleDefinition FriendlyName="影像" MobileSourceFile="" DesktopSourceFile="DesktopModules/ImageModule.ascx" ModuleDefId="6" />
+  <ModuleDefinition FriendlyName="連結" MobileSourceFile="MobileModules/Links.ascx" DesktopSourceFile="DesktopModules/Links.ascx" ModuleDefId="7" />
+  <ModuleDefinition FriendlyName="快速連結" MobileSourceFile="MobileModules/Links.ascx" DesktopSourceFile="DesktopModules/QuickLinks.ascx" ModuleDefId="8" />
+  <ModuleDefinition FriendlyName="XML/XSL" MobileSourceFile="" DesktopSourceFile="DesktopModules/XmlModule.ascx" ModuleDefId="9" />
+  <ModuleDefinition FriendlyName="文件" MobileSourceFile="" DesktopSourceFile="DesktopModules/Document.ascx" ModuleDefId="10" />
+  <ModuleDefinition FriendlyName="模組型別 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/ModuleDefs.ascx" ModuleDefId="11" />
+  <ModuleDefinition FriendlyName="角色 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/Roles.ascx" ModuleDefId="12" />
+  <ModuleDefinition FriendlyName="索引標籤 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/Tabs.ascx" ModuleDefId="13" />
+  <ModuleDefinition FriendlyName="網站設定 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/SiteSettings.ascx" ModuleDefId="14" />
+  <ModuleDefinition FriendlyName="管理使用者 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/Users.ascx" ModuleDefId="15" />
+  <ModuleDefinition FriendlyName="HTML圖片上傳" MobileSourceFile="" DesktopSourceFile="DesktopModules/Html2Module.ascx" ModuleDefId="17" />
+  <ModuleDefinition FriendlyName="公佈欄" MobileSourceFile="MobileModules/announce.ascx" DesktopSourceFile="DesktopModules/announce.ascx" ModuleDefId="18" />
+  <ModuleDefinition FriendlyName="網站版型(管理)" MobileSourceFile="" DesktopSourceFile="admin/TemplateSetting.ascx" ModuleDefId="19" />
+  <ModuleDefinition FriendlyName="線上投票" MobileSourceFile="" DesktopSourceFile="DesktopModules/vote.ascx" ModuleDefId="20" />
+  <ModuleDefinition FriendlyName="網站發佈(管理)" MobileSourceFile="" DesktopSourceFile="admin/SiteManage.ascx" ModuleDefId="21" />
+  <ModuleDefinition FriendlyName="廣告看板" MobileSourceFile="" DesktopSourceFile="DesktopModules/ImageList.ascx" ModuleDefId="22" />
+  <ModuleDefinition FriendlyName="網站來源" MobileSourceFile="" DesktopSourceFile="DesktopModules/IFrameModule.ascx" ModuleDefId="23" />
+  <ModuleDefinition FriendlyName="訪客人數" MobileSourceFile="" DesktopSourceFile="DesktopModules/counter.ascx" ModuleDefId="24" />
+  <ModuleDefinition FriendlyName="網站統計" MobileSourceFile="" DesktopSourceFile="DesktopModules/Statistics.ascx" ModuleDefId="25" />
+  <ModuleDefinition FriendlyName="測試留言板" MobileSourceFile="MobileModules/SomeModule.ascx" DesktopSourceFile="DesktopModules/GuestBook.ascx" ModuleDefId="26" />
+  <ModuleDefinition FriendlyName="RSSList" MobileSourceFile="MobileModules/SomeModule.ascx" DesktopSourceFile="DesktopModules/RSSList.ascx" ModuleDefId="27" />
+  <ModuleDefinition FriendlyName="Votes" MobileSourceFile="MobileModules/SomeModule.ascx" DesktopSourceFile="DesktopModules/Votes.ascx" ModuleDefId="28" />
+  <ModuleDefinition FriendlyName="電子報" MobileSourceFile="MobileModules/SomeModule.ascx" DesktopSourceFile="DesktopModules/EPaper.ascx" ModuleDefId="29" />
+  <ModuleDefinition FriendlyName="訊息模組" MobileSourceFile="MobileModules/SomeModule.ascx" DesktopSourceFile="DesktopModules/Bulletin.ascx" ModuleDefId="30" />
+</SiteConfiguration>

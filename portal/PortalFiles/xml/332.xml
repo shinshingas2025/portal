@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="yes"?>
+<SiteConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/PortalCfg.xsd">
+  <Global PortalId="332" PortalName="testqq" AlwaysShowEditButton="false" />
+  <Tab TabId="1" TabName="首頁" AccessRoles="333" TabOrder="1" ShowMobile="true" MobileTabName="Home" />
+  <Tab TabId="2" TabName="管理" AccessRoles="334" TabOrder="1" ShowMobile="true" MobileTabName="Home">
+    <Module ModuleId="335" ModuleTitle="網站內容維護" EditRoles="Admins;" ModuleDefId="29" PaneName="contentPane" CacheTimeout="0" ModuleOrder="1" ShowMobile="true" />
+    <Module ModuleId="336" ModuleTitle="網站權限維護" EditRoles="Admins;" ModuleDefId="30" PaneName="contentPane" CacheTimeout="0" ModuleOrder="2" ShowMobile="true" />
+  </Tab>
+  <ModuleDefinition FriendlyName="宣告" MobileSourceFile="MobileModules/Announcements.ascx" DesktopSourceFile="DesktopModules/Announcements.ascx" ModuleDefId="1" />
+  <ModuleDefinition FriendlyName="連絡人" MobileSourceFile="MobileModules/Contacts.ascx" DesktopSourceFile="DesktopModules/Contacts.ascx" ModuleDefId="2" />
+  <ModuleDefinition FriendlyName="討論" MobileSourceFile="" DesktopSourceFile="DesktopModules/Discussion.ascx" ModuleDefId="3" />
+  <ModuleDefinition FriendlyName="事件" MobileSourceFile="MobileModules/Events.ascx" DesktopSourceFile="DesktopModules/Events.ascx" ModuleDefId="4" />
+  <ModuleDefinition FriendlyName="HTML 文件" MobileSourceFile="MobileModules/text.ascx" DesktopSourceFile="DesktopModules/HtmlModule.ascx" ModuleDefId="5" />
+  <ModuleDefinition FriendlyName="圖片" MobileSourceFile="" DesktopSourceFile="DesktopModules/ImageList.ascx" ModuleDefId="6" />
+  <ModuleDefinition FriendlyName="連結" MobileSourceFile="MobileModules/Links.ascx" DesktopSourceFile="DesktopModules/Links.ascx" ModuleDefId="7" />
+  <ModuleDefinition FriendlyName="快速連結" MobileSourceFile="MobileModules/Links.ascx" DesktopSourceFile="DesktopModules/Links.ascx" ModuleDefId="8" />
+  <ModuleDefinition FriendlyName="XML/XSL" MobileSourceFile="" DesktopSourceFile="DesktopModules/XmlModule.ascx" ModuleDefId="9" />
+  <ModuleDefinition FriendlyName="文件" MobileSourceFile="" DesktopSourceFile="DesktopModules/Document.ascx" ModuleDefId="10" />
+  <ModuleDefinition FriendlyName="模組型別 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/ModuleDefs.ascx" ModuleDefId="11" />
+  <ModuleDefinition FriendlyName="角色 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/Roles.ascx" ModuleDefId="12" />
+  <ModuleDefinition FriendlyName="網站設定 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/SiteSettings.ascx" ModuleDefId="14" />
+  <ModuleDefinition FriendlyName="管理使用者 (管理)" MobileSourceFile="" DesktopSourceFile="Admin/Users.ascx" ModuleDefId="15" />
+  <ModuleDefinition FriendlyName="HTML文件+圖片上傳" MobileSourceFile="" DesktopSourceFile="DesktopModules/Html2Module.ascx" ModuleDefId="17" />
+  <ModuleDefinition FriendlyName="公佈欄" MobileSourceFile="MobileModules/announce.ascx" DesktopSourceFile="DesktopModules/announce.ascx" ModuleDefId="18" />
+  <ModuleDefinition FriendlyName="網站版型(管理)" MobileSourceFile="" DesktopSourceFile="admin/TemplateSetting.ascx" ModuleDefId="19" />
+  <ModuleDefinition FriendlyName="網站管理(管理)" MobileSourceFile="" DesktopSourceFile="admin/SiteManage.ascx" ModuleDefId="21" />
+  <ModuleDefinition FriendlyName="廣告看板" MobileSourceFile="" DesktopSourceFile="DesktopModules/ImageList.ascx" ModuleDefId="22" />
+  <ModuleDefinition FriendlyName="網站來源" MobileSourceFile="" DesktopSourceFile="DesktopModules/IFrameModule.ascx" ModuleDefId="23" />
+  <ModuleDefinition FriendlyName="訪客人數" MobileSourceFile="" DesktopSourceFile="DesktopModules/counter.ascx" ModuleDefId="24" />
+  <ModuleDefinition FriendlyName="網站統計" MobileSourceFile="" DesktopSourceFile="DesktopModules/Statistics.ascx" ModuleDefId="25" />
+  <ModuleDefinition FriendlyName="訊息模組" MobileSourceFile="" DesktopSourceFile="DesktopModules/Bulletin.ascx" ModuleDefId="26" />
+  <ModuleDefinition FriendlyName="電子報模組" MobileSourceFile="" DesktopSourceFile="DesktopModules/EPaper.ascx" ModuleDefId="27" />
+  <ModuleDefinition FriendlyName="線上投票(多筆)" MobileSourceFile="" DesktopSourceFile="DesktopModules/Votes.ascx" ModuleDefId="28" />
+  <ModuleDefinition FriendlyName="網站內容維護(管理)" MobileSourceFile="" DesktopSourceFile="Admin/WebFormSetting.ascx" ModuleDefId="29" />
+  <ModuleDefinition FriendlyName="網站權限維護(管理)" MobileSourceFile="" DesktopSourceFile="Admin/SecurityAuthoritySetting.ascx" ModuleDefId="30" />
+  <ModuleDefinition FriendlyName="網站站台維護符(管理)" MobileSourceFile="" DesktopSourceFile="DesktopModules/WebSiteMgt.ascx" ModuleDefId="31" />
+  <ModuleDefinition FriendlyName="稽核模組(管理)" MobileSourceFile="" DesktopSourceFile="DesktopModules/Audit.ascx" ModuleDefId="34" />
+  <ModuleDefinition FriendlyName="權限管理(全)" MobileSourceFile="" DesktopSourceFile="Admin/AllSecurityAuthoritySetting.ascx" ModuleDefId="35" />
+  <ModuleDefinition FriendlyName="網站管理(全)" MobileSourceFile="" DesktopSourceFile="Admin/AllWebFormSetting.ascx" ModuleDefId="36" />
+  <ModuleDefinition FriendlyName="學校Logo" MobileSourceFile="" DesktopSourceFile="Admin/SiteLogo.ascx" ModuleDefId="37" />
+  <ModuleDefinition FriendlyName="匯入匯出資料" MobileSourceFile="" DesktopSourceFile="DesktopModules/ImportExport.ascx" ModuleDefId="38" />
+</SiteConfiguration>

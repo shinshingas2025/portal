@@ -1,0 +1,21 @@
+<%
+  iBID = Request.QueryString("BID")
+
+  If Len(iBID) = 0 Or Not IsNumeric(iBID) Then
+    Response.Write "Fuck"
+    Response.End
+  End If
+
+  iBID = CInt(iBID)
+
+  Set rstBoard = Server.CreateObject("ADODB.RecordSet")
+  rstBoard.CursorLocation = adUseClient
+  rstBoard.CursorType = adOpenForwardOnly
+  rstBoard.LockType = adLockReadOnly
+  rstBoard.Open "SELECT [a].[Title], [b].[CID], [b].[Title] AS [CTitle] FROM [Boards] [a] INNER JOIN [Categories] [b] ON [a].[Category] = [b].[CID] WHERE [a].[BID] = " & iBID, objConn
+
+  If rstBoard.EOF Then
+    Response.Write "Fuck"
+    Response.End
+  End If
+%>

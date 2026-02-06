@@ -1,0 +1,172 @@
+﻿<html>
+    <head>
+        <title>ASP.NET 入口網站文件</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <table cellpadding="10" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td colspan=2 class="HeadBg">
+                <span class="Title"><span class="Title">ASP.NET 入口網站入門套件文件</span></span>
+            </td>
+          </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal" width="98%">
+                <br><br>
+
+                <span class="Head">建立自訂入口網站模組</span>
+                <hr noshade size="1">
+
+                入口網站模組會組合一些程式碼及使用者介面，讓使用者看到特定的功能 (例如：討論回應)，或是轉換資料、圖形與文字 (例如：「區域銷售」報告)。此外，入口網站模組必須瞭解如何與 Portal Framework 互動，才能參與所提供的轉換、編輯、快取與角色架構安全性服務。<br><br>
+
+                入口網站模組的執行方式如同標準的 ASP.NET 使用者控制項。讓使用者控制項在 Portal Framework 內產生效用的必要邏輯，是在特殊的基底類別中進行封裝：<b>PortalModuleControl</b>。只要製作繼承自 PortalModuleControl 類別的使用者控制項，即可建立自訂入口網站模組。<br><br>
+
+
+                <u>Hello World</u><br>
+                <img align="left" src="images/helloworld1.gif" 
+      hspace="10" vspace="10"><br>
+                範例：在此舉出一個簡單的 Hello World 入口網站模組 (HelloWorld.ascx)。
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+
+    Hello World!
+                </pre>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>在入口網站模組中使用 CSS 樣式</u><br>
+                <img align="left" src="images/helloworld2.gif" hspace="10" 
+      vspace="10"><br>
+                Portal Framework 中包含 <b>Portal.css</b> 的樣式表，可以套用至入口網站中的所有索引標籤。您可以使用 Portal.css 中定義的樣式，使自訂模組與內建模組的外觀一致。最常使用的 Normal 樣式，可以套用到由模組轉換的多數文字上。在此我們已經將 HelloWorld.ascx 更新為使用樣式。
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>將標題加入模組</u><br>
+                <img align="left" src="images/helloworld3.gif" hspace="10" 
+      vspace="10" border="1" 
+     ><br>
+                 在入口網站系統管理員將模組的執行個體加入至入口網站時，可以替此個體下一個描述性的標題。如果要讓模組像標準入口網站模組一樣顯示標題，請將 <b>DesktopModuleTitle</b> 使用者控制項加入模組。DesktopModuleTitle 使用者控制項知道如何從 Portal Framework 取得模組的標題，並轉換成與入口網站其他部分一致的形式。  <br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+
+    &lt;portal:title runat="server" /&gt;
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>為編輯頁加入支援</u><br>
+                <img align="left" src="images/helloworld4.gif" hspace="10" 
+      vspace="10" border="1" 
+     ><br>
+                如果模組有編輯頁，您也可以使用 DesktopModuleTitle 轉換模組標題旁的編輯項目連結。<b>EditText</b> 便是在連結中顯示的文字，而 <b>EditUrl</b> 則是編輯頁相對於入口網站根目錄的路徑。<br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+
+    &lt;portal:title <b>EditText="Edit" EditUrl="PortalModules/HelloWorld/EditHello.aspx" </b>runat="server" /&gt;
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>建立使用資料的模組</u><br>
+                <img align="left" src="images/tenmost.gif" hspace="10" 
+      vspace="10" border="1" 
+     ><br>
+                許多入口網站模組將資料庫或 XML 檔案中的資料顯示為其轉換輸出的部分。若要顯示這些資料，您必須像在使用一般 ASP.NET 使用者控制項一樣將其載入並繫結。以下列出使用 Northwind SQL 資料庫的典型範例。<br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+            <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+    &lt;%@ Import Namespace="System.Data" %&gt;
+    &lt;%@ Import Namespace="System.Data.SqlClient" %&gt;
+
+    &lt;script language="VB" runat="server"&gt;
+
+        Sub Page_Load(sender As Object, e As EventArgs)
+
+            SqlConnection connection = new SqlConnection("server=localhost;uid=sa;pwd=;database=northwind")
+            SqlCommand command = new SqlCommand("SELECT TOP 10 ProductName, UnitPrice FROM Products ORDER BY UnitPrice DESC", connection)
+
+            connection.Open()
+
+            grid1.DataSource = command.ExecuteReader(CommandBehavior.CloseConnection)
+            grid1.DataBind()
+
+        End Sub
+
+    &lt;/script&gt;
+
+    &lt;portal:title runat="server" /&gt;
+
+    &lt;asp:DataGrid id=grid1 Cssclass="Normal" ShowHeader="false" BorderWidth="0" runat="server"/&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <br><br>
+
+                <span class="Head">將自訂模組加入系統管理工具</span>
+                <hr noshade size="1">
+
+                若要將模組加入入口網站，請直接存取「入口網站系統管理工具」，這項工具內含將新模組動態載入入口網站系統的圖形使用者介面 (GUI) 支援。
+
+            </td>
+          <tr></tr>
+       </table>
+   </body>
+</html>

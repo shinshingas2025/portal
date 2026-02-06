@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 EIIS" id="N_1" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="2 聯名網Portal" id="N_2" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="238 首頁" id="N_238" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="242 最新消息" id="N_242" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="244 討論區" id="N_244" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="245 投票中心" id="N_245" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="247 廣告" id="N_247" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="252 本日主題" id="N_252" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="253 主題展覽館" id="N_253" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="239 管理" id="N_239" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="248 網站版型" id="N_248" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="249 模組型別" id="N_249" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="251 索引標籤" id="N_251" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="254 訊息區" id="N_254" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="255 訊息公告" id="N_255" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="256 電子報" id="N_256" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="257 線上投票" id="N_257" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="258 劉演版" id="N_258" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="259 稽核模組" id="N_259" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="260 匯入匯出" id="N_260" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+    </treenode>
+    <treenode text="228 弘光科技大學" id="N_228" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="230 首頁" id="N_230" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+        <treenode text="234 最新消息" id="N_234" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+        <treenode text="235 本日主題" id="N_235" IMAGEURL="../images/fun.jpg" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      </treenode>
+      <treenode text="231 關於女院" id="N_231" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="232 學術單位" id="N_232" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="236 管理" id="N_236" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="229 台灣大學" id="N_229" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="233 首頁" id="N_233" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="237 管理" id="N_237" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+  </treenode>
+</TREENODES>

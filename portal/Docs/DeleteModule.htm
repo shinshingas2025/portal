@@ -1,0 +1,49 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			DeleteModule 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序從互相關聯的模組資料表中，刪除選取的模組資料。實際模組設定存放在設定檔 PortalCfg.xml. 之中。輸入參數為 ModuleID，也就是每個資料表的唯一識別碼。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE  PROCEDURE Portal_DeleteModule
+   (
+       @ModuleID       int
+   )
+   AS
+         DELETE FROM Portal_Announcements
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_Contacts
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_Discussion
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_Documents
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_Events
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_HTMLText
+         WHERE ModuleID = @ModuleID
+   
+         DELETE FROM Portal_Links
+         WHERE ModuleID = @ModuleID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Module：</i>設定檔中的每個模組項目，代表在選取的入口網站中，特定索引標籤的單一模組執行個體。模組型別的定義，是經由 ModuleDefID 欄位從 ModuleDefinitions 項目提取 (從 XML 設定檔中再次提取)。
+		</P>
+		<p>每個模組內所存放的資料，都按照選擇的模組型別，存放在個別的資料庫資料表裡，並且由 ModuleID 編成索引。
+		</p>
+	</body>
+</html>

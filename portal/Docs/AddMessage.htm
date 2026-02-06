@@ -1,0 +1,76 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			AddMessage 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序針對入口中的特定 Discussion 模組，將新訊息加入討論中。輸入參數包括訊息「標題」、「內文」以及加入執行緒的使用者名稱。
+		</P>
+		<p>
+			DisplayOrder 欄位內容的計算方式，是將表示目前日期的 23 個字元，串連至此項目的父項目之 DisplayOrder。
+		</p>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_AddMessage
+   (
+       @ItemID int OUTPUT,
+       @Title nvarchar(100),
+       @Body nvarchar(3000),
+       @ParentID int,
+       @UserName nvarchar(100),
+       @ModuleID int
+   )   
+   
+   AS 
+   
+   /* Find DisplayOrder of parent item */
+   DECLARE @ParentDisplayOrder as nvarchar(750)
+   
+   SET @ParentDisplayOrder = ""
+   
+   SELECT 
+       @ParentDisplayOrder = DisplayOrder
+   FROM Portal_Discussion 
+   WHERE 
+       ItemID = @ParentID
+   
+   INSERT INTO Portal_Discussion
+   (
+       Title,
+       Body,
+       DisplayOrder,
+       CreatedDate, 
+       CreatedByUser,
+       ModuleID
+   )
+   
+   VALUES
+   (
+       @Title,
+       @Body,
+       @ParentDisplayOrder + CONVERT( nvarchar(24), GetDate(), 21 ),
+       GetDate(),
+       @UserName,
+       @ModuleID
+   )
+   
+   SELECT 
+       @ItemID = @@Identity
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Discussion：</i>
+如 Discussion Portal 模組所示，Discussion 資料表中的每項記錄都是執行緒討論中的訊息。由於所有的Discussion 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		在 Discussion 資料表中，DisplayOrder 欄位是一項相當有趣的功能，可以用來建立討論中訊息的執行緒顯示。此欄位的計算方式，是將代表目前日期的 23 個字元字串，串連至項目的父項目 DisplayOrder 所得來的。這樣一來，訊息即可透過簡單的遞增排序，以正確的順序顯示。這個做法會因 DisplayOrder 欄位大小而有其固有限制。此例中有 750 個字元，表示在巢狀結構中 32 層以下的訊息，都無法以正確的順序顯示。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意訊息本文不得超過 3000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/discussion.jpg">
+	</body>
+</html>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="EIIS" id="N_1">
+    <treenode text="社群管理" id="N_2">
+      <treenode text="群組維護" id="N_6" />
+      <treenode text="使用者管理" id="N_7" />
+    </treenode>
+  </treenode>
+</TREENODES>

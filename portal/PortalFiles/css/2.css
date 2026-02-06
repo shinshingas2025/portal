@@ -1,0 +1,192 @@
+.HeadBg {
+	FONT-FAMILY: ·s²Ó©úÅé; BACKGROUND-COLOR: highlight
+}
+BODY {
+	BACKGROUND-ATTACHMENT: fixed
+}
+.SiteTitle {
+	FONT-WEIGHT: bolder; FONT-SIZE:12; color: white; FONT-FAMILY: ¼Ð·¢Åé
+}
+.TabBg {
+	BORDER-LEFT-COLOR: black; BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BACKGROUND-COLOR: #FCFF9B; BORDER-RIGHT-COLOR: black
+}
+.OtherTabsBg {
+	BORDER-LEFT-COLOR: black; BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BACKGROUND-COLOR: darkblue; BORDER-RIGHT-COLOR: black
+}
+.SelectedTab {
+	FONT-WEIGHT: bold; FONT-SIZE: 15px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.OtherTabs {
+	FONT-WEIGHT: bold; FONT-SIZE: 15px; COLOR: white; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?; TEXT-DECORATION: none
+}
+A.OtherTabs:link {
+	COLOR: #eeeeee; TEXT-DECORATION: none
+}
+A.OtherTabs:visited {
+	COLOR: #eeeeee; TEXT-DECORATION: none
+}
+A.OtherTabs:active {
+	COLOR: #eeeeee; TEXT-DECORATION: none
+}
+A.OtherTabs:hover {
+	COLOR: white; TEXT-DECORATION: underline
+}
+.SiteLink {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+A.SiteLink:link {
+	COLOR: white; TEXT-DECORATION: none
+}
+A.SiteLink:visited {
+	COLOR: white; TEXT-DECORATION: none
+}
+A.SiteLink:active {
+	COLOR: white; TEXT-DECORATION: none
+}
+A.SiteLink:hover {
+	COLOR: white; TEXT-DECORATION: underline
+}
+.Accent {
+	FONT-WEIGHT: bold; COLOR: red
+}
+.Message {
+	FONT-WEIGHT: normal; FONT-SIZE: 11px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?; BACKGROUND-COLOR: #eeeeee
+}
+.ItemTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #330099; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.Head {
+	 FONT-WEIGHT: normal; FONT-SIZE: 11px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ·s²Ó©úÅé
+}
+.SubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.SubSubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: black; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.Normal {
+	FONT-WEIGHT: normal; FONT-SIZE: 11px; LINE-HEIGHT: 12px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.NormalTextBox {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.NormalRed {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: red; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.NormalBold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+.CommandButton {
+	 FONT-WEIGHT: normal; FONT-SIZE: 10px;FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+A.CommandButton:link {
+	BACKGROUND-COLOR: lightgrey
+}
+A.CommandButton:visited {
+	COLOR: #330099
+}
+A.CommandButton:active {
+	COLOR: #330099
+}
+A.CommandButton:hover {
+	COLOR: red
+}
+H1 {
+	FONT-WEIGHT: normal; FONT-SIZE: 20px; COLOR: #666644; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+H2 {
+	FONT-WEIGHT: normal; FONT-SIZE: 20px; COLOR: #666644; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+H3 {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+H4 {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+H5 {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+DT {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+H6 {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+TFOOT {
+	FONT-SIZE: 12px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+THEAD {
+	FONT-SIZE: 12px; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+TH {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; VERTICAL-ALIGN: baseline; COLOR: darkred; FONT-FAMILY: Verdana, Helvetica, sans-serif, ?°ç´°?Žé?
+}
+A:link {
+	COLOR: #330099; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #330099; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #869946; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: red; TEXT-DECORATION: underline
+}
+SMALL {
+	FONT-SIZE: 8px
+}
+BIG {
+	FONT-SIZE: 14px
+}
+BLOCKQUOTE {
+	FONT-FAMILY: Lucida Console, monospace, ?°ç´°?Žé?
+}
+PRE {
+	FONT-FAMILY: Lucida Console, monospace, ?°ç´°?Žé?
+}
+UL LI {
+	LIST-STYLE-TYPE: square
+}
+UL LI LI {
+	LIST-STYLE-TYPE: disc
+}
+UL LI LI LI {
+	LIST-STYLE-TYPE: circle
+}
+OL LI {
+	LIST-STYLE-TYPE: decimal
+}
+OL OL LI {
+	LIST-STYLE-TYPE: lower-alpha
+}
+OL OL OL LI {
+	LIST-STYLE-TYPE: lower-roman
+}
+HR {
+	HEIGHT: 1pt; TEXT-ALIGN: left
+}
+.TTable {
+	BORDER-RIGHT: black 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; BORDER-BOTTOM: black 1px solid; BACKGROUND-COLOR: white
+}
+.TTable1 {
+	WIDTH: 100%
+}
+.ModuleEdit {
+	BORDER-RIGHT: black 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid
+}
+.cLeftPane {
+	
+}
+.cContentPane {
+	
+}
+.cRightPane {
+	
+}
+.cLogin {
+	BORDER-RIGHT: black 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: gray 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; BORDER-LEFT: gray 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: black 1px solid; BACKGROUND-COLOR: lightcyan
+}
+.docend {
+	FONT-SIZE: 11px; COLOR: #330099
+}

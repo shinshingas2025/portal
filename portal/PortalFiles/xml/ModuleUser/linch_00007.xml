@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode1 text="前台首頁資料管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_626" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="最新消息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_634" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="公司訊息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_636" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="施工通告管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_637" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="停氣公告管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_638" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="跑馬燈管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_639" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+  <treenode1 text="意見反映管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_656" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="1.處理意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_631" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="2.指派意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_655" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="3.列印意見反映表" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_658" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+  <treenode1 text="電子繳費憑證管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_673" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="電子繳費憑證批次發送記錄查詢" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_674" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="電子繳費憑證發送記錄管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_675" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="查詢用戶歷史交易資料" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_676" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="批次寄送電子繳費憑證作業" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_677" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="批次作業查詢" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_678" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="繳費憑證廣告文字管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_679" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="繳費憑證注意事項電話內容管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_680" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+</TREENODES>

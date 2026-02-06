@@ -1,0 +1,2 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" Codebehind="AffairProcessCheckReportByAttributeLink.ascx.vb" Inherits="ASPNET.StarterKit.Portal.AuditSystem.Control.AffairProcessCheckReportByAttributeLink" TargetSchema="http://schemas.microsoft.com/intellisense/ie3-2nav3-0" %>
+<a href='DesktopModules/AuditSystem/AffairProcessCheckReportByAttribute.aspx?sid=<%=Request.Params("sid")%>&mid=<%=ModuleId%>&tabid=<%=tabid%>&tabindex=<%=tabindex%>'><img src="/PortalFiles/WebImage/AuditSystem/AffairProcessCheckReportByAttribute.gif" border="0" alt="各類業務辦理管考報表" /></a>

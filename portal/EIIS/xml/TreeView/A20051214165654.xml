@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 sysadmin" id="N_1">
+    <treenode text="6 學校" id="N_6">
+      <treenode text="14 弘光科技大學" id="N_14">
+        <treenode text="16 弘光科技大學管理者" id="N_16" />
+        <treenode text="38 中大" id="N_38" />
+        <treenode text="39 tseta" id="N_39" />
+        <treenode text="40 test6" id="N_40" />
+      </treenode>
+      <treenode text="42 靜宜大學" id="N_42" />
+    </treenode>
+    <treenode text="18 訪客" id="N_18" />
+    <treenode text="21 管理中心" id="N_21">
+      <treenode text="22 中心管理者" id="N_22" />
+      <treenode text="36 中心管理者2" id="N_36" />
+    </treenode>
+  </treenode>
+</TREENODES>

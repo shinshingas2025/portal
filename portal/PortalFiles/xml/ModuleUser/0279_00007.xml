@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode1 text="前台首頁資料管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_626" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="最新消息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_634" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="公司訊息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_636" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="施工通告管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_637" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="停氣公告管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_638" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="跑馬燈管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_639" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+  <treenode1 text="意見反映管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_656" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="1.處理意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_631" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="2.指派意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_655" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="3.列印意見反映表" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_658" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+  <treenode1 text="意見反應管理(漏氣搶修)" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_684" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="2.指派意見反映(漏氣搶修)" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_685" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="1.處理意見反映(漏氣搶修)" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_686" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="3.列印意見反映表(漏氣搶修)" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_687" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+</TREENODES>

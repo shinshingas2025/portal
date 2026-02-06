@@ -1,0 +1,80 @@
+﻿<html>
+    <head>
+        <title>ASP.NET 入口網站文件</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginheight="0" marginwidth="0">
+        <table cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <td colspan="2" class="HeadBg">
+                    <span class="Title">IBuySpy 入口網站文件</span>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="10">
+                    &nbsp;
+                </td>
+                <td class="Normal" width="98%">
+                    <h1>
+                        Visual Studio 專案注意事項&nbsp;(VB)
+                    </h1>
+                    <P>
+                        <STRONG>概觀</STRONG>。此版本的 IBuySpy 入口網站應用程式已封裝為 Visual Studio .NET 應用程式，更具體地說則是 Visual Basic .NET「ASP.NET Web 應用程式」專案。除了顯示 IBuySpy 入口網站應用程式之外，此範例還示範如何在 VS.NET 中實作實際的 Web 應用程式。
+                    </P>
+                    <P>
+                        <STRONG>程式碼後置</STRONG>。ASP.NET 的最大優點之一，就是靜態內容 (HTML、文字與標記) 與程式碼更完整地分離。ASP.NET 中有許多不同的方法可以完成這項工作。IBuySpy 的 SDK 版本顯示「單一檔案」的做法，這裡的程式碼與靜態內容位於相同檔案，不過卻分開至單一的程式碼區塊。另一方面，VS.NET 偏好以 ASP.NET 的程式碼後置架構模式，從內容抽出程式碼。如此一來，頁面中的程式碼便是完整封裝類別，可以獲得在 VS.NET 編輯程式碼的所有優點如：程式碼語法色彩、陳述式完成、自動插入事件處理常式方法、設計階段語法檢查與完整偵錯支援。
+                    </P>
+                    <UL>
+                        <LI>
+                            <FONT style="BACKGROUND-COLOR: #ffffff"><STRONG>注意事項</STRONG>：在 VS.NET 可以建立、編輯與偵錯單一檔案的 ASPX 檔案，不過，以上列出的多數功能都不支援單一檔案 ASPX 檔案中的<EM>程式碼</EM>。若要建立單一檔案 ASPX，請選擇 [專案] &gt; [加入新項目]，然後建立副檔名為 ASPX 的新文字檔案。 </FONT>
+                        </LI>
+                    </UL>
+                    <P>
+                        在建立新的 ASP.NET 頁面或「Web 表單」時，VS.NET 會建立 .ASPX 檔案及程式碼後置檔案。依照預設，程式碼後置檔是隱藏的，不過您可以選取 [專案]&gt; <b>[顯示所有檔案]</b> 檢視程式碼後置檔。
+                    </P>
+                    <P>
+                        若要在 VS.NET 運用「Web 表單」，請在「方案總管」中的檔案名稱上按兩下，或是按滑鼠右鍵並選擇可用的動作。 <STRONG>[開啟]</STRONG> 會在設計檢視中開啟 ASPX 檔案，並在程式碼檢視中開啟 .VB 檔案。 <STRONG>[開啟方式]</STRONG> 讓您能為檔案選擇如「筆記本」之類的不同編輯器。 <STRONG>[檢視程式碼]</STRONG> 會一直開啟選取檔案的程式碼後置部分 (即使 ASPX 檔案是在選取的狀態下)。同樣地，<STRONG>[檢視設計工具]</STRONG> 則會一直開啟 ASPX 檔案。
+                    </P>
+                    <P>
+                        &nbsp;<IMG src="images/code-behind.gif" align="top"><IMG src="images/designerverbs.gif" align="top">
+                    </P>
+                    <P>
+                        「Web 表單」設計工具也使用 &lt;%@ Page %&gt; 指示詞 (或是使用者控制項的 &lt;%@ Control %&gt; 指示詞) 來聯繫兩個檔案。在 VS.NET 建立的程式碼後置 ASP.NET 頁面與使用者控制項，所需的屬性最少要有：
+                    </P>
+                    <PRE>
+    &lt;%@ Page Language="vb" AutoEventWireup="false" Codebehind="WebForm1.aspx.vb" Inherits="PortalVS.WebForm1"%&gt;
+
+    &lt;%@ Control Language="vb" AutoEventWireup="false" Codebehind="myControl.ascx.vb" Inherits="PortalVS.myControl"%&gt;
+        </PRE>
+                    <UL>
+                        <LI>
+                            <U>AutoEventWireup (自動事件接線)</U>。這項在 VS.NET 程式碼後置頁面與使用者控制項都應為 false。若是將 AutoEventWireup 設定為 false，而在程式碼中發現特殊命名方法時 (例如：Page_Load)，便會停用頁面事件的自動頁面接線。VS.NET 在程式碼中都會明確建立頁面事件接線。
+                        <LI>
+                            <U>Codebehind (程式碼後置)</U>。只有「Web 表單」設計工具才能使用這項設計階段的獨有屬性。
+                        <LI>
+                            <U>Inherits (繼承)</U>。在執行階段時使用，讓程式碼後置類別中的程式碼，與 ASPX 檔案產生的程式碼形成關聯。
+                        </LI>
+                    </UL>
+                    <P>
+                        <STRONG>專案屬性</STRONG>。在 Visual Basic .NET 應用程式中，專案內程式碼的 .NET 命名空間，和將要建置的組件名稱，都是由「專案屬性」所提供。在此專案中，組件名稱設定為 Portal。預設的命名空間則並未設定，讓開發人員能夠就每個檔案明確選擇命名空間。若要參閱此項設定，請檢視 [專案] &gt; [屬性]。
+                    </P>
+                    <P>
+                        「專案屬性」的另一項有趣功能，便是在專案階層指定 Imports 陳述式的能力，這可以減少每個程式碼檔案中的幾行程式碼。
+                    </P>
+                    <P>
+                        <STRONG>編譯及執行應用程式</STRONG>。對程式碼後置類別所做的變更，必須在執行頁面之前先完成編譯。您可以使用 [建置] &gt; [建置] 命令進行編譯。
+                    </P>
+                    <UL>
+                        <LI>
+                            <STRONG>提示</STRONG> : Ctrl-F8 鍵盤快速鍵 (<STRONG>「建置與瀏覽」</STRONG>) 會編譯專案，並在瀏覽器中啟動選取的頁面。</LI>
+                    </UL>
+                    <P>
+                        若要在瀏覽器中瀏覽應用程式，請在 Default.aspx 檔上按滑鼠右鍵，並選擇其中一項「瀏覽」選項。 <STRONG>「在瀏覽器中檢視」</STRONG> (Alt-V) 會在 VS.NET 中以預設瀏覽器開啟頁面。<STRONG>「瀏覽方式...」</STRONG>讓您可以選擇外部瀏覽器，甚至可以將其設定為「在瀏覽器中檢視」的預設瀏覽器。
+                    </P>
+                    <P>
+                        若要在偵錯工具中啟動應用程式，請先設定中斷點，再在適當的頁面按右鍵，並選擇 [設定為起始頁]。然後按一下 F5 即可啟動偵錯工具。
+                    </P>
+            </tr>
+        </table>
+    </body>
+</html>

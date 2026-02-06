@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="Big5"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by faust (rpti) -->
+<?xml-stylesheet type="text/xsl" href="TraceJob.xsl"?>
+<TraceJob xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TraceJob.xsd">
+	<JobName>財團法人犯罪防制中心案管系統</JobName>
+	<StartDate>2004-10-15</StartDate>
+	<EndDate>2006-03-31</EndDate>
+	<Description>(工作描述)</Description>
+	<Remark>(備註)</Remark>
+	<JobEntity>
+		<EntitySequence>940512-1</EntitySequence>
+		<EntityTitle>建立個人專案追蹤表</EntityTitle>
+		<Offerer>frank</Offerer>
+		<Status>已完成</Status>
+		<StartDate>2005-05-12</StartDate>
+		<EndDate>2005-05-12</EndDate>
+		<Process>
+			<ProcessSequence>1</ProcessSequence>
+			<Description>如本表單格式</Description>
+		</Process>
+		<Manager>傅向宇</Manager>
+	</JobEntity>
+	<JobEntity>
+		<EntitySequence>940512-2</EntitySequence>
+		<EntityTitle>第一階段第四期修改</EntityTitle>
+		<Offerer>張小姐</Offerer>
+		<Status>未完成</Status>
+		<StartDate>2005-05-12</StartDate>
+		<EndDate>2005-05-25</EndDate>
+		<Process>
+			<ProcessSequence>1</ProcessSequence>
+			<Description>5/11所得客戶需求計有:
+  a.案情摘要不須區分委託人
+  b.保險契約與理賠紀錄輸入畫面增加委託人選項
+  c.會議紀錄維護欄位與功能修改
+  d.收發文維護內收發文單位修改為主要鍵值
+  e.收發文主旨欄位加大
+  f.案件主檔維護與會議紀錄維護新增資料後應停在該筆紀錄
+  g.一對多筆資料欄位加強註記說明
+</Description>
+		</Process>
+		<Process>
+			<ProcessSequence>2</ProcessSequence>
+			<Description>會議紀錄維護欄位將依客戶提出明確需求後再進行修改</Description>
+		</Process>
+		<Process>
+			<ProcessSequence>3</ProcessSequence>
+			<Description>本次客戶需求(b)與部分控制流程相關，預計於5/25前完成修改，
+其餘需求預計於5/18完成修改</Description>
+		</Process>
+		<Manager>傅向宇</Manager>
+	</JobEntity>
+	<JobEntity>
+		<EntitySequence>940512-3</EntitySequence>
+		<EntityTitle>第二階段修改</EntityTitle>
+		<Status>未完成</Status>
+		<StartDate>2005-06-15</StartDate>
+		<EndDate>2005-07-15</EndDate>
+		<Process>
+			<ProcessSequence>1</ProcessSequence>
+			<Description>目前預計修改案件型態，區分委託案件與參考案例</Description>
+		</Process>
+		<Process>
+			<ProcessSequence>2</ProcessSequence>
+			<Description>案關公司區分委託與非委託，基本底層schema已加入，但核定金額計算尚未實作</Description>
+		</Process>
+		<Process>
+			<ProcessSequence>3</ProcessSequence>
+			<Description>其餘需求討論中</Description>
+		</Process>
+		<Manager>傅向宇</Manager>
+	</JobEntity>
+</TraceJob>

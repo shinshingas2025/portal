@@ -1,0 +1,474 @@
+﻿<html>
+	<head>
+		<title>ASP.NET 入口網站入門套件文件</title>
+		
+		<link href="style.css"  type="text/css" rel="stylesheet">
+	</head>
+	<body bottommargin="0" leftmargin="0" topmargin="0" rightmargin="0" marginwidth="0" marginheight="0">
+		<table cellspacing="0" cellpadding="10" border="0">
+			<tbody>
+				<tr>
+					<td class="HeadBg" colspan="2">
+						<span class="Title">ASP.NET 入口網站入門套件文件</span>
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="10">
+						&nbsp;
+					</td>
+					<td class="Normal" width="98%">
+						<br>
+						<br>
+						<span class="Head">簡介</span>
+						<hr noshade size="1">
+						「入口網站入門套件」示範如何使用 ASP.NET 及 .NET Framework 建立 Intranet 或 Internet 入口網站應用程式，以及開發人員在建立 ASP.NET 應用程式時，應該遵循的許多「最佳方式」。請檢視下列程式碼，瞭解如何架構與建立應用程式。
+						<p>
+							您可以在自己的應用程式裡，免費使用所有包含在「入口網站入門套件」下載套件中的程式碼。不過有些影像已經申請了版權，請參閱<a href="#about">下方</a>。
+						</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td class="Normal">
+						<span class="Head">入口網站模組</span>
+						<hr noshade size="1">
+						入口網站模組讓您能夠組織、顯示並維護資料。「入口網站入門套件」提供您 10 項「立即可用」的模組，這 10 項入口網站模組都提供「桌面瀏覽器」的轉換支援，也就是能在所有標準 HTML 架構的瀏覽器 (Internet Explorer、Netscape、Opera 等) 中使用。其中 4 項入口網站模組則提供「行動裝置」轉換支援，也就是能在支援 HTML、WML/WAP 或 CHTML 等轉換標記的行動裝置上使用。
+						<br>
+						<br>
+						每個入口網站模組 UI 項目的執行方式與 ASP.NET 使用者控制項相同，以便在入口網站頁面中顯示模組的資料或內容。以行動裝置為目標的入口網站模組，會使用 Microsoft Mobile Internet Toolkit for ASP.NET 內含的標準行動控制項，進行實作 (這些伺服器控制項通常會以 mobile: 標籤前置詞表示)。另一種選項，則是讓每個入口網站模組含有「編輯頁」，以便讓使用者能互動更新資料及商務元件，使其連接至資料來源，並存放程序以擷取或更新資料。
+						<br>
+						<br>
+						按一下底下的連結以檢視實作「現拆即用」模組標準的檔案。請注意，Portal Framework 並不僅限於支援內建模組。開發人員也可以輕易開發自己的自訂模組，並將之整合到入口網站中。<a href="CustomModules.htm">
+							請按一下此處</a>以參閱如何進行。
+						<br>
+						<br>
+						<table>
+							<tbody>
+								<tr valign="top">
+									<td class="Normal" width="200">
+										<span class="SubHead">宣告</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=DesktopModules/Announcements.ascx&amp;rows=5">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=MobileModules/Announcements.ascx&amp;rows=5">
+													行動使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=Components/AnnouncementsDB.vb&amp;rows=5">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=DesktopModules/EditAnnouncements.aspx&amp;rows=5">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="215">
+										<span class="SubHead">文件</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=documents.src&amp;file=DesktopModules/Document.ascx&amp;rows=5">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=Components/DocumentDB.vb&amp;rows=5">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=DesktopModules/EditDocs.aspx&amp;rows=5">
+													編輯頁</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=DesktopModules/ViewDocument.aspx&amp;rows=5">
+													文件檢視器</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="245">
+										<span class="SubHead">影像</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Image.src&amp;file=DesktopModules/ImageModule.ascx&amp;rows=3">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Image.src&amp;file=DesktopModules/EditImage.aspx&amp;rows=3">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="200">
+										<span class="SubHead">Xml/Xsl
+                                    模組</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=xmlxsl.src&amp;file=DesktopModules/xmlModule.ascx&amp;rows=3">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=xmlxsl.src&amp;file=DesktopModules/EditXml.aspx&amp;rows=3">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr valign="top">
+									<td class="Normal" width="200">
+										<span class="SubHead">連絡人</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=DesktopModules/Contacts.ascx&amp;rows=5">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=MobileModules/Contacts.ascx&amp;rows=5">
+													行動使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=Components/ContactsDB.vb&amp;rows=5">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=DesktopModules/EditContacts.aspx&amp;rows=5">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="215">
+										<p>
+											<span class="SubHead">事件</span>
+										</p>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=DesktopModules/Events.ascx&amp;rows=5">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=MobileModules/Events.ascx&amp;rows=5">
+													行動使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=Components/EventsDB.vb&amp;rows=5">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=DesktopModules/EditEvents.aspx&amp;rows=5">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="245">
+										<span class="SubHead">連結</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=DesktopModules/Links.ascx">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=Components/LinksDB.vb">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=DesktopModules/EditLinks.aspx">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="200">
+										<p>&nbsp;</p>
+									</td>
+								</tr>
+								<tr valign="top">
+									<td class="Normal" width="200">
+										<span class="SubHead">討論</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=DesktopModules/Discussion.ascx">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=Components/DiscussionDB.vb">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=DesktopModules/DiscussDetails.aspx">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="215">
+										<span class="SubHead">HTML 模組</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=DesktopModules/HtmlModule.ascx&amp;rows=5">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=MobileModules/Text.ascx&amp;rows=5">
+													行動使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=Components/HtmlTextDB.vb&amp;rows=5">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=DesktopModules/EditHtml.aspx&amp;rows=5">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="245">
+										<p>
+											<span class="SubHead">快速連結</span>
+										</p>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=DesktopModules/Quicklinks.ascx">
+													使用者控制項</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=Components/LinksDB.vb">
+													商務元件</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=DesktopModules/EditLinks.aspx">
+													編輯頁</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="200">
+										<p>&nbsp;</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="Normal">
+						<br>
+						<span class="Head">Portal Framework</span>
+						<hr noshade size="1">
+      入口網站的所有組態設定都存放在 XML 組態檔中。這使 Web 系統管理員能輕易跨越多部前端 Web 伺服器 ，部署入口的執行個體 (每部伺服器都從相同版本的入口網站組態檔提取適當的組態資料)。在 Web 伺服器陣列的環境中，必須特別留意最新組態檔的跨伺服器複寫。在 saveSiteSettings() 方法，會更新 PortalCFG.xml 檔案，使之成為加入複寫程式碼的自然區域。 <br><br>底下列出的 Portal Framework 程式碼使用這項組態資料，來控制入口網站的內容配置 (顯示那些入口網站索引標籤，並在每個顯示標籤中使用那些模組) 及安全性設定 (使用者角色、存取權限等等)。 <br><br>
+						每次要求從入口網站應用程式中的 Global.asax 檔案用組態商務元件發出時 ，便會載入組態。然後再使用入口網站的 DesktopDefault.aspx 頁 (如果存取伺服器為 HTML 桌面裝置如 IE、Netscape、Opera 等)，或是使用入口網站的 MobileDefault.aspx (如果存取電腦為行動裝置)，來正確轉換入口網站的索引標籤檢視。
+					</td>
+				</tr>
+				<tr>
+				</tr>
+				<tr>
+					<td class="Normal">
+						Portal Framework 邏輯是在&nbsp;5 個頁面、4 個使用者控制項、5 個類別檔案、2 項預存程序、global.asax 檔案及 XML 組態檔之中封裝的。請按一下以下連結以檢視這些組成 Portal Framework 的檔案：
+						<br>
+						<br>
+						<table>
+							<tbody>
+								<tr valign="top">
+									<td class="Normal" width="200">
+										<span class="SubHead">Global.asax</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=globalasax.src&amp;file=Global.asax&amp;rows=2">
+													Global.asax</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="223">
+										<span class="SubHead">使用者控制項</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopPortalBanner.ascx&amp;font=12&amp;rows=3">
+													DesktopPortalBanner.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopModuleTitle.ascx&amp;rows=3">
+													DesktopModuleTitle.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=mobiledefault.src&amp;file=MobileModuleTitle.ascx&amp;rows=3">
+													MobileModuleTitle.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=SignIn.src&amp;file=DesktopModules/SignIn.ascx&amp;rows=3">
+													SignIn.ascx</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="239">
+										<span class="SubHead">預存程序</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=useradd.src&amp;file=AddUser&amp;rows=1">
+													AddUser</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=userlogin.src&amp;file=UserLogin&amp;rows=1">
+													UserLogin</a>
+											</li>
+										</ul>
+									</td>
+									<td width="15">
+									</td>
+									<td class="Normal" width="200">
+										<span class="SubHead">入口網站樣式表</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=portalcss.src&amp;file=ASPNETPortal.Css&amp;rows=1">
+													Portal.Css</a>
+											</li>
+										</ul>
+									</td>
+									<td>
+									</td>
+								</tr>
+								<tr valign="top">
+									<td class="Normal" width="200">
+										<p>
+											<span class="SubHead">頁面</span>
+										</p>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=default.src&amp;file=Default.aspx&amp;rows=1">
+													Default.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopDefault.aspx&amp;rows=3">
+													DesktopDefault.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=mobiledefault.src&amp;file=MobileDefault.aspx&amp;rows=3">
+													MobileDefault.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=register.src&amp;file=Admin/Register.aspx&amp;rows=3">
+													Register.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=logoff.src&amp;file=Admin/Logoff.aspx&amp;rows=1">
+													Logoff.aspx</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="223">
+										<p>
+											<span class="SubHead">類別</span>
+										</p>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=configuration.src&amp;file=Components/Configuration.vb&amp;rows=1">
+													Configuration.vb</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=configuration.src&amp;file=Components/RolesDB.vb&amp;rows=1">
+													RolesDB.vb</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=security.src&amp;file=Components/Security.vb&amp;rows=1">
+													Security.vb</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=desktopcontrols.src&amp;file=Components/DesktopControls.vb&amp;rows=1">
+													DesktopControls.vb</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=mobilecontrols.src&amp;file=Components/MobileControls.vb&amp;rows=1">
+													MobileControls.vb</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" width="239">
+										<p>
+											<span class="SubHead">應用程式組態檔</span>
+										</p>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=webconfig.src&amp;file=Web.Config&amp;rows=2">
+													Web.Config</a>
+											</li>
+										</ul>
+									</td>
+									<td width="15">&nbsp;
+									</td>
+									<td class="Normal" width="200">
+										<span class="SubHead">入口網站組態檔</span>&nbsp;
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=webconfig.src&amp;file=PortalCfg.xml&amp;rows=2">PortalCfg.xml</a>
+											</li>
+										</ul>
+									</td>
+									<td>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="Normal">
+						<p>
+							<span class="Head">入口網站系統管理工具</span>
+						</p>
+						<p>
+							<hr noshade size="1">
+							「入口網站入門套件」提供線上「系統管理」工具，以容許具有「系統管理」角色的使用者管理入口網站的內容、配置及安全性。若需如何使用「系統管理」工具的相關資訊，請參閱「關於入口網站」索引標籤。
+							<br>
+							<br>
+						「入口網站系統管理工具」使用組態元件更新入口網站組態，並用&nbsp;RolesDB 元件更新「使用者角色」。入口網站組態項目，如「索引標籤」名稱及配置，模組定義與設定和「入口網站」顯示名稱，都存放在 XML 檔案中，並供快取「資料集」擷取。「角色」、「使用者」、「安全性」資訊及個別的模組資料，則都存放在資料庫中。
+						<p></p>
+						<table>
+							<tbody>
+								<tr>
+									<td class="Normal" valign="top" width="220">
+										<span class="SubHead">系統管理索引標籤的使用者控制項</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/SiteSettings.ascx&amp;font=12&amp;rows=3">
+													SiteSettings.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/Tabs.ascx&amp;font=12&amp;rows=3">
+													Tabs.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/Roles.ascx&amp;font=12&amp;rows=3">
+													Roles.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/users.ascx&amp;font=12&amp;rows=3">
+													Users.ascx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/ModuleDefs.ascx&amp;font=12&amp;rows=3">
+													ModuleDefs.ascx</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" valign="top" width="200">
+										<span class="SubHead">系統管理頁面</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=securityroles.src&amp;file=Admin/SecurityRoles.aspx&amp;rows=3">
+													SecurityRoles.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=tablayout.src&amp;file=Admin/TabLayout.aspx&amp;rows=3">
+													TabLayout.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=modulesettings.src&amp;file=Admin/ModuleSettings.aspx&amp;rows=3">
+													ModuleSettings.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=ModuleDefinitions.src&amp;file=Admin/ModuleDefinitions.aspx&amp;rows=2">
+													ModuleDefinitions.aspx</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=ManageUsers.src&amp;file=Admin/ManageUsers.aspx&amp;rows=3">
+													ManageUsers.aspx</a>
+											</li>
+										</ul>
+									</td>
+									<td class="Normal" valign="top" width="200">
+										<span class="SubHead">商務元件</span>
+										<ul>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=configuration.src&amp;file=Components/Configuration.vb&amp;rows=1">
+													Configuration.vb</a>
+											<li>
+												<a href="../sourceviewer/srcview.aspx?path=rolesdb.src&amp;file=Components/RolesDb.vb&amp;rows=1">
+													RolesDB.vb</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+				</tr>
+				<tr>
+					<td class="Normal" width="98%">
+						<a name="about">
+							<br>
+							<br>
+							<span class="Head">關於 ASP.NET 入口網站入門套件</span>
+							<hr noshade size="1">
+							您可以在自己的應用程式裡，任意使用所有包含在「入口網站入門套件」下載套件中的程式碼，做為入口網站或內建入口網站模組的一部分，位於 images 子目錄中的影像也可供您隨意使用。
+							<br>
+							<br>
+							「入口網站入門套件」的目的只在補充 Microsoft 
+							Development Tools、Microsoft .NET Framework SDK 及 (或) 線上說明文件中不足之處。若需有關 Microsoft 範例程式碼的詳細資料，請另行參閱這些資料來源。 
+							
+							<br>
+							<br>
+							此處的程式碼與資訊係依「現狀」提供，並不附帶任何擔保，不論其為明示或默示者，其中包括但不限於適售性以及適合某特定用途之默示責任擔保。
+							<br>
+							<br>
+							「入口網站入門套件」由 Microsoft Corporation 與 Vertigo Software, Inc. 共同開發。版權所有 (c) 2001 Microsoft Corporation。部分版權所有 PhotoDisc, Inc。IBuySpy 是 Vertigo Software Inc 的服務標章。</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<p>&nbsp;</p>
+	</body>
+</html>

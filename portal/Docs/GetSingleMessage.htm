@@ -1,0 +1,56 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			GetSingleMessage 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序從資料庫傳回單一訊息項目。輸入參數為 ItemID，也就是記錄的主索引鍵。傳回的值包括訊息詳細資料，以及建立與最後編輯此項目的使用者相關資訊。GetSingleMessage 執行兩道預存程序：GetNextMessageId 與 GetPrevMessageId。這些程序的結果會以訊息資訊的形式傳回。
+		</P>
+		<p>
+			此預存程序可由 Discussion 的編輯頁使用。
+		</p>
+		<b>定義：</b>
+		<pre>
+
+   CREATE PROCEDURE Portal_GetSingleMessage
+   (
+       @ItemID int
+   )
+   AS
+   
+   DECLARE @nextMessageID int
+   EXECUTE Portal_GetNextMessageID @ItemID, @nextMessageID OUTPUT
+   DECLARE @prevMessageID int
+   EXECUTE Portal_GetPrevMessageID @ItemID, @prevMessageID OUTPUT
+   
+   SELECT
+       ItemID,
+       Title,
+       CreatedByUser,
+       CreatedDate,
+       Body,
+       DisplayOrder,
+       NextMessageID = @nextMessageID,
+       PrevMessageID = @prevMessageID
+   
+   FROM Portal_Discussion
+   
+   WHERE
+       ItemID = @ItemID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Discussion：</i>如 Discussion Portal 模組所示，Discussion 資料表中的每項記錄都是執行緒討論中的訊息。由於所有的Discussion 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		在 Discussion 資料表中，DisplayOrder 欄位是一項相當有趣的功能，可以用來建立討論中訊息的執行緒顯示。此欄位的計算方式，是將代表目前日期的 23 個字元字串，串連至項目的父項目 DisplayOrder 所得來的。這樣一來，訊息即可透過簡單的遞增排序，以正確的順序顯示。這個做法會因 DisplayOrder 欄位大小而有其固有限制。此例中有 750 個字元，表示在巢狀結構中 32 層以下的訊息，都無法以正確的順序顯示。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意訊息本文不得超過 3000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"><img src="../docs/images/discussion.jpg">
+		</p>
+	</body>
+</html>

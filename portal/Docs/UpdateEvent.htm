@@ -1,0 +1,50 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			UpdateEvent 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序可由 Events 編輯頁使用，以套用變更至現有的事件項目。輸入參數包括項目的主索引鍵 (ItemID)，還有標題、地點時間，到期日與說明。編輯者的 UserName 也會傳入，以便更新 CreatedByUser 欄位。
+		</P>
+		<b>定義：</b>
+		<pre>
+    
+   CREATE PROCEDURE Portal_UpdateEvent
+   (
+       @ItemID      int,
+       @UserName    nvarchar(100),
+       @Title       nvarchar(100),
+       @ExpireDate  datetime,
+       @Description nvarchar(2000),
+       @WhereWhen   nvarchar(100)
+   )
+   
+   AS
+   
+   UPDATE Portal_Events
+   
+   SET
+       CreatedByUser = @UserName,
+       CreatedDate   = GetDate(),
+       Title         = @Title,
+       ExpireDate    = @ExpireDate,
+       Description   = @Description,
+       WhereWhen     = @WhereWhen
+   
+   WHERE
+       ItemID = @ItemID
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Events：</i>如 Events Portal 模組所示，Events 資料表中的每筆記錄都是單一項目。由於所有的 Events 模組都將其記錄存放在此資料表中，因此每個項目都包含 ModuleID 以容許在單一查詢中擷取相關項目。
+		<p>
+		此資料表的主索引鍵為 ItemID 識別欄位。請注意事件說明不得超過 2000 個字元。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/events.jpg">
+		</p>
+	</body>
+</html>

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode text="1 EIIS" id="N_1" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="2 社群管理" id="N_2" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="6 群組維護" id="N_6" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="7 使用者管理" id="N_7" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="3 資源管理" id="N_3" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="8 資源管理" id="N_8" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="9 系統功能管理" id="N_9" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="4 權限管理" id="N_4" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="10 權限對應" id="N_10" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="217 test" id="N_217" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="5 帳號管理" id="N_5" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="11 帳號管理" id="N_11" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="15 系統設定" id="N_15" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+      <treenode text="16 行政區域代碼" id="N_16" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+      <treenode text="17 代碼維護" id="N_17" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    </treenode>
+    <treenode text="218 test2" id="N_218" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="12 個人設定" id="N_12" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="13 個人資料維護" id="N_13" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="14 帳號修改" id="N_14" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="18 警光雜誌" id="N_18" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="31 雜誌封面" id="N_31" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="35 雜誌PDF維護" id="N_35" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="19 會員管理" id="N_19" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="62 會員管理" id="N_62" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="63 會員群組管理" id="N_63" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="20 聊天室管理" id="N_20" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="39 聊天室" id="N_39" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="21 線上投票" id="N_21" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="40 投票區" id="N_40" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="22 警光園地" id="N_22" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="42 警光藝廊" id="N_42" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="43 線上投稿" id="N_43" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="44 特派員投稿" id="N_44" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="64 雜誌投票區" id="N_64" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="65 網站投票區" id="N_65" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="23 警政新聞" id="N_23" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="45 發佈資訊" id="N_45" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="24 人事動態" id="N_24" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="46 發佈資訊" id="N_46" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="47 發佈代碼" id="N_47" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="25 線上討論" id="N_25" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="48 討論區" id="N_48" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="26 訊息公告" id="N_26" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="52 活動公告" id="N_52" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="71 政令公告" id="N_71" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="72 促銷公告" id="N_72" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="73 重要訊息公告" id="N_73" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="74 跑馬燈訊息" id="N_74" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="75 本日主題" id="N_75" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="27 警網連結" id="N_27" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="53 連結管理" id="N_53" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="28 警光電子報" id="N_28" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="54 電子報內容" id="N_54" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="55 電子報訂閱者" id="N_55" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="29 意見信箱" id="N_29" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="56 信箱" id="N_56" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="30 廣告管理" id="N_30" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="57 廣告看板" id="N_57" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="58 廣告分類" id="N_58" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="60 廣告客戶" id="N_60" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="32 雜誌文章" id="N_32" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="33 雜誌區塊" id="N_33" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="34 雜誌段落" id="N_34" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="36 好友名單" id="N_36" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="37 聊天者狀態" id="N_37" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="38 功能管理" id="N_38" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="41 投票選項" id="N_41" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="49 討論區分類" id="N_49" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  <treenode text="66 其他" id="N_66" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="67 看版維護" id="N_67" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="68 計數維護" id="N_68" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="69 訂閱雜誌" id="N_69" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="70 電子賀卡" id="N_70" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="98 代碼設定1" id="N_98" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="110 代碼類別維護                                            " id="N_110" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="111 綜合代碼維護                                            " id="N_111" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="112 郵局給號設定                                            " id="N_112" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="101 設備維護" id="N_101" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="102 PDA主檔維護                                           " id="N_102" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+    <treenode text="103 PDA紙捲維護                                           " id="N_103" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+  <treenode text="104 人員維護" id="N_104" IMAGEURL="../images/folder.gif" EXPANDEDIMAGEURL="../images/folderopen.gif">
+    <treenode text="105 交通助理員維護                                           " id="N_105" IMAGEURL="../images/User.gif" EXPANDEDIMAGEURL="../images/folderopen.gif" />
+  </treenode>
+</TREENODES>

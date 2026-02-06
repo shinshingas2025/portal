@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>Simple Ajax/ASP Treeview</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="Author" content="">
+		<meta name="Published" content="2003-03-13">
+		<meta name="Publisher" content="AspWebSolution.com">
+		<meta content="all" name="robots">
+		<meta content="7 days" name="revisit-after">
+		<meta content="no-cache" name="Pragma">
+		<meta content="Information" name="RATING">
+		<meta name="Description" content="A simple procuedure to use XML as a datasource for a grid">
+		<meta name="Keywords" content="ASP XML Ajax TreeView">
+		<script language="javascript" src="../../../inc/skin.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../inc/skin.css">
+		<style>
+		td{font-family:batang,verdana;font-size:11pt;}
+		</style>
+	</head>
+	<body scroll="auto">	
+		<script language="javascript">
+			startArticlePage("Simple Ajax/ASP Treeview","Tanwani Anyangwe","whichman","","xmlrep","XML Republic",true);
+		</script>
+		<!-- Contents go here ******************************************************************************-->
+		<a class="top_menu" href="demo.asp">live demo</a>&nbsp;&nbsp;|&nbsp;&nbsp; <a class="top_menu" href="../../downloads?f=ajaxtreeview1">
+			download</a>
+			
+		<br>		
+		<br>
+Because of several requests about the slow load time of my former <a href="http://aspwebsolution.com/articles/coder4life/treeview/asp/index.htm">treeview control</a> <i>(when table records exceed 2000)</i>
+I have developed this simple ajax treeview solution to take advantage of its <b>Load on Demand</b> feature so that no mater how large a dataset is, the treeview will always load quickly.
+<br>This solution is aimed at those who want to dynamically load their treeview items from a database with many records.
+		<br>
+		<br>
+		<div>
+			<u>Figure 1</u><br>
+			<img src="shot.gif" alt="Simple Ajax/ASP Treeview" vspace="5">
+		</div>
+		<br>
+		<br>
+This code for this treeview solution is quite different because instead of using <code>&lt;UL/&gt;</code> element, it uses the <code>&lt;TABLE/&gt;</code> element because some users
+wanted to be able to click the <code>+/-</code> signs to open/close the treeview and add a link to all tree nodes.
+<br><br>
+The source code for this solution cotains the following files:
+<ol>
+<li><code>treeview.asp</code>:The treeview source file which implements the public function 
+	<code>GetChildNodes(intParentId)</code> which returns a transformed XML string of the child nodes. Other private helper functions include:
+	<code>GetDbXml, GetDbString &amp; LoadXmlDoc</code> <br>&nbsp;
+</li>
+
+<li><code>treeview.xsl</code> - the stylesheet to transform the XML.</li>
+<li><code>site.mdb</code> - the sample database</li>
+<li><code>ajax.js & scripts.js</code> - contain the Ajax and javascript functions required to load the treenodes dynamically.</li>
+<li><code>process_request.asp</code> - the file that is loaded by the Ajax function.</li>
+
+</ol>
+		
+This code is not only great for ASP programmers, but also for developers who want to learn how easy it is to implement Ajax solutions to web applications. This code could easily be ported to .NET or PHP since the code functionality is the XSL stylesheet and the javascript functions.
+<ul class="download">
+			<li class="live_demo">
+				<a href="demo.asp">Live demo</a>
+			<li class="download">
+				<a href="../../downloads?f=ajaxtreeview1" title="Article source code(JavaScript)">Article 
+					source code(Ajax/JavaScript/ASP/XSL)</a></li>
+		</ul>
+		<!-- End Contents******************************************************************************-->
+		<script language="javascript">
+			endArticlePage();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode1 text="投資人訊息管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_632" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7">
+    <treenode2 text="董事會會議記錄管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_648" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="股東會檔案管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_688" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="每月營業額資料管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_689" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="近五年財務報告書管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_690" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="股利發放相關資訊管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_691" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="投資人訊息檔案管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_692" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+  <treenode1 text="意見反映管理" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_656" Qlevel="0" Ilevel="0" Ulevel="0" Dlevel="0" Clevel="0">
+    <treenode2 text="1.處理意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_631" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+    <treenode2 text="2.指派意見反映" IMAGEURL="images/User.gif" EXPANDEDIMAGEURL="images/folderopen.gif" id="N_655" Qlevel="7" Ilevel="7" Ulevel="7" Dlevel="7" Clevel="7" />
+  </treenode1>
+</TREENODES>

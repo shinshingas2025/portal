@@ -1,0 +1,32 @@
+<%
+  iBID = Request.QueryString("BID")
+  If Len(iBID) = 0 Then iBID = Request.Form("BID")
+
+  If Len(iBID) = 0 Or Not IsNumeric(iBID) Then
+    Response.Write "Fuck"
+    Response.End
+  End If
+
+  iBID = CInt(iBID)
+
+  bValidPara = False
+  For i = 0 To UBound(Application("Boards"), 2)
+    If Application("Boards")(0, i) = iBID Then
+      sBTitle = Application("Boards")(1, i)
+      iCID = Application("Boards")(2, i)
+      For j = 0 To UBound(Application("Categories"), 2)
+        If Application("Categories")(0, j) = iCID Then
+          sCTitle = Application("Categories")(1, j)
+          bValidPara = True
+          Exit For
+        End If
+      Next
+      Exit For
+    End If
+  Next
+
+  If Not bValidPara Then
+    Response.Write "Fuck"
+    Response.End
+  End If
+%>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TREENODES>
+  <treenode1 text="1 欣欣瓦斯" id="N_1" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif">
+    <treenode2 text="2 展業部" id="N_2" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif">
+      <treenode3 text="10 " id="N_10" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    </treenode2>
+    <treenode2 text="3 營業部" id="N_3" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="4 工務部" id="N_4" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="5 管理部" id="N_5" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="6 財務部" id="N_6" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="7 勞工安全衛生室" id="N_7" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="8 人事室" id="N_8" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="9 資訊科" id="N_9" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+    <treenode2 text="11 資訊室" id="N_11" IMAGEURL="../eiis/images/fun.jpg" EXPANDEDIMAGEURL="../eiis/images/folderopen.gif" />
+  </treenode1>
+</TREENODES>

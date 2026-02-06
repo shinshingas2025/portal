@@ -1,0 +1,2 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" Codebehind="SectionResolutionCheckReportLink.ascx.vb" Inherits="ASPNET.StarterKit.Portal.AuditSystem.Control.SectionResolutionCheckReportLink" TargetSchema="http://schemas.microsoft.com/intellisense/ie3-2nav3-0" %>
+<a href='DesktopModules/AuditSystem/SectionResolutionCheckReport.aspx?sid=<%=Request.Params("sid")%>&mid=<%=ModuleId%>&tabid=<%=tabid%>&tabindex=<%=tabindex%>'><img src="/PortalFiles/WebImage/AuditSystem/SectionResolutionCheckReport.gif" border="0" alt="組務會議追蹤檢查報表" /></a>

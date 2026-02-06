@@ -1,0 +1,2 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" Codebehind="NormalCodeAdminLink.ascx.vb" Inherits="ASPNET.StarterKit.Portal.AuditSystem.Control.NormalCodeAdminLink" TargetSchema="http://schemas.microsoft.com/intellisense/ie3-2nav3-0" %>
+<a href='DesktopModules/AuditSystem/NormalCodeAdmin.aspx?sid=<%=Request.Params("sid")%>&mid=<%=ModuleId%>&tabid=<%=tabid%>&tabindex=<%=tabindex%>'><img src="/PortalFiles/WebImage/AuditSystem/NormalCodeAdmin.gif" border="0" alt="一般代碼管理" />

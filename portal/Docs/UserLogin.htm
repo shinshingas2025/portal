@@ -1,0 +1,41 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>
+			UserLogin 預存程序
+		</h1>
+		<b>說明：</b>
+		<P>
+			此預存程序會比對 Users 資料表的認證儲存，對使用者進行驗證。如果找到電子郵件地址/密碼的組合，便會傳回使用者的 UserName。
+		</P>
+		<b>定義：</b>
+		<pre>
+        
+   CREATE PROCEDURE Portal_UserLogin
+   (
+       @Email    nvarchar(100),
+       @Password nvarchar(50),
+       @UserName nvarchar(100) OUTPUT
+   )
+   AS
+   
+   SELECT
+       @UserName = Name
+   
+   FROM Portal_Users
+   
+   WHERE
+       Email = @Email
+     AND
+       Password = @Password
+        </pre>
+		<b>使用的資料庫資料表： </b>
+		<P>
+			<i>Users：</i>
+	Users 資料表包含可用於表單架構驗證的使用者認證資訊。
+		<p>
+			<img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+	</body>
+</html>
