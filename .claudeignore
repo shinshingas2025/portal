@@ -11,3 +11,6 @@ appsettings.json
 # 其他敏感檔案
 .env
 .env.local
+connectionStrings.config
+DBConn.cs
+Configration.vb
